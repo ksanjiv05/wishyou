@@ -4,13 +4,14 @@ import {
   ToastAndroid,
   TextInput,
   Text,
+  ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
 import {register} from '../apis/auth/auth';
 import Colors from '../config/Colors';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const showToast = msg => {
   ToastAndroid.show(msg, ToastAndroid.SHORT);
@@ -18,12 +19,21 @@ const showToast = msg => {
 const psregx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
 const emailRgx = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
 
-const registerCall = async ({name = '', email = '', password = ''}) => {
+const registerCall = async ({
+  name = '',
+  email = '',
+  phone = '',
+  password = '',
+}) => {
   if (name.length < 3) {
     showToast('Please enter your name');
     return false;
   }
 
+  if (phone.length !== 10) {
+    showToast('Please enter valid phone number');
+    return false;
+  }
   if (!emailRgx.test(email)) {
     showToast('Please enter valid email');
     return false;
@@ -40,7 +50,7 @@ const registerCall = async ({name = '', email = '', password = ''}) => {
     return false;
   }
   console.log('register');
-  const res = await register({name, email, password});
+  const res = await register({name, email, phone, password});
   if (res && res.status === 200) {
     showToast('Registered sucessfully');
     return true;
@@ -55,6 +65,7 @@ function Register({navigation}) {
     name: '',
     email: '',
     password: '',
+    phone: '',
   });
   const [loader, setLoader] = React.useState(false);
   const [visible, setVisible] = React.useState(false);
@@ -66,6 +77,7 @@ function Register({navigation}) {
 
   const handleRegister = async () => {
     setLoader(true);
+    console.log('register', data);
     await registerCall(data);
     setLoader(false);
   };
@@ -95,6 +107,8 @@ function Register({navigation}) {
               style={styles.input}
               placeholderTextColor={Colors.lightBlack}
               placeholder="John Doe"
+              value={data.name}
+              onChangeText={text => handleChange('name', text)}
             />
           </View>
           {/**email or mobile */}
@@ -104,6 +118,8 @@ function Register({navigation}) {
               style={styles.input}
               placeholderTextColor={Colors.lightBlack}
               placeholder="john@gmail.com"
+              value={data.email}
+              onChangeText={text => handleChange('email', text)}
             />
           </View>
 
@@ -114,6 +130,8 @@ function Register({navigation}) {
               style={styles.input}
               placeholderTextColor={Colors.lightBlack}
               placeholder="9988999019"
+              value={data.phone}
+              onChangeText={text => handleChange('phone', text)}
             />
           </View>
 
@@ -125,13 +143,23 @@ function Register({navigation}) {
               style={styles.input}
               placeholderTextColor={Colors.lightBlack}
               placeholder="Your Password"
+              value={data.password}
+              onChangeText={text => handleChange('password', text)}
             />
             {/**show or hide password */}
-          <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={{position: 'absolute', top: 28, right: 10}}>
-            {showPassword ? <FontAwesome name='eye' size={30} color={Colors.lightBlack}/> : 
-            <FontAwesome name='eye-slash' size={30} color={Colors.lightBlack}/>}
-            
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setShowPassword(!showPassword)}
+              style={{position: 'absolute', top: 28, right: 10}}>
+              {showPassword ? (
+                <FontAwesome name="eye" size={30} color={Colors.lightBlack} />
+              ) : (
+                <FontAwesome
+                  name="eye-slash"
+                  size={30}
+                  color={Colors.lightBlack}
+                />
+              )}
+            </TouchableOpacity>
           </View>
 
           {/**button */}
@@ -142,11 +170,16 @@ function Register({navigation}) {
               marginTop: 20,
               borderRadius: 10,
               alignItems: 'center',
-            }}>
-            <Text
-              style={{color: Colors.white, fontWeight: '900', fontSize: 15}}>
-              Register
-            </Text>
+            }}
+            onPress={handleRegister}>
+            {!loader ? (
+              <Text
+                style={{color: Colors.white, fontWeight: '900', fontSize: 15}}>
+                Register
+              </Text>
+            ) : (
+              <ActivityIndicator color={Colors.white} />
+            )}
           </TouchableOpacity>
 
           <View
@@ -202,7 +235,11 @@ function Register({navigation}) {
             We stay confident by your loves💖
           </Text>
           <Text
-            style={{color: Colors.black, marginVertical: 10, textAlign: 'center'}}>
+            style={{
+              color: Colors.black,
+              marginVertical: 10,
+              textAlign: 'center',
+            }}>
             &copy; Copyright 2022 | Wish You
           </Text>
         </View>

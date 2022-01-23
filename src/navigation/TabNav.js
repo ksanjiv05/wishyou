@@ -1,9 +1,11 @@
 import * as React from 'react';
 import {Text, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const Tab = createBottomTabNavigator();
 import Home from '../screens/Home';
+import Contacts from '../screens/Contacts';
 import Profile from '../screens/Profile';
 
 export default function TabNav() {
@@ -27,7 +29,7 @@ export default function TabNav() {
       />
       <Tab.Screen
         name="Message"
-        component={Home}
+        component={Contacts}
         options={{
           tabBarIcon: ({size, color}) => (
             <FontAwesome name="vcard-o" size={size} color={color} />

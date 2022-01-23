@@ -8,11 +8,13 @@ import {
 } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import io from 'socket.io-client';
 // import messaging from '@react-native-firebase/messaging';
-
 import HomeStack from './src/navigation/HomeStack';
 import auth from '@react-native-firebase/auth';
 // import {updateFcmToken} from './src/apis/auth/auth';
+let socket = null;
+export const GlobalContext = React.createContext();
 
 const App = () => {
   // const isDarkMode = useColorScheme() === 'dark';
@@ -21,8 +23,23 @@ const App = () => {
 
   // Handle user state changes
   function onAuthStateChanged(user) {
-    setUser(user);
-    console.log(user);
+    if (user) {
+      socket = io(
+        'http://134.255.216.211:4000',
+        {
+          query: {token: user.email},
+        },
+        {
+          forceNew: true,
+        },
+        {
+          transports: ['websocket', 'polling', 'flashsocket'],
+        },
+      );
+      setUser(user);
+      console.log(user);
+    }
+
     if (initializing) setInitializing(false);
   }
 
@@ -77,31 +94,13 @@ const App = () => {
   return (
     <NavigationContainer>
       <StatusBar barStyle="light-content" />
-
       <View style={{flex: 1}}>
-        <HomeStack user={user} />
+        <GlobalContext.Provider value={{socket}}>
+          <HomeStack user={user} />
+        </GlobalContext.Provider>
       </View>
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;

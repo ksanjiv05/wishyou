@@ -5,6 +5,7 @@ import TabNav from './TabNav';
 
 import Login from '../screens/Login';
 import Register from '../screens/Register';
+import Message from '../screens/Message';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,7 +14,7 @@ function HomeStack({user}) {
     <Stack.Navigator screenOptions={{headerShown: false}}>
       {user ? (
         <>
-          <Stack.Screen name="Tab" component={TabNav} />
+          {/* <Stack.Screen name="Tab" component={TabNav} /> */}
 
           {/* <Stack.Screen
             name="Notifications"
@@ -22,7 +23,7 @@ function HomeStack({user}) {
             }}
             component={Notifications}
           /> */}
-          {/* <Stack.Screen name="ProfileForm" component={ProfileForm} /> */}
+          <Stack.Screen name="Message" component={Message} />
           {/* <Stack.Screen name="Feedback" component={Feedback} /> */}
         </>
       ) : (

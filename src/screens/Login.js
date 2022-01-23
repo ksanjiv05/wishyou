@@ -69,7 +69,6 @@ function Login({navigation}) {
   const [loader, setLoader] = React.useState(false);
   const [loginState, setLoginState] = React.useState(true);
   const [showPassword, setShowPassword] = React.useState(false);
-  const [loading, setIsLoading] = React.useState(false);
 
   const handleChange = (key, text) => {
     setData({...data, [key]: text});
@@ -109,6 +108,8 @@ function Login({navigation}) {
               style={styles.input}
               placeholderTextColor={Colors.lightBlack}
               placeholder="user@gmail.com"
+              value={data.email}
+              onChangeText={text => handleChange('email', text)}
             />
           </View>
 
@@ -120,6 +121,8 @@ function Login({navigation}) {
               style={styles.input}
               placeholderTextColor={Colors.lightBlack}
               placeholder="Your Password"
+              value={data.password}
+              onChangeText={text => handleChange('password', text)}
             />
             {/**show or hide password */}
             <TouchableOpacity
@@ -151,8 +154,9 @@ function Login({navigation}) {
               marginTop: 20,
               borderRadius: 10,
               alignItems: 'center',
-            }}>
-            {loading ? (
+            }}
+            onPress={handleLogin}>
+            {loader ? (
               <ActivityIndicator color={Colors.white} />
             ) : (
               <Text
