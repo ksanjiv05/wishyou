@@ -7,12 +7,14 @@ import {
   ToastAndroid,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import Colors from '../config/Colors';
 import {showToast} from '../utils/toast';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const loginCall = async ({email = '', password = ''}, navigation) => {
   if (email.length < 5) {
@@ -66,6 +68,8 @@ function Login({navigation}) {
   });
   const [loader, setLoader] = React.useState(false);
   const [loginState, setLoginState] = React.useState(true);
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [loading, setIsLoading] = React.useState(false);
 
   const handleChange = (key, text) => {
     setData({...data, [key]: text});
@@ -79,64 +83,148 @@ function Login({navigation}) {
   };
   return (
     <KeyboardAwareScrollView>
-    <View style={{flex: 1, backgroundColor: Colors.white}}>
-      <View style={styles.brand}>
-        <Text style={{color: Colors.primary, fontWeight: 'bold', fontSize: 30}}>
-          Wish You
-        </Text>
-      </View>
-      {/**login title */}
-      <View style={{marginTop: 80, paddingHorizontal: 50}}>
-        <Text style={{color: Colors.black, fontSize: 20}}>Welcome Back🥰</Text>
-        <Text style={{color: Colors.black, marginTop: 5}}>
-          You are one step away to whish your loved ones.
-        </Text>
-      </View>
+      <View style={{flex: 1, backgroundColor: Colors.white}}>
+        <View style={styles.brand}>
+          <Text
+            style={{color: Colors.primary, fontWeight: 'bold', fontSize: 30}}>
+            Wish You
+          </Text>
+        </View>
+        {/**login title */}
+        <View style={{marginTop: 80, paddingHorizontal: 30}}>
+          <Text style={{color: Colors.black, fontSize: 20}}>
+            Welcome Back🥰
+          </Text>
+          <Text style={{color: Colors.black, marginTop: 5}}>
+            You are one step away to whish your loved ones.
+          </Text>
+        </View>
 
-      {/**Login form content */}
-      <View style={{marginTop: 30, paddingHorizontal: 50}}>
-        {/**email or mobile */}
-        <View style={{marginBottom: 5}}>
-          <Text style={{color: Colors.black}}>Email or Phone</Text>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor={Colors.lightBlack}
-            placeholder="user@gmail.com"
+        {/**Login form content */}
+        <View style={{marginTop: 30, paddingHorizontal: 30}}>
+          {/**email or mobile */}
+          <View style={{marginBottom: 5}}>
+            <Text style={{color: Colors.black}}>Email or Phone</Text>
+            <TextInput
+              style={styles.input}
+              placeholderTextColor={Colors.lightBlack}
+              placeholder="user@gmail.com"
+            />
+          </View>
+
+          {/**password */}
+          <View style={{marginTop: 10}}>
+            <Text style={{color: Colors.black}}>Password</Text>
+            <TextInput
+              secureTextEntry={!showPassword}
+              style={styles.input}
+              placeholderTextColor={Colors.lightBlack}
+              placeholder="Your Password"
+            />
+            {/**show or hide password */}
+            <TouchableOpacity
+              onPress={() => setShowPassword(!showPassword)}
+              style={{position: 'absolute', top: 28, right: 10}}>
+              {showPassword ? (
+                <FontAwesome name="eye" size={30} color={Colors.lightBlack} />
+              ) : (
+                <FontAwesome
+                  name="eye-slash"
+                  size={30}
+                  color={Colors.lightBlack}
+                />
+              )}
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            onPress={() => navigation.push('Register')}
+            style={{marginTop: 5}}>
+            <Text style={{color: Colors?.primary, textAlign: 'right'}}>
+              Forgot Password?
+            </Text>
+          </TouchableOpacity>
+          {/**button */}
+          <TouchableOpacity
+            style={{
+              backgroundColor: Colors.primary,
+              padding: 15,
+              marginTop: 20,
+              borderRadius: 10,
+              alignItems: 'center',
+            }}>
+            {loading ? (
+              <ActivityIndicator color={Colors.white} />
+            ) : (
+              <Text
+                style={{color: Colors.white, fontWeight: '900', fontSize: 15}}>
+                Login
+              </Text>
+            )}
+          </TouchableOpacity>
+
+          <View
+            style={{
+              marginTop: 8,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <Text style={{color: Colors.lightBlack}}>
+              Don't have an account?{' '}
+            </Text>
+            <TouchableOpacity onPress={() => navigation.push('Register')}>
+              <Text style={{color: Colors?.primary}}>Register</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/**devider */}
+          <View
+            style={{
+              height: 5,
+              backgroundColor: Colors.lightGray,
+              marginTop: 30,
+              borderRadius: 10,
+            }}
           />
+
+          {/**social icons */}
+          <View
+            style={{
+              marginTop: 5,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <FontAwesome name="facebook" size={30} color={Colors.primary} />
+            <FontAwesome
+              name="instagram"
+              size={30}
+              color={Colors.primary}
+              style={{marginHorizontal: 20}}
+            />
+            <FontAwesome name="google" size={30} color={Colors.primary} />
+          </View>
+
+          {/**some notes */}
+          <Text
+            style={{
+              color: Colors.lightBlack,
+              textAlign: 'center',
+              marginTop: 20,
+            }}>
+            We stay confident by your loves💖
+          </Text>
+          <Text
+            style={{
+              color: Colors.black,
+              marginTop: 50,
+              marginBottom: 15,
+              textAlign: 'center',
+            }}>
+            &copy; Copyright 2022 | Wish You
+          </Text>
         </View>
-
-        {/**password */}
-        <View style={{marginTop: 10}}>
-          <Text style={{color: Colors.black}}>Password</Text>
-          <TextInput
-            secureTextEntry={true}
-            style={styles.input}
-            placeholderTextColor={Colors.lightBlack}
-            placeholder="Your Password"
-          />
-        </View>
-
-        {/**button */}
-        <TouchableOpacity style={{backgroundColor:Colors.primary, padding: 15, marginTop: 20, borderRadius: 10, alignItems:'center'}}>
-          <Text style={{color: Colors.white, fontWeight: '900', fontSize: 15}}>Login</Text>
-        </TouchableOpacity>
-
-        {/**devider */}
-        <View style={{height: 5, backgroundColor: Colors.lightGray, marginTop: 30, borderRadius: 10}}/>
-
-        {/**social icons */}
-        <View style={{marginTop: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-          <FontAwesome name='facebook' size={30} color={Colors.primary}/>
-          <FontAwesome name='instagram' size={30} color={Colors.primary} style={{marginHorizontal: 20}}/>
-          <FontAwesome name='google' size={30} color={Colors.primary}/>
-        </View>
-
-        {/**some notes */}
-        <Text style={{color:Colors.lightBlack, textAlign: 'center', marginTop: 20}}>We stay confident by your loves💖</Text>
-        <Text style={{color:Colors.black, marginTop: 50, textAlign: 'center'}}>&copy; Copyright 2022 | Wish You</Text>
-        <View style={{height: 50}}/>
       </View>
-    </View>
     </KeyboardAwareScrollView>
   );
 }
