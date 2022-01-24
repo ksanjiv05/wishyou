@@ -14,7 +14,7 @@ function HomeStack({user}) {
     <Stack.Navigator screenOptions={{headerShown: false}}>
       {user ? (
         <>
-          {/* <Stack.Screen name="Tab" component={TabNav} /> */}
+          <Stack.Screen name="Tab" component={TabNav} />
 
           {/* <Stack.Screen
             name="Notifications"
