@@ -13,7 +13,7 @@ export const createContact = async data => {
   }
 };
 
-export const getContact = async query => {
+export const getContacts = async query => {
   try {
     console.log('req', base + Routes.contact);
     const res = await axios.get(base + Routes.contact + query);
@@ -21,6 +21,18 @@ export const getContact = async query => {
     return res;
   } catch (error) {
     console.log('Unable to register');
+    return null;
+  }
+};
+
+export const searchContact = async query => {
+  try {
+    console.log('req', base + Routes.contactSearch + query);
+    const res = await axios.get(base + Routes.contactSearch + query);
+    console.log('responce ', res.data);
+    return res;
+  } catch (error) {
+    console.log('Unable to process request');
     return null;
   }
 };
