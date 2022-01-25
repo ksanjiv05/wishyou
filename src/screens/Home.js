@@ -1,13 +1,20 @@
 import React from 'react';
-import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  ToastAndroid,
+} from 'react-native';
 
 import CategoryItem from '../components/CategoryItem';
 import CardItem from '../components/CardItem';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Colors from '../config/Colors';
 
-function Home() {
+function Home({navigation}) {
   const [selected, setSelected] = React.useState('382438');
+  const [selectedCard, setSelectedCard] = React.useState(null);
 
   const categories = [
     {
@@ -112,11 +119,24 @@ function Home() {
           keyExtractor={item => item.id}
           data={cards}
           renderItem={({item}) => (
-            <CardItem onPress={() => setSelected(item?.id)} card={item} />
+            <CardItem
+              onPress={() => setSelectedCard(item?.id)}
+              active={selectedCard === item.id}
+              card={item}
+            />
           )}
         />
       </View>
     );
+  };
+
+  const editCard = () => {
+    if (!selectedCard) {
+      ToastAndroid.show('Please select a card to edit.', ToastAndroid.LONG);
+    } else {
+      const card = cards.filter(c => c.id === selectedCard);
+      navigation.push('EditCard', {card: card[0]});
+    }
   };
 
   return (
@@ -129,6 +149,7 @@ function Home() {
 
       {/**edit button */}
       <TouchableOpacity
+        onPress={editCard}
         style={{
           position: 'absolute',
           bottom: 30,
