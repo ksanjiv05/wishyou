@@ -6,6 +6,8 @@ import TabNav from './TabNav';
 import Login from '../screens/Login';
 import Register from '../screens/Register';
 import Message from '../screens/Message';
+import EditCard from '../screens/EditCard';
+import Colors from '../config/Colors';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +26,16 @@ function HomeStack({user}) {
             component={Notifications}
           /> */}
           <Stack.Screen name="Message" component={Message} />
+          <Stack.Screen
+            name="EditCard"
+            options={{
+              headerShown: true,
+              title: 'Add Your Text',
+              headerStyle: {backgroundColor: Colors.primary},
+              headerTintColor: Colors.white,
+            }}
+            component={EditCard}
+          />
           {/* <Stack.Screen name="Feedback" component={Feedback} /> */}
         </>
       ) : (

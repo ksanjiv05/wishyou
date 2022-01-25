@@ -1,12 +1,14 @@
 import * as React from 'react';
 import {Text, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const Tab = createBottomTabNavigator();
 import Home from '../screens/Home';
 import Contacts from '../screens/Contacts';
 import Profile from '../screens/Profile';
+import Colors from '../config/Colors';
 
 export default function TabNav() {
   return (
@@ -22,8 +24,12 @@ export default function TabNav() {
         name="Home"
         component={Home}
         options={{
-          tabBarIcon: ({size, color}) => (
-            <FontAwesome name="list-alt" size={size} color={color} />
+          tabBarIcon: ({size, color, focused}) => (
+            <Entypo
+              name="flower"
+              size={size}
+              color={focused ? Colors.primary : color}
+            />
           ),
         }}
       />
@@ -31,8 +37,12 @@ export default function TabNav() {
         name="Message"
         component={Contacts}
         options={{
-          tabBarIcon: ({size, color}) => (
-            <FontAwesome name="vcard-o" size={size} color={color} />
+          tabBarIcon: ({size, color, focused}) => (
+            <MaterialIcons
+              name="contacts"
+              size={size}
+              color={focused ? Colors.primary : color}
+            />
           ),
         }}
       />
@@ -40,8 +50,12 @@ export default function TabNav() {
         name="Profile"
         component={Profile}
         options={{
-          tabBarIcon: ({size, color}) => (
-            <FontAwesome name="user" size={size} color={color} />
+          tabBarIcon: ({size, color, focused}) => (
+            <Entypo
+              name="user"
+              size={size}
+              color={focused ? Colors.primary : color}
+            />
           ),
         }}
       />
