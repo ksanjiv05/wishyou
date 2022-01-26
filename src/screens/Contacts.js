@@ -10,11 +10,13 @@ import {
   Linking,
   ActivityIndicator,
   PermissionsAndroid,
+  FlatList,
   Alert,
 } from 'react-native';
 import {
   createContact,
   getContacts,
+  searchAndAddContact,
   searchContact,
 } from '../apis/contact/contact';
 import auth from '@react-native-firebase/auth';
@@ -28,75 +30,20 @@ const ModalContant = ({uid}) => {
   const [email, setEmail] = React.useState('');
   const [loader, setLoader] = React.useState(true);
   const [searched, setSearched] = React.useState(null);
-  const search = async () => {
-    setLoader(true);
-    const responce = await searchContact('?email=' + email);
-
-    if (responce && responce.status === 200) {
-      console.log('search youser data', responce.data);
-
-      setSearched(responce.data.user);
-    }
-
-    if (responce && responce.status === 201) {
-      showToast('Contact Already Added');
-    } else {
-      showToast('Unable to process your request');
-    }
-    setLoader(false);
-  };
-
-  const getAllContacts = () => {
-    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-      title: 'Contacts',
-      message: 'This app would like to view your contacts.',
-      buttonPositive: 'Please accept bare mortal',
-    }).then(
-      PhoneContacts.checkPermission().then(res => {
-        console.log('access', res);
-        if (res === 'authorized') {
-          console.log('ath');
-          PhoneContacts.getAll()
-            .then(respon => {
-              respon.map(da => {
-                console.log(
-                  'contact is ',
-                  da.displayName,
-                  '-- ',
-                  da.phoneNumbers[0]?.number.replace(/[^\d]/g, ''),
-                );
-              });
-              // console.log('get conmtact', JSON.parse(respon));
-            })
-            .catch(err => {
-              console.log('err', err);
-            });
-        }
-      }),
-    );
-    // PhoneContacts.checkPermission().then(res => {
-    //   console.log('access', res);
-    //   if (res === 'authorized') {
-    //     console.log('ath');
-    //     PhoneContacts.getAll()
-    //       .then(respon => {
-    //         console.log('get conmtact', respon);
-    //       })
-    //       .catch(err => {
-    //         console.log('err', err);
-    //       });
-    //   } else if (res === 'denied') {
-    //     Alert.alert('AppName', 'You have to give permission to get contacts ', [
-    //       {
-    //         text: 'Cancel',
-    //         onPress: () => console.log('Cancel Pressed'),
-    //         style: 'cancel',
-    //       },
-    //       {text: 'Allow', onPress: () => Linking.openSettings()},
-    //     ]);
-    //   }
-    // });
-  };
+  // const search = async () => {
+  //   setLoader(true);
+  //   const responce = await searchContact('?email=' + email);
+  //   if (responce && responce.status === 200) {
+  //     console.log('search youser data', responce.data);
+  //     setSearched(responce.data.user);
+  //   }
+  //   if (responce && responce.status === 201) {
+  //     showToast('Contact Already Added');
+  //   } else {
+  //     showToast('Unable to process your request');
+  //   }
+  //   setLoader(false);
+  // };
 
   const handleAddContact = async () => {
     setLoader(true);
@@ -167,6 +114,7 @@ const ModalContant = ({uid}) => {
 function Contacts({navigation}) {
   const uid = auth().currentUser.email;
   const [contacts, setContacts] = React.useState([]);
+  const [contactIds, setContactIds] = React.useState([]);
   const [modalVisible, setModalVisible] = React.useState(true);
   const [loader, setLoader] = React.useState(false);
 
@@ -179,21 +127,98 @@ function Contacts({navigation}) {
   }
 
   const addContact = () => {};
-  React.useEffect(() => {
+  // React.useEffect(() => {
+  //   setLoader(true);
+  //   fetchContacts();
+  // }, []);
+
+  const getAllContacts = () => {
     setLoader(true);
-    fetchContacts();
+    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+      title: 'Contacts',
+      message: 'This app would like to view your contacts.',
+      buttonPositive: 'Please accept bare mortal',
+    }).then(
+      PhoneContacts.checkPermission().then(res => {
+        console.log('access', res);
+        if (res === 'authorized') {
+          console.log('ath');
+          PhoneContacts.getAll()
+            .then(async respon => {
+              let contactsIdsLocal = [];
+              respon &&
+                respon.map(contact => {
+                  const whitSpaceErs = contact.phoneNumbers[0]?.number.replace(
+                    /[^\d]/g,
+                    '',
+                  );
+                  whitSpaceErs !== undefined
+                    ? contactsIdsLocal.push(
+                        whitSpaceErs.substr(whitSpaceErs.length - 10),
+                      )
+                    : '';
+                });
+
+              setContactIds(contactsIdsLocal);
+              const responce = await searchAndAddContact({
+                uid,
+                contacts: contactsIdsLocal,
+              });
+              console.log('add contact ', responce.data?.contacts);
+              if (responce && responce.status === 200) {
+                setContacts(responce.data.contacts);
+                showToast('Contact Updated');
+              } else {
+                showToast('unable to Updated');
+              }
+
+              setLoader(false);
+              // console.log('get conmtact', JSON.parse(respon));
+            })
+            .catch(err => {
+              console.log('err', err);
+            });
+        }
+      }),
+    );
+  };
+
+  React.useEffect(() => {
+    getAllContacts();
   }, []);
 
   return (
     <View style={{flex: 1}}>
-      <Text>Contact</Text>
+      <View>
+        {loader ? <Text>Please wait. it is first time </Text> : <Text></Text>}
+      </View>
+      <FlatList
+        data={contactIds}
+        renderItem={({item}) => {
+          return (
+            <View>
+              <Text>{item}</Text>
+              {contacts.map(cobj => {
+                console.log(
+                  cobj.phone.includes(item) ? '' : 'invite',
+                  cobj.phone,
+                );
+                return (
+                  <Text>{!cobj.phone.includes(item) ? '' : 'invite'}</Text>
+                );
+              })}
+            </View>
+          );
+        }}
+      />
+
       <TouchableOpacity
         style={{backgroundColor: 'red'}}
         onPress={() => navigation.navigate('Message')}>
         <Text>alax@gmail.com</Text>
       </TouchableOpacity>
       {/** modal to add new contact */}
-      <Modal
+      {/* <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -202,7 +227,7 @@ function Contacts({navigation}) {
           setModalVisible(!modalVisible);
         }}>
         {modalVisible ? <ModalContant uid={uid} /> : <></>}
-      </Modal>
+      </Modal> */}
 
       {/**button to add contact */}
       <TouchableOpacity
