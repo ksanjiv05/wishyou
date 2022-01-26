@@ -5,6 +5,7 @@ const Routes = {
   fcm: '/fcm',
   //contacts
   contact: '/contact',
+  contacts: '/contacts',
   contactSearch: '/contact/search',
   entity: '/entity',
   share: '/share',
