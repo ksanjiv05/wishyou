@@ -114,7 +114,7 @@ const ModalContant = ({uid}) => {
 function Contacts({navigation}) {
   const uid = auth().currentUser.email;
   const [contacts, setContacts] = React.useState([]);
-  const [contactIds, setContactIds] = React.useState([]);
+  const [contactIds, setContactIds] = React.useState([1, 2, 3]);
   const [modalVisible, setModalVisible] = React.useState(true);
   const [loader, setLoader] = React.useState(false);
 
@@ -146,6 +146,7 @@ function Contacts({navigation}) {
           PhoneContacts.getAll()
             .then(async respon => {
               let contactsIdsLocal = [];
+              console.log('Length ', respon.length);
               respon &&
                 respon.map(contact => {
                   const whitSpaceErs = contact.phoneNumbers[0]?.number.replace(
@@ -159,12 +160,12 @@ function Contacts({navigation}) {
                     : '';
                 });
 
-              setContactIds(contactsIdsLocal);
+              // setContactIds(contactsIdsLocal);
               const responce = await searchAndAddContact({
                 uid,
                 contacts: contactsIdsLocal,
               });
-              console.log('add contact ', responce.data?.contacts);
+
               if (responce && responce.status === 200) {
                 setContacts(responce.data.contacts);
                 showToast('Contact Updated');
@@ -187,36 +188,111 @@ function Contacts({navigation}) {
     getAllContacts();
   }, []);
 
+  const renderItem = ({item}) => {
+    //  <View>
+    //    <Text>{item}</Text>
+    //    {contacts.map(cobj => {
+    //      console.log(cobj.phone.includes(item) ? '' : 'invite', cobj.phone);
+    //      return <Text>{!cobj.phone.includes(item) ? '' : 'invite'}</Text>;
+    //    })}
+    //  </View>;
+    return (
+      <TouchableOpacity
+        style={{}}
+        onPress={() =>
+          //navigation.navigate('Message')
+          console.log('presseds', item)
+        }>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            backgroundColor: Colors.primary,
+            maxHeight: 60,
+            marginBottom: 5,
+            padding: 10,
+            marginHorizontal: 5,
+            borderRadius: 8,
+          }}>
+          <View
+            style={{
+              flex: 1,
+              maxWidth: 60,
+              alignContent: 'center',
+              justifyContent: 'center',
+            }}>
+            <View
+              style={{
+                backgroundColor: Colors.white,
+                borderRadius: 100,
+                width: 50,
+                height: 50,
+              }}></View>
+          </View>
+          <View style={{flex: 1, width: 50}}>
+            <Text style={{textTransform: 'capitalize', color: Colors.white}}>
+              sanjiv kumar
+            </Text>
+            <Text style={{color: Colors.white}}>12/03/2020</Text>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              maxWidth: 60,
+              alignContent: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text
+              style={{
+                paddingHorizontal: 8,
+                paddingVertical: 4,
+                color: Colors.primary,
+                backgroundColor: Colors.white,
+                borderRadius: 8,
+                textAlign: 'center',
+              }}>
+              invite
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={{flex: 1}}>
-      <View>
-        {loader ? <Text>Please wait. it is first time </Text> : <Text></Text>}
-      </View>
-      <FlatList
-        data={contactIds}
-        renderItem={({item}) => {
-          return (
-            <View>
-              <Text>{item}</Text>
-              {contacts.map(cobj => {
-                console.log(
-                  cobj.phone.includes(item) ? '' : 'invite',
-                  cobj.phone,
-                );
-                return (
-                  <Text>{!cobj.phone.includes(item) ? '' : 'invite'}</Text>
-                );
-              })}
-            </View>
-          );
-        }}
-      />
+      {loader ? (
+        <View style={{alignItems: 'center', flex: 1, justifyContent: 'center'}}>
+          <Text>Please wait. it is first time </Text>
+        </View>
+      ) : (
+        <>
+          <View
+            style={{
+              backgroundColor: Colors.primary,
+              maxHeight: 70,
+              marginHorizontal: 5,
+              flex: 1,
+              marginBottom: 5,
+              paddingVertical: 10,
+              paddingHorizontal: 20,
+              borderBottomLeftRadius: 8,
+              borderBottomRightRadius: 8,
+            }}>
+            <TextInput
+              placeholder="Search Your contact"
+              style={{
+                borderRadius: 5,
+                color: Colors.primary,
+                backgroundColor: Colors.white,
+                paddingLeft: 10,
+              }}
+            />
+          </View>
+          <FlatList data={contactIds} renderItem={renderItem} />
+        </>
+      )}
 
-      <TouchableOpacity
-        style={{backgroundColor: 'red'}}
-        onPress={() => navigation.navigate('Message')}>
-        <Text>alax@gmail.com</Text>
-      </TouchableOpacity>
       {/** modal to add new contact */}
       {/* <Modal
         animationType="slide"
@@ -230,18 +306,6 @@ function Contacts({navigation}) {
       </Modal> */}
 
       {/**button to add contact */}
-      <TouchableOpacity
-        style={{
-          position: 'absolute',
-          bottom: 30,
-          right: 20,
-          padding: 20,
-          backgroundColor: Colors.primary,
-          borderRadius: 50,
-        }}
-        onPress={() => setModalVisible(!modalVisible)}>
-        <FontAwesome name="edit" size={20} color={Colors.white} />
-      </TouchableOpacity>
     </View>
   );
 }

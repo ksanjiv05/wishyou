@@ -9,6 +9,7 @@ import Home from '../screens/Home';
 import Contacts from '../screens/Contacts';
 import Profile from '../screens/Profile';
 import Colors from '../config/Colors';
+import RecentChatedContacts from '../screens/RecentChatedContacts';
 
 export default function TabNav() {
   return (
@@ -34,8 +35,8 @@ export default function TabNav() {
         }}
       />
       <Tab.Screen
-        name="Message"
-        component={Contacts}
+        name="RecentChatedContacts"
+        component={RecentChatedContacts}
         options={{
           tabBarIcon: ({size, color, focused}) => (
             <MaterialIcons

@@ -8,6 +8,7 @@ import Register from '../screens/Register';
 import Message from '../screens/Message';
 import EditCard from '../screens/EditCard';
 import Colors from '../config/Colors';
+import Contacts from '../screens/Contacts';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,7 +37,7 @@ function HomeStack({user}) {
             }}
             component={EditCard}
           />
-          {/* <Stack.Screen name="Feedback" component={Feedback} /> */}
+          <Stack.Screen name="Contacts" component={Contacts} />
         </>
       ) : (
         <>
