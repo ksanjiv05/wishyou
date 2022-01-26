@@ -7,7 +7,10 @@ import {
   Dimensions,
   TextInput,
   Button,
+  Linking,
   ActivityIndicator,
+  PermissionsAndroid,
+  Alert,
 } from 'react-native';
 import {
   createContact,
@@ -18,6 +21,7 @@ import auth from '@react-native-firebase/auth';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Colors from '../config/Colors';
 import {showToast} from '../utils/toast';
+import PhoneContacts from 'react-native-contacts';
 const screenHight = Dimensions.get('screen').height;
 
 const ModalContant = ({uid}) => {
@@ -41,6 +45,59 @@ const ModalContant = ({uid}) => {
     }
     setLoader(false);
   };
+
+  const getAllContacts = () => {
+    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+      title: 'Contacts',
+      message: 'This app would like to view your contacts.',
+      buttonPositive: 'Please accept bare mortal',
+    }).then(
+      PhoneContacts.checkPermission().then(res => {
+        console.log('access', res);
+        if (res === 'authorized') {
+          console.log('ath');
+          PhoneContacts.getAll()
+            .then(respon => {
+              respon.map(da => {
+                console.log(
+                  'contact is ',
+                  da.displayName,
+                  '-- ',
+                  da.phoneNumbers[0]?.number.replace(/[^\d]/g, ''),
+                );
+              });
+              // console.log('get conmtact', JSON.parse(respon));
+            })
+            .catch(err => {
+              console.log('err', err);
+            });
+        }
+      }),
+    );
+    // PhoneContacts.checkPermission().then(res => {
+    //   console.log('access', res);
+    //   if (res === 'authorized') {
+    //     console.log('ath');
+    //     PhoneContacts.getAll()
+    //       .then(respon => {
+    //         console.log('get conmtact', respon);
+    //       })
+    //       .catch(err => {
+    //         console.log('err', err);
+    //       });
+    //   } else if (res === 'denied') {
+    //     Alert.alert('AppName', 'You have to give permission to get contacts ', [
+    //       {
+    //         text: 'Cancel',
+    //         onPress: () => console.log('Cancel Pressed'),
+    //         style: 'cancel',
+    //       },
+    //       {text: 'Allow', onPress: () => Linking.openSettings()},
+    //     ]);
+    //   }
+    // });
+  };
+
   const handleAddContact = async () => {
     setLoader(true);
     await createContact({uid, cid: searched.email});
@@ -88,7 +145,7 @@ const ModalContant = ({uid}) => {
               backgroundColor: Colors.primary,
               borderRadius: 50,
             }}
-            onPress={search}>
+            onPress={getAllContacts}>
             <FontAwesome name="search" size={20} color={Colors.white} />
           </TouchableOpacity>
         </View>
