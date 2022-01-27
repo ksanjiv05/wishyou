@@ -5,12 +5,12 @@ import {
   ImageBackground,
   TouchableOpacity,
   ActivityIndicator,
+  Animated,
 } from 'react-native';
 import Colors from '../config/Colors';
 
 const Preview = ({navigation, route}) => {
-  console.log(JSON.parse(route.params.card));
-  const card = JSON.parse(route.params.card);
+  const card = route?.params?.card;
   const {titleFormat, textFormat, taglineFormat} = card?.format;
   const position = card?.position;
 
@@ -20,7 +20,7 @@ const Preview = ({navigation, route}) => {
         <View style={{flex: 1}}>
           <ImageBackground source={{uri: card?.background}} style={{flex: 1}}>
             {/**title render */}
-            <View
+            <Animated.View
               style={{
                 transform: [
                   {translateX: position?.title?.x},
@@ -29,17 +29,17 @@ const Preview = ({navigation, route}) => {
               }}>
               <Text
                 style={{
-                  color: titleFormat.color,
-                  fontSize: titleFormat.fontSize,
-                  fontFamily: titleFormat.fontFamily,
-                  textAlign: titleFormat.textAlign,
-                  fontWeight: titleFormat.bold ? 'bold' : 'normal',
+                  color: titleFormat?.color,
+                  fontSize: titleFormat?.fontSize,
+                  fontFamily: titleFormat?.fontFamily,
+                  textAlign: titleFormat?.textAlign,
+                  fontWeight: titleFormat?.bold ? 'bold' : 'normal',
                 }}>
                 {card?.text?.title}
               </Text>
-            </View>
+            </Animated.View>
             {/**text render */}
-            <View
+            <Animated.View
               style={{
                 transform: [
                   {translateX: position?.text?.x},
@@ -48,17 +48,17 @@ const Preview = ({navigation, route}) => {
               }}>
               <Text
                 style={{
-                  color: textFormat.color,
-                  fontSize: textFormat.fontSize,
-                  fontFamily: textFormat.fontFamily,
-                  textAlign: textFormat.textAlign,
-                  fontWeight: textFormat.bold ? 'bold' : 'normal',
+                  color: textFormat?.color,
+                  fontSize: textFormat?.fontSize,
+                  fontFamily: textFormat?.fontFamily,
+                  textAlign: textFormat?.textAlign,
+                  fontWeight: textFormat?.bold ? 'bold' : 'normal',
                 }}>
                 {card?.text?.text}
               </Text>
-            </View>
+            </Animated.View>
             {/**tagline render */}
-            <View
+            <Animated.View
               style={{
                 transform: [
                   {translateX: position?.tagline?.x},
@@ -67,15 +67,15 @@ const Preview = ({navigation, route}) => {
               }}>
               <Text
                 style={{
-                  color: taglineFormat.color,
-                  fontSize: taglineFormat.fontSize,
-                  fontFamily: taglineFormat.fontFamily,
-                  textAlign: taglineFormat.textAlign,
-                  fontWeight: taglineFormat.bold ? 'bold' : 'normal',
+                  color: taglineFormat?.color,
+                  fontSize: taglineFormat?.fontSize,
+                  fontFamily: taglineFormat?.fontFamily,
+                  textAlign: taglineFormat?.textAlign,
+                  fontWeight: taglineFormat?.bold ? 'bold' : 'normal',
                 }}>
                 {card?.text?.tagline}
               </Text>
-            </View>
+            </Animated.View>
           </ImageBackground>
 
           {/**buttons */}
@@ -114,7 +114,10 @@ const Preview = ({navigation, route}) => {
           </View>
         </View>
       ) : (
-        <ActivityIndicator style={{flex: 1}} />
+        <ActivityIndicator
+          style={{flex: 1, backgroundColor: Colors.white}}
+          color={Colors.primary}
+        />
       )}
     </>
   );
