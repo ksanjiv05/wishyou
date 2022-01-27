@@ -7,6 +7,7 @@ import Login from '../screens/Login';
 import Register from '../screens/Register';
 import Message from '../screens/Message';
 import EditCard from '../screens/EditCard';
+import Preview from '../screens/Preview';
 import Colors from '../config/Colors';
 import Contacts from '../screens/Contacts';
 
@@ -36,6 +37,15 @@ function HomeStack({user}) {
               headerTintColor: Colors.white,
             }}
             component={EditCard}
+          />
+          <Stack.Screen
+            name="Preview"
+            options={{
+              headerShown: true,
+              headerStyle: {backgroundColor: Colors.primary},
+              headerTintColor: Colors.white,
+            }}
+            component={Preview}
           />
           <Stack.Screen name="Contacts" component={Contacts} />
         </>

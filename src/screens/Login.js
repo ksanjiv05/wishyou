@@ -127,7 +127,7 @@ function Login({navigation}) {
             {/**show or hide password */}
             <TouchableOpacity
               onPress={() => setShowPassword(!showPassword)}
-              style={{position: 'absolute', top: 28, right: 10}}>
+              style={{position: 'absolute', top: 35, right: 10}}>
               {showPassword ? (
                 <FontAwesome name="eye" size={30} color={Colors.lightBlack} />
               ) : (
@@ -194,19 +194,19 @@ function Login({navigation}) {
           {/**social icons */}
           <View
             style={{
-              marginTop: 5,
+              marginTop: 20,
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <FontAwesome name="facebook" size={30} color={Colors.primary} />
+            <FontAwesome name="facebook" size={25} color={Colors.primary} />
             <FontAwesome
               name="instagram"
-              size={30}
+              size={25}
               color={Colors.primary}
               style={{marginHorizontal: 20}}
             />
-            <FontAwesome name="google" size={30} color={Colors.primary} />
+            <FontAwesome name="google" size={25} color={Colors.primary} />
           </View>
 
           {/**some notes */}

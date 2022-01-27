@@ -1,0 +1,123 @@
+import React from 'react';
+import {
+  View,
+  Text,
+  ImageBackground,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import Colors from '../config/Colors';
+
+const Preview = ({navigation, route}) => {
+  console.log(JSON.parse(route.params.card));
+  const card = JSON.parse(route.params.card);
+  const {titleFormat, textFormat, taglineFormat} = card?.format;
+  const position = card?.position;
+
+  return (
+    <>
+      {card ? (
+        <View style={{flex: 1}}>
+          <ImageBackground source={{uri: card?.background}} style={{flex: 1}}>
+            {/**title render */}
+            <View
+              style={{
+                transform: [
+                  {translateX: position?.title?.x},
+                  {translateY: position?.title?.y},
+                ],
+              }}>
+              <Text
+                style={{
+                  color: titleFormat.color,
+                  fontSize: titleFormat.fontSize,
+                  fontFamily: titleFormat.fontFamily,
+                  textAlign: titleFormat.textAlign,
+                  fontWeight: titleFormat.bold ? 'bold' : 'normal',
+                }}>
+                {card?.text?.title}
+              </Text>
+            </View>
+            {/**text render */}
+            <View
+              style={{
+                transform: [
+                  {translateX: position?.text?.x},
+                  {translateY: position?.text?.y},
+                ],
+              }}>
+              <Text
+                style={{
+                  color: textFormat.color,
+                  fontSize: textFormat.fontSize,
+                  fontFamily: textFormat.fontFamily,
+                  textAlign: textFormat.textAlign,
+                  fontWeight: textFormat.bold ? 'bold' : 'normal',
+                }}>
+                {card?.text?.text}
+              </Text>
+            </View>
+            {/**tagline render */}
+            <View
+              style={{
+                transform: [
+                  {translateX: position?.tagline?.x},
+                  {translateY: position?.tagline?.y},
+                ],
+              }}>
+              <Text
+                style={{
+                  color: taglineFormat.color,
+                  fontSize: taglineFormat.fontSize,
+                  fontFamily: taglineFormat.fontFamily,
+                  textAlign: taglineFormat.textAlign,
+                  fontWeight: taglineFormat.bold ? 'bold' : 'normal',
+                }}>
+                {card?.text?.tagline}
+              </Text>
+            </View>
+          </ImageBackground>
+
+          {/**buttons */}
+          <View
+            style={{
+              padding: 10,
+              backgroundColor: Colors.primary,
+              height: 80,
+              alignItems: 'center',
+              justifyContent: 'space-around',
+              flexDirection: 'row',
+            }}>
+            <TouchableOpacity
+              style={{
+                paddingHorizontal: 50,
+                paddingVertical: 15,
+                borderRadius: 30,
+                backgroundColor: Colors.white,
+              }}>
+              <Text style={{color: Colors.primary, fontWeight: '700'}}>
+                Save
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{
+                paddingHorizontal: 50,
+                paddingVertical: 15,
+                borderRadius: 30,
+                backgroundColor: Colors.white,
+              }}>
+              <Text style={{color: Colors.primary, fontWeight: '700'}}>
+                Share
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : (
+        <ActivityIndicator style={{flex: 1}} />
+      )}
+    </>
+  );
+};
+
+export default Preview;
