@@ -95,6 +95,7 @@ function Home({navigation}) {
           <FlatList
             showsVerticalScrollIndicator={false}
             horizontal
+            showsHorizontalScrollIndicator={false}
             keyExtractor={item => item.id}
             data={categories}
             renderItem={({item}) => (
