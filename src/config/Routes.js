@@ -1,5 +1,5 @@
 const Routes = {
-  url: 'http://134.255.216.211:4000',
+  url: 'http://1732-14-98-227-126.ngrok.io',
   ver: '/api/v0.0.1',
   register: '/user',
   fcm: '/fcm',

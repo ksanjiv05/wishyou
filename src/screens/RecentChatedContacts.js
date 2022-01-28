@@ -112,6 +112,16 @@ function RecentChatedContacts({navigation}) {
     fetchContacts();
   }, []);
 
+  React.useEffect(() => {
+    socket.on('message', data => {
+      console.log(
+        '---------------------------message-------------------------------',
+        data,
+      );
+      // socket.connect();
+    });
+  }, []);
+
   return (
     <View style={{flex: 1}}>
       {loader ? (

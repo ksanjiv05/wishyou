@@ -6,7 +6,7 @@ import Colors from '../config/Colors';
 function Message({route}) {
   const {socket} = React.useContext(GlobalContext);
   const [message, setMessage] = React.useState('');
-  console.log('socket==== ', route);
+  console.log('rouute==== ', route);
   const {receiver = '', sender = ''} = route?.params;
 
   const sendMessage = () => {
@@ -25,19 +25,6 @@ function Message({route}) {
     );
   };
 
-  React.useEffect(() => {
-    socket.on('connect', () => {
-      console.log('socket connected', socket.id); // "G5p5..."
-    });
-    socket.on('disconnect', () => {
-      console.log('socket disconnected');
-      // socket.connect();
-    });
-    socket.on('message', data => {
-      console.log('user +++++++++++++++++++++++++++message ', data);
-      socket.connect();
-    });
-  }, [socket]);
   return (
     <View>
       <Text>hii</Text>

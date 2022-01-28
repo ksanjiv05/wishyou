@@ -13,7 +13,20 @@ import io from 'socket.io-client';
 import HomeStack from './src/navigation/HomeStack';
 import auth from '@react-native-firebase/auth';
 // import {updateFcmToken} from './src/apis/auth/auth';
-let socket = null;
+let socket = io(
+  'http://1732-14-98-227-126.ngrok.io',
+  {
+    query: {token: 'sanjiv@gmail.com'},
+    path: '/socket.io',
+  },
+  // {
+  //   forceNew: true,
+  // },
+  // {
+  //   transports: ['websocket', 'polling', 'flashsocket'],
+  // },
+);
+
 export const GlobalContext = React.createContext();
 
 const App = () => {
@@ -24,18 +37,6 @@ const App = () => {
   // Handle user state changes
   function onAuthStateChanged(user) {
     if (user) {
-      socket = io(
-        'http://134.255.216.211:4000',
-        {
-          query: {token: user.email},
-        },
-        {
-          forceNew: true,
-        },
-        {
-          transports: ['websocket', 'polling', 'flashsocket'],
-        },
-      );
       setUser(user);
       console.log(user);
     }
@@ -47,6 +48,16 @@ const App = () => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);
+
+  React.useEffect(() => {
+    socket.on('connect', () => {
+      console.log('socket connected', socket.id); // "G5p5..."
+    });
+    socket.on('disconnect', () => {
+      console.log('socket disconnected');
+      socket.connect();
+    });
+  }, [socket]);
 
   // React.useEffect(() => {
   //   user &&
