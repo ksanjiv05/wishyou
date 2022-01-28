@@ -22,6 +22,7 @@ const Preview = ({navigation, route}) => {
             {/**title render */}
             <Animated.View
               style={{
+                paddingVertical: 12,
                 transform: [
                   {translateX: position?.title?.x},
                   {translateY: position?.title?.y},
@@ -41,6 +42,7 @@ const Preview = ({navigation, route}) => {
             {/**text render */}
             <Animated.View
               style={{
+                paddingVertical: 12,
                 transform: [
                   {translateX: position?.text?.x},
                   {translateY: position?.text?.y},
@@ -60,6 +62,7 @@ const Preview = ({navigation, route}) => {
             {/**tagline render */}
             <Animated.View
               style={{
+                paddingVertical: 12,
                 transform: [
                   {translateX: position?.tagline?.x},
                   {translateY: position?.tagline?.y},
@@ -81,7 +84,7 @@ const Preview = ({navigation, route}) => {
           {/**buttons */}
           <View
             style={{
-              padding: 10,
+              paddingVertical: 10,
               backgroundColor: Colors.primary,
               height: 80,
               alignItems: 'center',

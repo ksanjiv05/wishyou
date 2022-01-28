@@ -211,7 +211,7 @@ function Contacts({navigation}) {
             maxHeight: 60,
             marginBottom: 5,
             padding: 10,
-            marginHorizontal: 5,
+            marginHorizontal: 10,
             borderRadius: 8,
           }}>
           <View
@@ -251,7 +251,7 @@ function Contacts({navigation}) {
                 borderRadius: 8,
                 textAlign: 'center',
               }}>
-              invite
+              Invite
             </Text>
           </View>
         </View>
@@ -262,25 +262,24 @@ function Contacts({navigation}) {
   return (
     <View style={{flex: 1}}>
       {loader ? (
-        <View style={{alignItems: 'center', flex: 1, justifyContent: 'center'}}>
-          <Text>Please wait. it is first time </Text>
-        </View>
+        <ActivityIndicator
+          style={{flex: 1, backgroundColor: Colors.white}}
+          color={Colors.primary}
+        />
       ) : (
         <>
           <View
             style={{
-              backgroundColor: Colors.primary,
+              backgroundColor: Colors.lightGray,
               maxHeight: 70,
-              marginHorizontal: 5,
               flex: 1,
-              marginBottom: 5,
               paddingVertical: 10,
               paddingHorizontal: 20,
-              borderBottomLeftRadius: 8,
-              borderBottomRightRadius: 8,
+              marginBottom: 10,
             }}>
             <TextInput
               placeholder="Search Your contact"
+              placeholderTextColor={Colors.lightBlack}
               style={{
                 borderRadius: 5,
                 color: Colors.primary,

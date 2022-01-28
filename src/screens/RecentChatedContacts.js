@@ -115,25 +115,24 @@ function RecentChatedContacts({navigation}) {
   return (
     <View style={{flex: 1}}>
       {loader ? (
-        <View style={{alignItems: 'center', flex: 1, justifyContent: 'center'}}>
-          <Text>Loading...</Text>
-        </View>
+        <ActivityIndicator
+          style={{flex: 1, backgroundColor: Colors.white}}
+          color={Colors.primary}
+        />
       ) : (
         <>
           <View
             style={{
-              backgroundColor: Colors.primary,
+              backgroundColor: Colors.lightGray,
               maxHeight: 70,
-              marginHorizontal: 5,
               flex: 1,
               marginBottom: 5,
               paddingVertical: 10,
               paddingHorizontal: 20,
-              borderBottomLeftRadius: 8,
-              borderBottomRightRadius: 8,
             }}>
             <TextInput
               placeholder="Search Your contact"
+              placeholderTextColor={Colors.lightBlack}
               style={{
                 borderRadius: 5,
                 color: Colors.primary,
@@ -147,15 +146,18 @@ function RecentChatedContacts({navigation}) {
       )}
 
       <TouchableOpacity
+        onPress={() => navigation.navigate('Contacts')}
         style={{
           position: 'absolute',
           bottom: 30,
           right: 20,
-          padding: 20,
+          height: 60,
+          width: 60,
           backgroundColor: Colors.primary,
           borderRadius: 50,
-        }}
-        onPress={() => navigation.navigate('Contacts')}>
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
         <FontAwesome name="address-book-o" size={20} color={Colors.white} />
       </TouchableOpacity>
     </View>

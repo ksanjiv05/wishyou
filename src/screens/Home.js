@@ -155,9 +155,12 @@ function Home({navigation}) {
           position: 'absolute',
           bottom: 30,
           right: 20,
-          padding: 20,
+          height: 60,
+          width: 60,
           backgroundColor: Colors.primary,
           borderRadius: 50,
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
         <FontAwesome name="edit" size={20} color={Colors.white} />
       </TouchableOpacity>
