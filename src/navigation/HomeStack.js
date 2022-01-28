@@ -27,7 +27,15 @@ function HomeStack({user}) {
             }}
             component={Notifications}
           /> */}
-          <Stack.Screen name="Message" component={Message} />
+          <Stack.Screen
+            name="Message"
+            component={Message}
+            options={{
+              headerShown: true,
+              headerStyle: {backgroundColor: Colors.primary},
+              headerTintColor: Colors.white,
+            }}
+          />
           <Stack.Screen
             name="EditCard"
             options={{
@@ -47,7 +55,15 @@ function HomeStack({user}) {
             }}
             component={Preview}
           />
-          <Stack.Screen name="Contacts" component={Contacts} />
+          <Stack.Screen
+            options={{
+              headerShown: true,
+              headerStyle: {backgroundColor: Colors.primary},
+              headerTintColor: Colors.white,
+            }}
+            name="Contacts"
+            component={Contacts}
+          />
         </>
       ) : (
         <>

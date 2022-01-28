@@ -31,6 +31,7 @@
 		A6B2DA8EF2E6473DAF4E18A8 /* Anything-9Y9jy.otf in Resources */ = {isa = PBXBuildFile; fileRef = CDE7C53DDC704A4FAADACC11 /* Anything-9Y9jy.otf */; };
 		2AB420311CCF44A8A9B1438B /* BeautifulPeoplePersonalUse-dE0g.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10741EE737964C32B0482746 /* BeautifulPeoplePersonalUse-dE0g.ttf */; };
 		9A0C95A993814BEB9C8AA164 /* CassandraPersonalUseRegular-3BjG.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8517B1863B0B47839E1CE20E /* CassandraPersonalUseRegular-3BjG.ttf */; };
+		21DDB77A01604E059AF2D0B1 /* Silent-Reaction.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F43E8E93F644D4D9683A42A /* Silent-Reaction.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		CDE7C53DDC704A4FAADACC11 /* Anything-9Y9jy.otf */ = {isa = PBXFileReference; name = "Anything-9Y9jy.otf"; path = "../assets/fonts/Anything-9Y9jy.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		10741EE737964C32B0482746 /* BeautifulPeoplePersonalUse-dE0g.ttf */ = {isa = PBXFileReference; name = "BeautifulPeoplePersonalUse-dE0g.ttf"; path = "../assets/fonts/BeautifulPeoplePersonalUse-dE0g.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		8517B1863B0B47839E1CE20E /* CassandraPersonalUseRegular-3BjG.ttf */ = {isa = PBXFileReference; name = "CassandraPersonalUseRegular-3BjG.ttf"; path = "../assets/fonts/CassandraPersonalUseRegular-3BjG.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4F43E8E93F644D4D9683A42A /* Silent-Reaction.ttf */ = {isa = PBXFileReference; name = "Silent-Reaction.ttf"; path = "../assets/fonts/Silent-Reaction.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +187,7 @@
 				CDE7C53DDC704A4FAADACC11 /* Anything-9Y9jy.otf */,
 				10741EE737964C32B0482746 /* BeautifulPeoplePersonalUse-dE0g.ttf */,
 				8517B1863B0B47839E1CE20E /* CassandraPersonalUseRegular-3BjG.ttf */,
+				4F43E8E93F644D4D9683A42A /* Silent-Reaction.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				A6B2DA8EF2E6473DAF4E18A8 /* Anything-9Y9jy.otf in Resources */,
 				2AB420311CCF44A8A9B1438B /* BeautifulPeoplePersonalUse-dE0g.ttf in Resources */,
 				9A0C95A993814BEB9C8AA164 /* CassandraPersonalUseRegular-3BjG.ttf in Resources */,
+				21DDB77A01604E059AF2D0B1 /* Silent-Reaction.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
