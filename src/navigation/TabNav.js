@@ -38,6 +38,10 @@ export default function TabNav() {
         name="RecentChatedContacts"
         component={RecentChatedContacts}
         options={{
+          headerShown: true,
+          headerStyle: {backgroundColor: Colors.primary},
+          headerTintColor: Colors.white,
+          title: 'Recent Chats',
           tabBarIcon: ({size, color, focused}) => (
             <MaterialIcons
               name="contacts"

@@ -33,11 +33,7 @@ function Message({route}) {
       );
       // socket.connect();
     });
-    socket.on('disconnect', () => {
-      console.log('socket disconnected');
-      socket.connect();
-    });
-  }, [socket]);
+  }, []);
 
   return (
     <View>

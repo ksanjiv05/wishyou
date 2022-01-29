@@ -3,25 +3,33 @@ import {
   View,
   Text,
   ImageBackground,
-  TouchableOpacity,
   ActivityIndicator,
   Animated,
 } from 'react-native';
 import Colors from '../config/Colors';
+import RoundedButton from '../components/RoundedButton';
 
 const Preview = ({navigation, route}) => {
   const card = route?.params?.card;
   const {titleFormat, textFormat, taglineFormat} = card?.format;
   const position = card?.position;
 
+  const saveCard = () => {
+    console.log(card);
+  };
+
   return (
     <>
       {card ? (
         <View style={{flex: 1}}>
-          <ImageBackground source={{uri: card?.background}} style={{flex: 1}}>
+          <ImageBackground
+            source={{uri: card?.background}}
+            style={{flex: 1, width: '100%'}}
+            resizeMode="cover">
             {/**title render */}
             <Animated.View
               style={{
+                paddingVertical: 12,
                 transform: [
                   {translateX: position?.title?.x},
                   {translateY: position?.title?.y},
@@ -41,6 +49,7 @@ const Preview = ({navigation, route}) => {
             {/**text render */}
             <Animated.View
               style={{
+                paddingVertical: 12,
                 transform: [
                   {translateX: position?.text?.x},
                   {translateY: position?.text?.y},
@@ -60,6 +69,7 @@ const Preview = ({navigation, route}) => {
             {/**tagline render */}
             <Animated.View
               style={{
+                paddingVertical: 12,
                 transform: [
                   {translateX: position?.tagline?.x},
                   {translateY: position?.tagline?.y},
@@ -81,36 +91,15 @@ const Preview = ({navigation, route}) => {
           {/**buttons */}
           <View
             style={{
-              padding: 10,
+              paddingVertical: 10,
               backgroundColor: Colors.primary,
               height: 80,
               alignItems: 'center',
               justifyContent: 'space-around',
               flexDirection: 'row',
             }}>
-            <TouchableOpacity
-              style={{
-                paddingHorizontal: 50,
-                paddingVertical: 15,
-                borderRadius: 30,
-                backgroundColor: Colors.white,
-              }}>
-              <Text style={{color: Colors.primary, fontWeight: '700'}}>
-                Save
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{
-                paddingHorizontal: 50,
-                paddingVertical: 15,
-                borderRadius: 30,
-                backgroundColor: Colors.white,
-              }}>
-              <Text style={{color: Colors.primary, fontWeight: '700'}}>
-                Share
-              </Text>
-            </TouchableOpacity>
+            <RoundedButton label="Save" onPress={saveCard} />
+            <RoundedButton label="Share" onPress={() => {}} />
           </View>
         </View>
       ) : (

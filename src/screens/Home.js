@@ -49,28 +49,28 @@ function Home({navigation}) {
       id: '8327323',
       info: "Wish You a very Happy Mother's Day...",
       background:
-        'https://previews.123rf.com/images/jaboy/jaboy1503/jaboy150300582/37885953-d%C3%ADa-de-la-madre-clavel-s-fondo.jpg',
+        'https://www.adobe.com/express/create/card/media_10cef0d3e63429bb6b57a2335c750bd4c4585470c.png?width=400&format=png&optimize=medium',
     },
     {
       name: "Wish You - Mother's Day 02",
       id: '832323',
       info: "Wish You a very Happy Mother's Day...",
       background:
-        'https://png.pngtree.com/thumb_back/fw800/background/20190415/pngtree-simple-symmetrical-hand-painted-mothers-day-carnation-bar-background-image_103805.jpg',
+        'https://i.pinimg.com/originals/70/9d/dd/709dddfdfe7190c386a12f811f3b4abb.jpg',
     },
     {
       name: "Wish You - Mother's Day 03",
       id: '8323123',
       info: "Wish You a very Happy Mother's Day...",
       background:
-        'https://png.pngtree.com/thumb_back/fh260/background/20201229/pngtree-romantic-pink-carnation-background-image_517870.jpg',
+        'https://images.squarespace-cdn.com/content/v1/59c4bc67914e6b5ac397900e/1554993222636-V9PFOVLB97S8AYEOO9MO/Floral+bouquet+template+I.jpg?format=1000w',
     },
     {
       name: "Wish You - Mother's Day 04",
       id: '8323231',
       info: "Wish You a very Happy Mother's Day...",
       background:
-        'https://img.freepik.com/free-photo/mother-s-day-valentine-s-day-background-design-concept-with-pink-carnation-flower_315337-2182.jpg?size=626&ext=jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoSRDLIKwpQjQBzWAgdkUiafLKPfOa8hHlLYz_-vEF-0xaH8yMhN0Ogp-RiwrRPVmgw6I&usqp=CAU',
     },
     {
       name: "Wish You - Mother's Day 05",
@@ -155,9 +155,12 @@ function Home({navigation}) {
           position: 'absolute',
           bottom: 30,
           right: 20,
-          padding: 20,
+          height: 60,
+          width: 60,
           backgroundColor: Colors.primary,
           borderRadius: 50,
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
         <FontAwesome name="edit" size={20} color={Colors.white} />
       </TouchableOpacity>
