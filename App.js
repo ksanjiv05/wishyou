@@ -14,9 +14,9 @@ import HomeStack from './src/navigation/HomeStack';
 import auth from '@react-native-firebase/auth';
 // import {updateFcmToken} from './src/apis/auth/auth';
 let socket = io(
-  'http://1732-14-98-227-126.ngrok.io',
+  'http://7742-2409-4050-e81-87f1-11ad-c6e-d35b-a64e.ngrok.io',
   {
-    query: {token: 'sanjiv@gmail.com'},
+    query: {token: auth().currentUser.email},
     path: '/socket.io',
   },
   // {
