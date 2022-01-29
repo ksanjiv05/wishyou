@@ -13,18 +13,18 @@ import io from 'socket.io-client';
 import HomeStack from './src/navigation/HomeStack';
 import auth from '@react-native-firebase/auth';
 // import {updateFcmToken} from './src/apis/auth/auth';
-let socket = io(
-  'http://1732-14-98-227-126.ngrok.io',
+const socket = io(
+  'http://2f8e-2409-4050-e81-87f1-8dd5-dd02-7b4f-644e.ngrok.io',
   {
-    query: {token: 'sanjiv@gmail.com'},
+    query: {token: auth().currentUser.email},
     path: '/socket.io',
   },
-  // {
-  //   forceNew: true,
-  // },
-  // {
-  //   transports: ['websocket', 'polling', 'flashsocket'],
-  // },
+  {
+    forceNew: true,
+  },
+  {
+    transports: ['websocket', 'polling', 'flashsocket'],
+  },
 );
 
 export const GlobalContext = React.createContext();
@@ -50,6 +50,9 @@ const App = () => {
   }, []);
 
   React.useEffect(() => {
+    console.log(
+      '______________________________________________________________________',
+    );
     socket.on('connect', () => {
       console.log('socket connected', socket.id); // "G5p5..."
     });
@@ -57,6 +60,10 @@ const App = () => {
       console.log('socket disconnected');
       socket.connect();
     });
+
+    return () => {
+      console.log('+++++++++++++++++++++++unmount++++++++++++++++++++++');
+    };
   }, [socket]);
 
   // React.useEffect(() => {

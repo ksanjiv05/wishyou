@@ -15,7 +15,7 @@ function Message({route}) {
       'message',
       {
         sender: sender,
-        receiver: receiver,
+        receiver: '4W7rnNgVp3CIKOBgAAAD',
         message: message,
         type: 'text',
       },
@@ -24,6 +24,20 @@ function Message({route}) {
       },
     );
   };
+
+  React.useEffect(() => {
+    socket.on('message', data => {
+      console.log(
+        '---------------------------message-------------------------------',
+        data,
+      );
+      // socket.connect();
+    });
+    socket.on('disconnect', () => {
+      console.log('socket disconnected');
+      socket.connect();
+    });
+  }, [socket]);
 
   return (
     <View>
