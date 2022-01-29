@@ -2,7 +2,6 @@ import React from 'react';
 import {
   View,
   ImageBackground,
-  TouchableOpacity,
   TextInput,
   Animated,
   PanResponder,
@@ -12,12 +11,11 @@ import {
 
 import Colors from '../config/Colors';
 import Fonts from '../config/Fonts';
-import Feather from 'react-native-vector-icons/Feather';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ToolBox from '../components/ToolBox';
 import RoundedButton from '../components/RoundedButton';
 import IconButton from '../components/IconButton';
+import MoveIcon from '../components/MoveIcon';
 
 LogBox.ignoreAllLogs();
 
@@ -256,7 +254,7 @@ const EditCard = ({navigation, route}) => {
       {/**full card with background */}
 
       <ImageBackground
-        style={{flex: 1}}
+        style={{flex: 1, width: '100%'}}
         resizeMode="cover"
         source={{uri: card?.background}}>
         <KeyboardAwareScrollView
@@ -289,24 +287,7 @@ const EditCard = ({navigation, route}) => {
               onChangeText={value => setTitle(value)}
               onFocus={() => setSelectedLine('title')}
             />
-            <View
-              {...titlePanResponder.panHandlers}
-              style={{
-                position: 'absolute',
-                width: 30,
-                height: 30,
-                backgroundColor: Colors.white,
-                alignItems: 'center',
-                justifyContent: 'center',
-                opacity: 0.5,
-                borderRadius: 5,
-                right: 30,
-                top: 35,
-                borderColor: Colors.lightGray,
-                borderWidth: 1,
-              }}>
-              <Feather name="move" size={20} color={Colors.primary} />
-            </View>
+            <MoveIcon mover={titlePanResponder.panHandlers} />
           </Animated.View>
 
           <Animated.View
@@ -329,24 +310,7 @@ const EditCard = ({navigation, route}) => {
               placeholderTextColor={Colors.lightBlack}
               onFocus={() => setSelectedLine('text')}
             />
-            <View
-              {...textPanResponder.panHandlers}
-              style={{
-                position: 'absolute',
-                width: 30,
-                height: 30,
-                backgroundColor: Colors.white,
-                alignItems: 'center',
-                justifyContent: 'center',
-                opacity: 0.5,
-                borderRadius: 5,
-                right: 30,
-                top: 35,
-                borderColor: Colors.lightGray,
-                borderWidth: 1,
-              }}>
-              <Feather name="move" size={20} color={Colors.primary} />
-            </View>
+            <MoveIcon mover={textPanResponder.panHandlers} />
           </Animated.View>
 
           <Animated.View
@@ -372,24 +336,7 @@ const EditCard = ({navigation, route}) => {
               placeholderTextColor={Colors.lightBlack}
               onFocus={() => setSelectedLine('tagline')}
             />
-            <View
-              {...taglinePanResponder.panHandlers}
-              style={{
-                position: 'absolute',
-                width: 30,
-                height: 30,
-                backgroundColor: Colors.white,
-                alignItems: 'center',
-                justifyContent: 'center',
-                opacity: 0.5,
-                borderRadius: 5,
-                right: 30,
-                top: 35,
-                borderColor: Colors.lightGray,
-                borderWidth: 1,
-              }}>
-              <Feather name="move" size={20} color={Colors.primary} />
-            </View>
+            <MoveIcon mover={taglinePanResponder.panHandlers} />
           </Animated.View>
         </KeyboardAwareScrollView>
       </ImageBackground>

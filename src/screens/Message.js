@@ -25,6 +25,16 @@ function Message({route}) {
     );
   };
 
+  React.useEffect(() => {
+    socket.on('message', data => {
+      console.log(
+        '---------------------------message-------------------------------',
+        data,
+      );
+      // socket.connect();
+    });
+  }, []);
+
   return (
     <View>
       <Text>hii</Text>
