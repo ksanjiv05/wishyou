@@ -12,9 +12,12 @@ import {
 } from 'react-native';
 import Colors from '../config/Colors';
 import RoundedButton from '../components/RoundedButton';
+import IconButton from '../components/IconButton';
 
 import {captureRef} from 'react-native-view-shot';
 import CameraRoll from '@react-native-community/cameraroll';
+import auth from '@react-native-firebase/auth';
+import {saveCard} from '../apis/card';
 
 const Preview = ({navigation, route}) => {
   const card = route?.params?.card;
@@ -74,6 +77,35 @@ const Preview = ({navigation, route}) => {
     } catch (error) {
       console.log('error', error);
     }
+  };
+
+  const saveData = async () => {
+    const data = {
+      uid: auth().currentUser.email,
+      tag: "Mother's Day",
+      title: card.text.title,
+      text: card.text.text,
+      tagline: card.text.tagline,
+      background: card.background,
+      format: card.format,
+      position: {
+        title: {
+          x: card.position.title.x?.__getValue() || card.position.title.x,
+          y: card.position.title.y?.__getValue() || card.position.title.y,
+        },
+        text: {
+          x: card.position.text.x?.__getValue() || card.position.text.x,
+          y: card.position.text.y?.__getValue() || card.position.text.y,
+        },
+        tagline: {
+          x: card.position.tagline.x?.__getValue() || card.position.tagline.x,
+          y: card.position.tagline.y?.__getValue() || card.position.tagline.y,
+        },
+      },
+    };
+
+    const res = await saveCard(data);
+    console.log(res);
   };
 
   return (
@@ -160,8 +192,9 @@ const Preview = ({navigation, route}) => {
               justifyContent: 'space-around',
               flexDirection: 'row',
             }}>
-            <RoundedButton label="Save" onPress={downloadImage} />
-            <RoundedButton label="Share" onPress={() => {}} />
+            <IconButton icon="download" onPress={downloadImage} />
+            <RoundedButton label="Save" onPress={saveData} />
+            <RoundedButton label="Send" onPress={() => {}} />
           </View>
         </View>
       ) : (
