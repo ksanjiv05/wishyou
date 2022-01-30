@@ -33,7 +33,6 @@ const EditCard = ({navigation, route}) => {
     tagline: {x: 10, y: 10},
   });
   const height = Dimensions.get('window').height;
-  console.log(height);
 
   {
     /**title formatting */
