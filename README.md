@@ -138,3 +138,5 @@ default: Date.now,
 
 module.exports = mongoose.model("UserCard", userCardSchema);
 // email, uid, pic, name, accessArrayIds;
+
+bYM4Oq95cnz8ZWnI

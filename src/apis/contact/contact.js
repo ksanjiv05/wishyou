@@ -8,7 +8,7 @@ export const createContact = async data => {
     console.log('responce ', res.data);
     return res;
   } catch (error) {
-    console.log('Unable to register');
+    console.log('Unable to add contact');
     return null;
   }
 };
@@ -20,7 +20,7 @@ export const getContacts = async query => {
     console.log('responce ', res.data);
     return res;
   } catch (error) {
-    console.log('Unable to register');
+    console.log('Unable to get contacts');
     return null;
   }
 };
@@ -32,7 +32,7 @@ export const searchContact = async query => {
     console.log('responce ', res.data);
     return res;
   } catch (error) {
-    console.log('Unable to process request');
+    console.log('Unable to search  contact');
     return null;
   }
 };

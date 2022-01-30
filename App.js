@@ -110,14 +110,17 @@ const App = () => {
   if (initializing) return <ActivityIndicator />;
 
   return (
-    <NavigationContainer>
-      <StatusBar barStyle="light-content" />
-      <View style={{flex: 1}}>
-        <GlobalContext.Provider value={{socket}}>
-          <HomeStack user={user} />
-        </GlobalContext.Provider>
-      </View>
-    </NavigationContainer>
+    <View style={{flex: 1}}>
+      <StatusBar barStyle="light-content" backgroundColor="#FD3509" />
+
+      <NavigationContainer>
+        <View style={{flex: 1}}>
+          <GlobalContext.Provider value={{socket}}>
+            <HomeStack user={user} />
+          </GlobalContext.Provider>
+        </View>
+      </NavigationContainer>
+    </View>
   );
 };
 
