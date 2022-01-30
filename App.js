@@ -1,20 +1,13 @@
 import React from 'react';
-import {
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-} from 'react-native';
+import {StatusBar, View, ActivityIndicator} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import io from 'socket.io-client';
 // import messaging from '@react-native-firebase/messaging';
 import HomeStack from './src/navigation/HomeStack';
 import auth from '@react-native-firebase/auth';
 // import {updateFcmToken} from './src/apis/auth/auth';
 const socket = io(
-  'http://2f8e-2409-4050-e81-87f1-8dd5-dd02-7b4f-644e.ngrok.io',
+  'http://67c1-2409-4050-e81-87f1-7838-315b-b676-2ecd.ngrok.io',
   {
     query: {token: auth().currentUser.email},
     path: '/socket.io',
