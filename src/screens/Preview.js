@@ -9,6 +9,7 @@ import {
   Alert,
   Platform,
   ToastAndroid,
+  Share,
 } from 'react-native';
 import Colors from '../config/Colors';
 import RoundedButton from '../components/RoundedButton';
@@ -18,6 +19,8 @@ import {captureRef} from 'react-native-view-shot';
 import CameraRoll from '@react-native-community/cameraroll';
 import auth from '@react-native-firebase/auth';
 import {saveCard} from '../apis/card';
+import {showToast} from '../utils/toast';
+import {saveWishCard} from '../apis/wish-card';
 
 const Preview = ({navigation, route}) => {
   const card = route?.params?.card;
@@ -50,6 +53,45 @@ const Preview = ({navigation, route}) => {
     } catch (err) {
       // handle error as you please
       console.log('err', err);
+    }
+  };
+
+  const share = async () => {
+    try {
+      const uri = await captureRef(viewRef, {
+        format: 'png',
+        quality: 0.8,
+      });
+
+      if (Platform.OS === 'android') {
+        const granted = await getPermissionAndroid();
+        if (!granted) {
+          return;
+        }
+      }
+
+      const formData = new FormData();
+      formData.append('file', {
+        name: 'wishyou.png',
+        type: 'image/png',
+        uri,
+      });
+      formData.append('uid', 'test@gmail.com');
+      formData.append('wishyou', 'test2@gmail.com');
+      formData.append('tag', 'mothers day');
+      const res = await saveWishCard(formData);
+      if (!res) {
+        showToast('Unable to share card');
+        return;
+      }
+      if (res && res.status === 200) {
+        console.log('share able Link -', res.data.link);
+        Share.share({message: res.data.link});
+        showToast('you are able to share');
+        return;
+      }
+    } catch (error) {
+      console.log('error to share', error);
     }
   };
 
@@ -105,7 +147,15 @@ const Preview = ({navigation, route}) => {
     };
 
     const res = await saveCard(data);
-    console.log(res);
+    if (!res) {
+      showToast('Unable to your card! Please try again');
+      return;
+    }
+    if (res && res.status === 200) {
+      console.log(res.data);
+      showToast('your card is successfully saved for feature edit');
+      return;
+    }
   };
 
   return (
@@ -194,7 +244,7 @@ const Preview = ({navigation, route}) => {
             }}>
             <IconButton icon="download" onPress={downloadImage} />
             <RoundedButton label="Save" onPress={saveData} />
-            <RoundedButton label="Send" onPress={() => {}} />
+            <RoundedButton label="Send" onPress={share} />
           </View>
         </View>
       ) : (

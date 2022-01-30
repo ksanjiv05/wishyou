@@ -6,19 +6,19 @@ import io from 'socket.io-client';
 import HomeStack from './src/navigation/HomeStack';
 import auth from '@react-native-firebase/auth';
 // import {updateFcmToken} from './src/apis/auth/auth';
-const socket = io(
-  'http://67c1-2409-4050-e81-87f1-7838-315b-b676-2ecd.ngrok.io',
-  {
-    query: {token: auth().currentUser.email},
-    path: '/socket.io',
-  },
-  {
-    forceNew: true,
-  },
-  {
-    transports: ['websocket', 'polling', 'flashsocket'],
-  },
-);
+// const socket = io(
+//   'http://67c1-2409-4050-e81-87f1-7838-315b-b676-2ecd.ngrok.io',
+//   {
+//     query: {token: auth().currentUser.email},
+//     path: '/socket.io',
+//   },
+//   {
+//     forceNew: true,
+//   },
+//   {
+//     transports: ['websocket', 'polling', 'flashsocket'],
+//   },
+// );
 
 export const GlobalContext = React.createContext();
 
@@ -42,22 +42,17 @@ const App = () => {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  React.useEffect(() => {
-    console.log(
-      '______________________________________________________________________',
-    );
-    socket.on('connect', () => {
-      console.log('socket connected', socket.id); // "G5p5..."
-    });
-    socket.on('disconnect', () => {
-      console.log('socket disconnected');
-      socket.connect();
-    });
-
-    return () => {
-      console.log('+++++++++++++++++++++++unmount++++++++++++++++++++++');
-    };
-  }, [socket]);
+  //socket imp
+  // React.useEffect(() => {
+  //   socket.on('connect', () => {
+  //     console.log('socket connected', socket.id); // "G5p5..."
+  //   });
+  //   socket.on('disconnect', () => {
+  //     console.log('socket disconnected');
+  //     socket.connect();
+  //   });
+  // }, [socket]);
+  //end socket
 
   // React.useEffect(() => {
   //   user &&
@@ -108,7 +103,7 @@ const App = () => {
 
       <NavigationContainer>
         <View style={{flex: 1}}>
-          <GlobalContext.Provider value={{socket}}>
+          <GlobalContext.Provider value={{socket: null}}>
             <HomeStack user={user} />
           </GlobalContext.Provider>
         </View>

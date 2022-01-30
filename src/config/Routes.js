@@ -11,6 +11,7 @@ const Routes = {
   share: '/share',
   vshare: '/vshare',
   userCard: '/user/card',
+  wishYou: '/wishyou',
 };
 
 export default Routes;
