@@ -1,7 +1,7 @@
 import React from 'react';
 import {StatusBar, View, ActivityIndicator} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import io from 'socket.io-client';
+import Colors from './src/config/Colors';
 // import messaging from '@react-native-firebase/messaging';
 import HomeStack from './src/navigation/HomeStack';
 import auth from '@react-native-firebase/auth';
@@ -99,7 +99,7 @@ const App = () => {
 
   return (
     <View style={{flex: 1}}>
-      <StatusBar barStyle="light-content" backgroundColor="#FD3509" />
+      <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
 
       <NavigationContainer>
         <View style={{flex: 1}}>

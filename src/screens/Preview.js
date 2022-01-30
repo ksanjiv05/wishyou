@@ -21,11 +21,13 @@ import auth from '@react-native-firebase/auth';
 import {saveCard} from '../apis/card';
 import {showToast} from '../utils/toast';
 import {saveWishCard} from '../apis/wish-card';
+import Loader from '../components/Loader';
 
 const Preview = ({navigation, route}) => {
   const card = route?.params?.card;
   const {titleFormat, textFormat, taglineFormat} = card?.format;
   const position = card?.position;
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const viewRef = React.useRef();
 
@@ -57,6 +59,7 @@ const Preview = ({navigation, route}) => {
   };
 
   const share = async () => {
+    setIsLoading(true);
     try {
       const uri = await captureRef(viewRef, {
         format: 'png',
@@ -66,6 +69,7 @@ const Preview = ({navigation, route}) => {
       if (Platform.OS === 'android') {
         const granted = await getPermissionAndroid();
         if (!granted) {
+          showToast('Please grant permission to save file.');
           return;
         }
       }
@@ -76,27 +80,33 @@ const Preview = ({navigation, route}) => {
         type: 'image/png',
         uri,
       });
-      formData.append('uid', 'test@gmail.com');
+
+      formData.append('uid', auth().currentUser.email);
       formData.append('wishyou', 'test2@gmail.com');
       formData.append('tag', 'mothers day');
+
       const res = await saveWishCard(formData);
       if (!res) {
         showToast('Unable to share card');
+        setIsLoading(false);
         return;
       }
       if (res && res.status === 200) {
         console.log('share able Link -', res.data.link);
         Share.share({message: res.data.link});
-        showToast('you are able to share');
+        showToast('You can share your card.');
+        setIsLoading(false);
         return;
       }
     } catch (error) {
+      setIsLoading(false);
       console.log('error to share', error);
     }
   };
 
   // download image
   const downloadImage = async () => {
+    setIsLoading(true);
     try {
       // react-native-view-shot caputures component
       const uri = await captureRef(viewRef, {
@@ -107,6 +117,7 @@ const Preview = ({navigation, route}) => {
       if (Platform.OS === 'android') {
         const granted = await getPermissionAndroid();
         if (!granted) {
+          showToast('Please provide permission to save file.');
           return;
         }
       }
@@ -115,13 +126,16 @@ const Preview = ({navigation, route}) => {
       const image = CameraRoll.save(uri, 'photo');
       if (image) {
         ToastAndroid.show('Card saved successfully.', ToastAndroid.LONG);
+        setIsLoading(false);
       }
     } catch (error) {
       console.log('error', error);
+      setIsLoading(false);
     }
   };
 
   const saveData = async () => {
+    setIsLoading(true);
     const data = {
       uid: auth().currentUser.email,
       tag: "Mother's Day",
@@ -132,34 +146,55 @@ const Preview = ({navigation, route}) => {
       format: card.format,
       position: {
         title: {
-          x: card.position.title.x?.__getValue() || card.position.title.x,
-          y: card.position.title.y?.__getValue() || card.position.title.y,
+          x:
+            typeof card.position.title.x === 'object'
+              ? card.position.title.x?.__getValue()
+              : card.position.title.x,
+          y:
+            typeof card.position.title.y === 'object'
+              ? card.position.title.y?.__getValue()
+              : card.position.title.y,
         },
         text: {
-          x: card.position.text.x?.__getValue() || card.position.text.x,
-          y: card.position.text.y?.__getValue() || card.position.text.y,
+          x:
+            typeof card.position.text.x === 'object'
+              ? card.position.text.x?.__getValue()
+              : card.position.text.x,
+          y:
+            typeof card.position.text.y === 'object'
+              ? card.position.text.y?.__getValue()
+              : card.position.text.y,
         },
         tagline: {
-          x: card.position.tagline.x?.__getValue() || card.position.tagline.x,
-          y: card.position.tagline.y?.__getValue() || card.position.tagline.y,
+          x:
+            typeof card.position.tagline.x === 'object'
+              ? card.position.tagline.x?.__getValue()
+              : card.position.tagline.x,
+          y:
+            typeof card.position.tagline.y === 'object'
+              ? card.position.tagline.y?.__getValue()
+              : card.position.tagline.y,
         },
       },
     };
 
     const res = await saveCard(data);
     if (!res) {
-      showToast('Unable to your card! Please try again');
+      showToast('Unable to save your card! Please try again.');
+      setIsLoading(false);
       return;
     }
     if (res && res.status === 200) {
       console.log(res.data);
-      showToast('your card is successfully saved for feature edit');
+      showToast('Your card is saved successfully.');
+      setIsLoading(false);
       return;
     }
   };
 
   return (
     <>
+      {isLoading && <Loader text="Processing..." />}
       {card ? (
         <View style={{flex: 1}}>
           <View
