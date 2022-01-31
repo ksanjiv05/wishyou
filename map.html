@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #open {
+        height: 484px;
+        width: 100%;
+        position: absolute;
+
+        z-index: 111;
+        /* padding-left: 20px; */
+        font-family: monospace;
+        color: white;
+      }
+      .center-chart {
+        /* position: absolute; */
+        bottom: 0px;
+        left: 20;
+        width: 330px;
+        float: left;
+        margin-left: -89px;
+      }
+      .close {
+        position: absolute;
+        width: 45px;
+        height: 45px;
+        background-color: #000000;
+        top: 15px;
+        right: 50px;
+        text-align: center;
+        border-radius: 100px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .climg {
+        width: 45px;
+        height: 45px;
+        transform: rotate(45deg);
+        filter: invert(1);
+      }
+      .container {
+        width: 100%;
+        height: max-content;
+        background: #2d2727c7;
+      }
+      .conA {
+        width: 37%;
+        float: left;
+        /* background: royalblue; */
+        position: relative;
+      }
+      .conB {
+        width: 26%;
+        /* background: rgb(153, 160, 182); */
+        float: left;
+        position: relative;
+      }
+      .backg {
+        width: 100%;
+        height: 280px;
+        /* background-color: saddlebrown; */
+      }
+      .imageCon {
+        width: 100px;
+        height: 100px;
+        background-color: seagreevn;
+        margin-top: -50px;
+        border-radius: 69px;
+        overflow: hidden;
+      }
+      .TextCon {
+        width: 200px;
+        /* background: antiquewhite; */
+        height: 120px;
+        margin-top: 25px;
+        text-align: initial;
+        margin-left: 75px;
+      }
+      .chartCon {
+        width: 340px;
+        height: 340px;
+        /* background: #f1f1f1; */
+        margin-top: -200px;
+        border-radius: 200px;
+        position: relative;
+      }
+      .subhead {
+        font-size: 20px;
+        font-weight: 500;
+        color: white;
+        font-family: sans-serif;
+        text-transform: capitalize;
+      }
+      .title {
+        font-size: 24px;
+        font-weight: 500;
+        color: white;
+        font-family: sans-serif;
+        text-transform: capitalize;
+      }
+      .text {
+        font-size: 15px;
+        font-weight: 500;
+        color: white;
+        font-family: sans-serif;
+      }
+      #roller {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        text-align: center;
+        display: flex;
+        font-size: 34px;
+        font-weight: bold;
+        font-family: sans-serif;
+        color: white;
+        transform: translate(-50%, -50%);
+      }
+      .centerx {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+      @media screen and (max-width: 500px) {
+        .respon {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .chartCon {
+          margin-top: 0;
+        }
+        .conA {
+          height: auto;
+        }
+        .conB {
+          height: auto;
+        }
+        .conC {
+          margin-top: 100px;
+        }
+      }
+    </style>
+    <script
+      async
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGDTnpNJWkAd0_Qw7FBLUMQoG5kYxIIgY"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
+    <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+  </head>
+  <body style="overflow-x: hidden">
+    <div style="height: 480px; width: 100%">
+      <div id="open">
+        <div class="close" onclick="closeCon()">
+          <img
+            src="https://www.freepnglogos.com/uploads/plus-icon/plus-icon-plus-math-icon-download-icons-9.png"
+            class="climg"
+            alt="close"
+          />
+        </div>
+        <div class="container">
+          <div class="backg">
+            <!-- <img
+              src="https://static.wixstatic.com/media/be2920_48a0a2e49dd64ef397d628d084282b9f~mv2.png"
+              alt="back"
+              style="width: 100%; height: 100%"
+            /> -->
+          </div>
+          <div class="respon">
+            <div class="conA">
+              <div class="centerx">
+                <div class="imageCon">
+                  <img
+                    src="https://static.wixstatic.com/media/be2920_a8aa77f8f2884d6e90e3116e9707365b~mv2.png"
+                    alt="back"
+                    style="margin-top: 0px; width: 100%"
+                  />
+                </div>
+
+                <div class="TextCon">
+                  <div class="subhead" id="name">sanjiv kumar</div>
+                  <div
+                    class="title"
+                    id="company"
+                    style="text-transform: capitalize"
+                  >
+                    Inn
+                  </div>
+                  <div class="text" id="sector">sector/industry</div>
+                  <div class="text" id="sdate">sector/industry</div>
+
+                  <div class="text" id="status">status</div>
+                </div>
+              </div>
+            </div>
+            <div class="conB">
+              <div class="centerx">
+                <div class="chartCon">
+                  <div id="roller"></div>
+                  <canvas
+                    id="chart"
+                    style="margin-top: -5px; display: initial"
+                  ></canvas>
+                </div>
+                <div
+                  id="roller-text"
+                  class="subhead"
+                  style="margin-top: 20px"
+                ></div>
+              </div>
+            </div>
+            <div class="conC">
+              <div class="centerx">
+                <div class="imageCon">
+                  <img
+                    src="https://static.wixstatic.com/media/be2920_7f000485c8914e4b889ac4f58cc9eef9~mv2.png"
+                    alt="back"
+                    id="footimg"
+                    class="imageCon"
+                    style="margin-top: 0px"
+                  />
+                </div>
+
+                <div class="TextCon">
+                  <div class="subhead">
+                    <b style="color: #f90815" id="co">3.58</b> MTCO<sub>2</sub>
+                  </div>
+                  <div class="title" id="footprint">Footprint</div>
+                  <div class="text" id="scope">sector/industry</div>
+                  <div class="text" id="progress">status</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="map" style="height: 475px; width: 100%"></div>
+    </div>
+  </body>
+  <script>
+    let map;
+    // let marker;
+    let geocoder;
+    let charplot;
+    function closeCon() {
+      console.log('calling close');
+      document.getElementById('open').style.display = 'none';
+      charplot.destroy();
+    }
+    document.getElementById('open').style.display = 'none';
+
+    window.onmessage = event => {
+      if (event.data) {
+        document.getElementById('open').style.display = 'none';
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: {lat: -28.024, lng: 140.887},
+        });
+
+        geocoder = new google.maps.Geocoder();
+
+        const infoWindow = new google.maps.InfoWindow({
+          content: '',
+          disableAutoPan: true,
+        });
+
+        const zipCodes = ['89898', '816102', '800001'];
+        let markers = [];
+        Promise.all(
+          event.data.allData.map(async (v, i) => {
+            let position = await geocode({address: v.pin + ''}, v.pin + '');
+            console.log('marker ++++++++', v, position);
+            const marker = new google.maps.Marker({
+              map,
+            });
+            marker.setPosition(position);
+
+            map.setCenter(position);
+            marker.setMap(map);
+
+            marker.addListener('click', () => {
+              // infoWindow.setContent(label);
+              // infoWindow.open(map, marker);
+
+              chart({
+                ch1: v.ch1,
+                ch2: v.ch2,
+                others: v.others,
+              });
+              console.log('clicked on marker');
+            });
+            markers.push(marker);
+            return marker;
+          }),
+        ).then(values => {
+          console.log('all values ', values, markers);
+          new markerClusterer.MarkerClusterer({markers, map});
+        });
+
+        console.log('maekerss ', markers);
+      }
+    };
+
+    // chart({
+    //   ch1: [33, 56, 22, 1, 0],
+    //   ch2: [9],
+    //   others: {},
+    // });
+    function chart({ch1, ch2, others}) {
+      const {
+        name = '',
+        company = '',
+        sector = '',
+        sdate = '',
+        status = '',
+        footprint = '',
+        scope = '',
+        progress = '',
+        typeImg = '',
+        co = 0,
+      } = others;
+
+      document.getElementById('name').innerHTML = name;
+      document.getElementById('company').innerHTML = company;
+      document.getElementById('sector').innerHTML = sector;
+      document.getElementById('sdate').innerHTML = sdate;
+      document.getElementById('status').innerHTML = status;
+
+      document.getElementById('footprint').innerHTML = footprint;
+      document.getElementById('scope').innerHTML = scope;
+      document.getElementById('progress').innerHTML = progress;
+      document.getElementById('footimg').src = typeImg;
+      document.getElementById('co').innerHTML = co;
+      document.getElementById('co').style = 'color:#f90815;';
+      if (parseInt(co) < 0) {
+        document.getElementById('co').style = 'color:#3e942a;';
+      }
+
+      document.getElementById('open').style.display = 'block';
+      var ctx = document.getElementById('chart');
+      const factor = (ch1[0] + ch1[1] + ch1[2]) / (ch1[3] + ch1[4]);
+      const x1 = ch1[3] * factor;
+      const x2 = ch1[4] * factor;
+      // document.getElementById("roller").innerHTML = ch1[0];
+      charplot = new Chart(ctx, {
+        type: 'doughnut',
+        options: {
+          plugins: {
+            tooltip: {
+              // Disable the on-canvas tooltip
+              enabled: false,
+              external: function (context) {
+                // Tooltip Element
+                var tooltipEl = document.getElementById('chartjs-tooltip');
+                // Hide if no tooltip
+                var tooltipModel = context.tooltip;
+                function getBody(bodyItem) {
+                  // console.log("body item", bodyItem);
+                  return bodyItem.lines;
+                }
+                // Set Text
+                if (tooltipModel.body) {
+                  var titleLines = tooltipModel.title || [];
+                  // console.log("title", titleLines);
+                  var bodyLines = tooltipModel.body.map(getBody);
+                  bodyLines.forEach(function (body, i) {
+                    var colors = tooltipModel.labelColors[i];
+                    console.log(body, 'col', colors.backgroundColor);
+                    if (colors.backgroundColor == '#3e942a') {
+                      document.getElementById('roller').innerHTML = parseFloat(
+                        ch1[3],
+                      ).toFixed(2);
+                      document.getElementById('roller-text').innerHTML =
+                        'Carbon Offset';
+                    } else if (colors.backgroundColor == '#f90815') {
+                      document.getElementById('roller').innerHTML = parseFloat(
+                        ch1[4],
+                      ).toFixed(2);
+                      document.getElementById('roller-text').innerHTML =
+                        'Carbon Balance';
+                    } else if (colors.backgroundColor == '#4c4c4c') {
+                      document.getElementById('roller').innerHTML = parseFloat(
+                        body[0].split(':')[1],
+                      ).toFixed(2);
+                      document.getElementById('roller-text').innerHTML =
+                        'Scope1 Emission';
+                    } else if (colors.backgroundColor == '#686868') {
+                      document.getElementById('roller').innerHTML = parseFloat(
+                        body[0].split(':')[1],
+                      ).toFixed(2);
+                      document.getElementById('roller-text').innerHTML =
+                        'Scope2 Emission';
+                    } else if (colors.backgroundColor == '#7d7d7d') {
+                      document.getElementById('roller').innerHTML = parseFloat(
+                        body[0].split(':')[1],
+                      ).toFixed(2);
+                      document.getElementById('roller-text').innerHTML =
+                        'Scope3 Emission';
+                    } else if (colors.backgroundColor == '#e7b405') {
+                      document.getElementById('roller').innerHTML = parseFloat(
+                        body[0].split(':')[1],
+                      ).toFixed(2);
+                      document.getElementById('roller-text').innerHTML =
+                        'Carbon Negative';
+                    } else if (colors.backgroundColor == '#ffff9f') {
+                      document.getElementById('roller').innerHTML = '';
+                      document.getElementById('roller-text').innerHTML = '';
+                    }
+
+                    // alert(body);
+                  });
+                }
+              },
+            },
+          },
+          cutout: 90,
+          elements: {
+            arc: {
+              borderWidth: 0,
+            },
+          },
+        },
+        data: {
+          datasets: [
+            {
+              backgroundColor: ['#e7b405', '#ffff9f'],
+              data: ch2,
+              weight: 0.2,
+            },
+            {
+              backgroundColor: [
+                '#4c4c4c',
+                '#686868',
+                '#7d7d7d',
+                '#3e942a',
+                '#f90815',
+              ],
+              data: [ch1[0], ch1[1], ch1[2], x1, x2],
+            },
+          ],
+        },
+      });
+    }
+
+    async function geocode(request, label) {
+      const result = await geocoder.geocode(request);
+      const {results} = result;
+      console.log(results[0].geometry.location, 'result of address ', results);
+
+      return results[0].geometry.location;
+    }
+  </script>
+</html>

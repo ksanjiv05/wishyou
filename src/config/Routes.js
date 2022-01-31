@@ -1,5 +1,5 @@
 const Routes = {
-  url: 'http://67c1-2409-4050-e81-87f1-7838-315b-b676-2ecd.ngrok.io',
+  url: 'https://prerposedigital.herokuapp.com',
   ver: '/api/v0.0.1',
   register: '/user',
   fcm: '/fcm',
