@@ -28,10 +28,12 @@ const App = () => {
   const [user, setUser] = React.useState(null);
 
   // Handle user state changes
-  function onAuthStateChanged(user) {
+  async function onAuthStateChanged(user) {
     if (user) {
       setUser(user);
-      console.log(user);
+      const tok = await auth().currentUser.getIdToken();
+
+      console.log(user, '---', tok);
     }
 
     if (initializing) setInitializing(false);
