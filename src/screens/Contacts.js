@@ -24,6 +24,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Colors from '../config/Colors';
 import {showToast} from '../utils/toast';
 import PhoneContacts from 'react-native-contacts';
+import ContactItem from '../components/ContactItem';
 const screenHight = Dimensions.get('screen').height;
 
 const ModalContant = ({uid}) => {
@@ -188,75 +189,8 @@ function Contacts({navigation}) {
     getAllContacts();
   }, []);
 
-  const renderItem = ({item}) => {
-    //  <View>
-    //    <Text>{item}</Text>
-    //    {contacts.map(cobj => {
-    //      console.log(cobj.phone.includes(item) ? '' : 'invite', cobj.phone);
-    //      return <Text>{!cobj.phone.includes(item) ? '' : 'invite'}</Text>;
-    //    })}
-    //  </View>;
-    return (
-      <TouchableOpacity
-        style={{}}
-        onPress={() =>
-          //navigation.navigate('Message')
-          console.log('presseds', item)
-        }>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            backgroundColor: Colors.primary,
-            maxHeight: 60,
-            marginBottom: 5,
-            padding: 10,
-            marginHorizontal: 10,
-            borderRadius: 8,
-          }}>
-          <View
-            style={{
-              flex: 1,
-              maxWidth: 60,
-              alignContent: 'center',
-              justifyContent: 'center',
-            }}>
-            <View
-              style={{
-                backgroundColor: Colors.white,
-                borderRadius: 100,
-                width: 50,
-                height: 50,
-              }}></View>
-          </View>
-          <View style={{flex: 1, width: 50}}>
-            <Text style={{textTransform: 'capitalize', color: Colors.white}}>
-              sanjiv kumar
-            </Text>
-            <Text style={{color: Colors.white}}>12/03/2020</Text>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              maxWidth: 60,
-              alignContent: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text
-              style={{
-                paddingHorizontal: 8,
-                paddingVertical: 4,
-                color: Colors.primary,
-                backgroundColor: Colors.white,
-                borderRadius: 8,
-                textAlign: 'center',
-              }}>
-              Invite
-            </Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
+  const renderItem = ({item, index}) => {
+    return <ContactItem item={item} key={index} />;
   };
 
   return (
@@ -270,12 +204,10 @@ function Contacts({navigation}) {
         <>
           <View
             style={{
-              backgroundColor: Colors.lightGray,
               maxHeight: 70,
               flex: 1,
               paddingVertical: 10,
               paddingHorizontal: 20,
-              marginBottom: 10,
             }}>
             <TextInput
               placeholder="Search Your contact"
