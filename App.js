@@ -2,7 +2,7 @@ import React from 'react';
 import {StatusBar, View, ActivityIndicator} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import io from 'socket.io-client';
-// import messaging from '@react-native-firebase/messaging';
+import messaging from '@react-native-firebase/messaging';
 import HomeStack from './src/navigation/HomeStack';
 import auth from '@react-native-firebase/auth';
 // import {updateFcmToken} from './src/apis/auth/auth';
@@ -33,7 +33,7 @@ const App = () => {
       setUser(user);
       const tok = await auth().currentUser.getIdToken();
 
-      console.log(user, '---', tok);
+      // console.log(user, '---', tok);
     }
 
     if (initializing) setInitializing(false);
@@ -56,30 +56,30 @@ const App = () => {
   // }, [socket]);
   //end socket
 
-  // React.useEffect(() => {
-  //   user &&
-  //     messaging()
-  //       .getToken()
-  //       .then(token => {
-  //         console.log('your token ', token);
-  //         updateFcmToken({fcmToken: token, email: user.email});
-  //       })
-  //       .catch(err => {
-  //         console.log('unable to get token', err);
-  //       });
-  //   return messaging().onTokenRefresh(token => {
-  //     console.log('token ref', token);
-  //     updateFcmToken({fcmToken: token, email: user.email});
-  //   });
-  // }, [user]);
-  // React.useEffect(() => {
-  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
-  //     console.log('__________________', remoteMessage);
-  //     Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-  //   });
+  React.useEffect(() => {
+    user &&
+      messaging()
+        .getToken()
+        .then(token => {
+          console.log('your token ', token);
+          updateFcmToken({fcmToken: token, email: user.email});
+        })
+        .catch(err => {
+          console.log('unable to get token', err);
+        });
+    return messaging().onTokenRefresh(token => {
+      console.log('token ref', token);
+      updateFcmToken({fcmToken: token, email: user.email});
+    });
+  }, [user]);
+  React.useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log('__________________', remoteMessage);
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
 
-  //   return unsubscribe;
-  // }, []);
+    return unsubscribe;
+  }, []);
 
   // const config = {
   //   screens: {
@@ -115,3 +115,5 @@ const App = () => {
 };
 
 export default App;
+
+//cEiJzcljSjKMJMkqx20AfC:APA91bHrTI0_QqvQPcOAfKeZYagiqo1pqIDf8Qsr60xvDCo2R6uqxzYdNxTV4k60SBEo0V1arjQALiyViNDD_tYE-H4OW9T25uRWOr3M1WYCCylbRByCAoEqD-vWklPo7QHi-RPr47Io
