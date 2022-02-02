@@ -91,7 +91,7 @@ function Home({navigation}) {
   const renderCategories = () => {
     return (
       <>
-        <View style={{paddingVertical: 10, paddingLeft: 20}}>
+        <View style={{paddingVertical: 10}}>
           <FlatList
             showsVerticalScrollIndicator={false}
             horizontal
@@ -142,6 +142,16 @@ function Home({navigation}) {
 
   return (
     <View style={{flex: 1}}>
+      <View
+        style={{
+          paddingVertical: 10,
+          paddingHorizontal: 20,
+          backgroundColor: Colors.primary,
+        }}>
+        <Text style={{color: Colors.white, fontWeight: 'bold', fontSize: 22}}>
+          Wish You
+        </Text>
+      </View>
       {/**render categories */}
       {renderCategories()}
 

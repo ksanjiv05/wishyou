@@ -123,10 +123,8 @@ function RecentChatedContacts({navigation}) {
         <>
           <View
             style={{
-              backgroundColor: Colors.lightGray,
               maxHeight: 70,
               flex: 1,
-              marginBottom: 5,
               paddingVertical: 10,
               paddingHorizontal: 20,
             }}>
