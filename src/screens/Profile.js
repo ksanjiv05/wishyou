@@ -12,10 +12,12 @@ import {
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import Colors from '../config/Colors';
+import ImagePicker from 'react-native-image-crop-picker';
 
 import default_male from '../../assets/images/default-male.jpg';
 import default_female from '../../assets/images/default-female.jpg';
 import VerificationBadge from '../components/VerificationBadge';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 function Profile({navigation}) {
   const {width, height} = Dimensions.get('window');
@@ -36,6 +38,20 @@ function Profile({navigation}) {
 
   const handleChange = (key, value) => {
     setUser(prev => ({...prev, [key]: value}));
+  };
+
+  const picImage = () => {
+    try {
+      ImagePicker.openPicker({
+        width: 300,
+        height: 400,
+        cropping: true,
+      }).then(image => {
+        console.log(image);
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <>
@@ -60,6 +76,13 @@ function Profile({navigation}) {
                   height: height / 4,
                 }}>
                 <Image source={profile_pic} style={styles.image} />
+                <TouchableOpacity style={styles.upload} onPress={picImage}>
+                  <MaterialIcons
+                    name="photo-camera"
+                    size={30}
+                    color={Colors.primary}
+                  />
+                </TouchableOpacity>
               </View>
               {/**details */}
               <View style={{marginLeft: 10}}>
@@ -163,6 +186,18 @@ const styles = StyleSheet.create({
   btnText: {
     fontSize: 14,
     fontWeight: 'bold',
+  },
+  upload: {
+    position: 'absolute',
+    zIndex: 300,
+    bottom: 10,
+    right: 50,
+    width: 40,
+    height: 40,
+    backgroundColor: Colors.white,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
