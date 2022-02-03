@@ -144,13 +144,18 @@ function Home({navigation}) {
     <View style={{flex: 1}}>
       <View
         style={{
-          paddingVertical: 10,
+          paddingVertical: 13,
           paddingHorizontal: 20,
           backgroundColor: Colors.primary,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
         }}>
         <Text style={{color: Colors.white, fontWeight: 'bold', fontSize: 22}}>
           Wish You
         </Text>
+        <TouchableOpacity>
+          <FontAwesome name="bell" size={22} color={Colors.white} />
+        </TouchableOpacity>
       </View>
       {/**render categories */}
       {renderCategories()}

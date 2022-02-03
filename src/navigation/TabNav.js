@@ -6,8 +6,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 const Tab = createBottomTabNavigator();
 import Home from '../screens/Home';
-import Contacts from '../screens/Contacts';
-import Profile from '../screens/Profile';
+import ProfileOptions from '../screens/ProfileOptions';
 import Colors from '../config/Colors';
 import RecentChatedContacts from '../screens/RecentChatedContacts';
 
@@ -52,8 +51,8 @@ export default function TabNav() {
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={Profile}
+        name="ProfileOptions"
+        component={ProfileOptions}
         options={{
           tabBarIcon: ({size, color, focused}) => (
             <Entypo
