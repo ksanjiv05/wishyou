@@ -21,11 +21,12 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 function Profile({navigation}) {
   const {width, height} = Dimensions.get('window');
-  const profile_pic = auth().currentUser.photoURL
+  let pic = auth().currentUser.photoURL
     ? {uri: auth().currentUser.photoURL}
     : default_male;
 
   const [user, setUser] = React.useState({});
+  const [profile_pic, setProfilePic] = React.useState(pic);
 
   React.useEffect(() => {
     setUser({
@@ -47,7 +48,7 @@ function Profile({navigation}) {
         height: 400,
         cropping: true,
       }).then(image => {
-        console.log(image);
+        setProfilePic({uri: image.path});
       });
     } catch (err) {
       console.log(err);
