@@ -1,7 +1,7 @@
 const Routes = {
   url: 'http://134.255.216.211:4000', //'https://prerposedigital.herokuapp.com',
   ver: '/api/v0.0.1',
-  register: '/user',
+  user: '/user',
   fcm: '/fcm',
   //contacts
   contact: '/contact',
@@ -15,6 +15,7 @@ const Routes = {
   card: '/card',
   categories: '/categories',
   wishYou: '/wishyou',
+  notifications: '/notifications',
 };
 
 export default Routes;

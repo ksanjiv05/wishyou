@@ -75,15 +75,6 @@ const App = () => {
     });
   }, [user]);
 
-  React.useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('__________________', remoteMessage);
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
-
-    return unsubscribe;
-  }, []);
-
   // const config = {
   //   screens: {
   //     AddContact: {
