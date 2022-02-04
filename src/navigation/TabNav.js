@@ -10,6 +10,7 @@ import Contacts from '../screens/Contacts';
 import Profile from '../screens/Profile';
 import Colors from '../config/Colors';
 import RecentChatedContacts from '../screens/RecentChatedContacts';
+import WishYou from '../screens/WishYou';
 
 export default function TabNav() {
   return (
@@ -35,13 +36,13 @@ export default function TabNav() {
         }}
       />
       <Tab.Screen
-        name="RecentChatedContacts"
-        component={RecentChatedContacts}
+        name="WishYou"
+        component={WishYou}
         options={{
           headerShown: true,
           headerStyle: {backgroundColor: Colors.primary},
           headerTintColor: Colors.white,
-          title: 'Recent Chats',
+          title: 'Wish You',
           tabBarIcon: ({size, color, focused}) => (
             <MaterialIcons
               name="contacts"
