@@ -169,7 +169,7 @@ function Home({navigation}) {
     if (!selectedCard) {
       ToastAndroid.show('Please select a card to edit.', ToastAndroid.LONG);
     } else {
-      const card = cards.filter(c => c.id === selectedCard);
+      const card = tempCards.filter(c => c._id === selectedCard);
       navigation.push('EditCard', {card: card[0]});
     }
   };

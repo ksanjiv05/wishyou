@@ -16,11 +16,15 @@ import ToolBox from '../components/ToolBox';
 import RoundedButton from '../components/RoundedButton';
 import IconButton from '../components/IconButton';
 import MoveIcon from '../components/MoveIcon';
+import Routes from '../config/Routes';
+
+const cardURL = Routes.url + Routes.ver + Routes.card + '?cardId=';
 
 LogBox.ignoreAllLogs();
 
 const EditCard = ({navigation, route}) => {
   const card = route?.params?.card;
+  console.log('edit card ', card);
   const [showToolBox, setShowToolBox] = React.useState(false);
   const [selectedLine, setSelectedLine] = React.useState('title');
   const [showColor, setShowColor] = React.useState(false);
@@ -240,7 +244,7 @@ const EditCard = ({navigation, route}) => {
 
   const handlePreview = () => {
     const previewData = {
-      background: card.background,
+      background: cardURL + card?._id,
       position: position,
       format: {titleFormat, textFormat, taglineFormat},
       text: {title, text, tagline},
@@ -255,7 +259,7 @@ const EditCard = ({navigation, route}) => {
       <ImageBackground
         style={{flex: 1, width: '100%'}}
         resizeMode="cover"
-        source={{uri: card?.background}}>
+        source={{uri: cardURL + card?._id}}>
         <KeyboardAwareScrollView
           bounces={false}
           enableOnAndroid={true}
