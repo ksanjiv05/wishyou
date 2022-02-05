@@ -11,3 +11,13 @@ export const saveWishCard = async data => {
     return null;
   }
 };
+
+export const getWishCards = async data => {
+  try {
+    const res = await axios.get(base + Routes.wishYous, data);
+    return res;
+  } catch (error) {
+    console.log('Unable to get wishes', error);
+    return null;
+  }
+};

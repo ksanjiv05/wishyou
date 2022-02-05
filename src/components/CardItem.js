@@ -6,11 +6,13 @@ import {
   ImageBackground,
 } from 'react-native';
 import Colors from '../config/Colors';
+import Routes from '../config/Routes';
+const cardURL = Routes.url + Routes.ver + Routes.card + '?cardId=';
 
 const CardItem = ({onPress, card, active}) => {
   const height = Dimensions.get('screen').height;
   const width = Dimensions.get('screen').width;
-
+  // console.log('_________', cardURL + card?._id);
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -29,7 +31,7 @@ const CardItem = ({onPress, card, active}) => {
       }}>
       {card?.background !== '' && (
         <ImageBackground
-          source={{uri: card?.background}}
+          source={{uri: cardURL + card?._id}}
           style={{
             position: 'absolute',
             top: 0,

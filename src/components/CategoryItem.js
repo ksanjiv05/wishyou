@@ -18,7 +18,7 @@ const CategoryItem = ({onPress, category, active}) => {
           color: active ? Colors.white : Colors.black,
           fontWeight: '700',
         }}>
-        {category?.name}
+        {category?.tagDisplayName}
       </Text>
     </TouchableOpacity>
   );

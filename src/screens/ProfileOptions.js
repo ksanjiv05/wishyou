@@ -45,14 +45,27 @@ const ProfileOptions = ({navigation}) => {
 
       {/**import links */}
       <View style={styles.linksContainer}>
-        <RoundedButton
-          label="Profile"
-          style={styles.btn}
-          onPress={() => navigation.navigate('Profile')}
-        />
-        <RoundedButton label="Notifications" style={styles.btn} />
-        <RoundedButton label="Settings" style={styles.btn} />
-        <RoundedButton label="Feedback" style={styles.btn} />
+        <View>
+          <RoundedButton
+            label="Profile"
+            style={styles.btn}
+            onPress={() => navigation.navigate('Profile')}
+          />
+          <RoundedButton
+            label="Settings"
+            style={styles.btn}
+            onPress={() => navigation.navigate('Settings')}
+          />
+          <RoundedButton
+            label="Feedback"
+            style={styles.btn}
+            onPress={() => navigation.navigate('Feedback')}
+          />
+        </View>
+        <View style={{alignItems: 'center'}}>
+          <Text>Wish You</Text>
+          <Text>v0.0.1</Text>
+        </View>
       </View>
     </View>
   );
@@ -83,6 +96,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
     overflow: 'hidden',
     padding: 20,
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   btn: {
     alignItems: 'center',

@@ -11,6 +11,8 @@ import Preview from '../screens/Preview';
 import Colors from '../config/Colors';
 import Contacts from '../screens/Contacts';
 import Profile from '../screens/Profile';
+import Settings from '../screens/Settings';
+import Feedback from '../screens/Feedback';
 
 const Stack = createNativeStackNavigator();
 
@@ -74,6 +76,24 @@ function HomeStack({user}) {
             }}
             name="Profile"
             component={Profile}
+          />
+          <Stack.Screen
+            name="Settings"
+            options={{
+              headerShown: true,
+              headerStyle: {backgroundColor: Colors.primary},
+              headerTintColor: Colors.white,
+            }}
+            component={Settings}
+          />
+          <Stack.Screen
+            name="Feedback"
+            options={{
+              headerShown: true,
+              headerStyle: {backgroundColor: Colors.primary},
+              headerTintColor: Colors.white,
+            }}
+            component={Feedback}
           />
         </>
       ) : (
