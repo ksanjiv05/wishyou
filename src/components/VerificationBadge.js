@@ -4,18 +4,24 @@ import Colors from '../config/Colors';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 
-const VerificationBadge = ({status}) => {
+const VerificationBadge = ({status, icon}) => {
   return (
-    <View style={{flexDirection: 'row', marginTop: 2}}>
+    <View
+      style={{flexDirection: 'row', marginTop: 2, justifyContent: 'center'}}>
       {status ? (
         <MaterialIcons name="verified" color={Colors.primary} size={20} />
       ) : (
         <Octicons name="issue-opened" color={Colors.black} size={20} />
       )}
-      <Text
-        style={{color: status ? Colors.primary : Colors.black, marginLeft: 5}}>
-        {status ? 'Verified' : 'Not Verified'}
-      </Text>
+      {!icon && (
+        <Text
+          style={{
+            color: status ? Colors.primary : Colors.black,
+            marginLeft: 5,
+          }}>
+          {status ? 'Verified' : 'Not Verified'}
+        </Text>
+      )}
     </View>
   );
 };
