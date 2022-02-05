@@ -1,12 +1,24 @@
 import React from 'react';
 import {View, Text, FlatList, TextInput, ToastAndroid} from 'react-native';
+import {getWishCards} from '../apis/wish-card';
 
 import CategoryItem from '../components/CategoryItem';
 import Colors from '../config/Colors';
 
 function WishYou({navigation}) {
   const [selected, setSelected] = React.useState('382438');
-  const [selectedCard, setSelectedCard] = React.useState(null);
+  const [wishes, setWishes] = React.useState([]);
+
+  async function fetchWishes() {
+    const wishes = getWishCards({skip: 0});
+    if (responce && responce.status === 200) {
+      setWishes(responce.data.categories[0]._id);
+    }
+  }
+
+  React.useEffect(() => {
+    fetchWishes();
+  }, []);
 
   const renderCards = () => {
     return (
@@ -15,7 +27,7 @@ function WishYou({navigation}) {
           showsVerticalScrollIndicator={false}
           horizontal={false}
           keyExtractor={item => item.id}
-          data={[]}
+          data={wishes}
           renderItem={({item}) => (
             <View></View>
             // <CardItem
