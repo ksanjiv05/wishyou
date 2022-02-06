@@ -79,9 +79,9 @@ const ProfileOptions = ({navigation}) => {
             onPress={() => navigation.navigate('Feedback')}
           />
           <RoundedButton
-            label="Sign Out"
+            label="Contacts"
             style={styles.btn}
-            onPress={singOut}
+            onPress={() => navigation.navigate('Contacts')}
           />
         </View>
         <View style={{alignItems: 'center'}}>
