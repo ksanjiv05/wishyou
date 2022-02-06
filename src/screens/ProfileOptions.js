@@ -37,11 +37,6 @@ const ProfileOptions = ({navigation}) => {
       });
   };
 
-  const singOut = async () => {
-    const res = await auth().signOut();
-    console.log('__________________singout______________', res);
-  };
-
   return (
     <View style={{flex: 1}}>
       <View style={{alignItems: 'center', marginTop: 10}}>
@@ -83,6 +78,18 @@ const ProfileOptions = ({navigation}) => {
             label="Feedback"
             style={styles.btn}
             onPress={() => navigation.navigate('Feedback')}
+          />
+          {!user?.verified && (
+            <RoundedButton
+              label="Verify"
+              style={styles.btn}
+              onPress={verifyEmail}
+            />
+          )}
+          <RoundedButton
+            label="Logout"
+            style={styles.btn}
+            onPress={() => auth().signOut()}
           />
         </View>
         <View style={{alignItems: 'center'}}>

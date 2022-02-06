@@ -5,15 +5,22 @@ import messaging from '@react-native-firebase/messaging';
 import {getNotifications} from '../apis/notification/notification';
 import Colors from '../config/Colors';
 import noNotification from '../../assets/images/no-notification.png';
+import Loader from '../components/Loader';
 
 const Notifications = ({navigation}) => {
   const [notifications, setNotifications] = React.useState([]);
   const [refresh, setRefresh] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+
   async function fetchData() {
+    notifications?.length === 0 && setIsLoading(true);
     const responce = await getNotifications('?uid=test2@gmail.com');
     if (responce && responce.status === 200) {
       setNotifications(responce.data.notifications);
       setRefresh(false);
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
     }
   }
   React.useEffect(() => {
@@ -30,6 +37,7 @@ const Notifications = ({navigation}) => {
 
   return (
     <>
+      {isLoading && <Loader />}
       <View
         style={{
           flex: 1,
