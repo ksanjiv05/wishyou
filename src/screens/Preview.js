@@ -3,13 +3,11 @@ import {
   View,
   Text,
   ImageBackground,
-  ActivityIndicator,
   Animated,
   PermissionsAndroid,
   Alert,
   Platform,
   ToastAndroid,
-  Share,
 } from 'react-native';
 import Colors from '../config/Colors';
 import RoundedButton from '../components/RoundedButton';
@@ -17,12 +15,11 @@ import IconButton from '../components/IconButton';
 
 import {captureRef} from 'react-native-view-shot';
 import CameraRoll from '@react-native-community/cameraroll';
-import auth from '@react-native-firebase/auth';
-import {saveCard} from '../apis/card';
 import {showToast} from '../utils/toast';
-import {saveWishCard} from '../apis/wish-card';
 import Loader from '../components/Loader';
 import ShareView from '../components/ShareView';
+import Share from 'react-native-share';
+import Routes from '../config/Routes';
 
 const Preview = ({navigation, route}) => {
   const card = route?.params?.card;
@@ -60,56 +57,36 @@ const Preview = ({navigation, route}) => {
     }
   };
 
-  const share = async () => {
-    //open
+  const shareToOthers = async () => {
     setIsLoading(true);
     try {
       const uri = await captureRef(viewRef, {
         format: 'png',
         quality: 0.8,
       });
-
-      if (Platform.OS === 'android') {
-        const granted = await getPermissionAndroid();
-        if (!granted) {
-          showToast('Please grant permission to save file.');
-          return;
-        }
-      }
-
-      const formData = new FormData();
-      formData.append('file', {
-        name: 'wishyou.png',
-        type: 'image/png',
-        uri,
-      });
-
-      formData.append('uid', auth().currentUser.email);
-      formData.append('wishyou', 'test2@gmail.com');
-      formData.append('tag', 'mothers day');
-
-      const res = await saveWishCard(formData);
-      if (!res) {
-        showToast('Unable to share card');
-        setIsLoading(false);
-        return;
-      }
-      if (res && res.status === 200) {
-        console.log('share able Link -', res.data.link);
-        Share.share({message: res.data.link});
-        showToast('You can share your card.');
-        setIsLoading(false);
-        return;
+      if (uri) {
+        Share.open({
+          message:
+            'WOW, I am sharing you this card using Wish You App. Download App 👉' +
+            Routes.url,
+          url: uri,
+        })
+          .then(res => {
+            setIsLoading(false);
+          })
+          .catch(err => {
+            console.log(err);
+            setIsLoading(false);
+          });
       }
     } catch (error) {
+      console.log('error', error);
       setIsLoading(false);
-      console.log('error to share', error);
     }
   };
 
   // download image
   const downloadImage = async () => {
-    setIsLoading(true);
     try {
       // react-native-view-shot caputures component
       const uri = await captureRef(viewRef, {
@@ -127,79 +104,20 @@ const Preview = ({navigation, route}) => {
 
       // cameraroll saves image
       const image = CameraRoll.save(uri, 'photo');
+
       if (image) {
         ToastAndroid.show('Card saved successfully.', ToastAndroid.LONG);
-        setIsLoading(false);
       }
     } catch (error) {
       console.log('error', error);
-      setIsLoading(false);
-    }
-  };
-
-  const saveData = async () => {
-    setIsLoading(true);
-    const data = {
-      uid: auth().currentUser.email,
-      tag: "Mother's Day",
-      title: card.text.title,
-      text: card.text.text,
-      tagline: card.text.tagline,
-      background: card.background,
-      format: card.format,
-      position: {
-        title: {
-          x:
-            typeof card.position.title.x === 'object'
-              ? card.position.title.x?.__getValue()
-              : card.position.title.x,
-          y:
-            typeof card.position.title.y === 'object'
-              ? card.position.title.y?.__getValue()
-              : card.position.title.y,
-        },
-        text: {
-          x:
-            typeof card.position.text.x === 'object'
-              ? card.position.text.x?.__getValue()
-              : card.position.text.x,
-          y:
-            typeof card.position.text.y === 'object'
-              ? card.position.text.y?.__getValue()
-              : card.position.text.y,
-        },
-        tagline: {
-          x:
-            typeof card.position.tagline.x === 'object'
-              ? card.position.tagline.x?.__getValue()
-              : card.position.tagline.x,
-          y:
-            typeof card.position.tagline.y === 'object'
-              ? card.position.tagline.y?.__getValue()
-              : card.position.tagline.y,
-        },
-      },
-    };
-
-    const res = await saveCard(data);
-    if (!res) {
-      showToast('Unable to save your card! Please try again.');
-      setIsLoading(false);
-      return;
-    }
-    if (res && res.status === 200) {
-      console.log(res.data);
-      showToast('Your card is saved successfully.');
-      setIsLoading(false);
-      return;
     }
   };
 
   return (
     <>
       {isLoading && <Loader text="Processing..." />}
-      {shareView && <ShareView />}
-      {card ? (
+      {shareView && <ShareView close={() => setShareView(false)} card={card} />}
+      {card && !shareView && (
         <View style={{flex: 1}}>
           <View
             style={{flex: 1, backgroundColor: Colors.primary}}
@@ -282,15 +200,10 @@ const Preview = ({navigation, route}) => {
               flexDirection: 'row',
             }}>
             <IconButton icon="download" onPress={downloadImage} />
-            <RoundedButton label="Save" onPress={saveData} />
+            <RoundedButton label="Share" onPress={shareToOthers} />
             <RoundedButton label="Send" onPress={() => setShareView(true)} />
           </View>
         </View>
-      ) : (
-        <ActivityIndicator
-          style={{flex: 1, backgroundColor: Colors.white}}
-          color={Colors.primary}
-        />
       )}
     </>
   );

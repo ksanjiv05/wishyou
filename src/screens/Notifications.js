@@ -13,7 +13,7 @@ const Notifications = ({navigation}) => {
   const [isLoading, setIsLoading] = React.useState(false);
 
   async function fetchData() {
-    setIsLoading(true);
+    notifications?.length === 0 && setIsLoading(true);
     const responce = await getNotifications('?uid=test2@gmail.com');
     if (responce && responce.status === 200) {
       setNotifications(responce.data.notifications);
