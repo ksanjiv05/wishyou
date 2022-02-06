@@ -20,12 +20,14 @@ function Home({navigation}) {
   const [cards, setCards] = React.useState([]);
   const [tempCards, setTempCards] = React.useState([]);
   const [categories, setCategories] = React.useState([]);
+  const [refresh, setRefresh] = React.useState(false);
 
   async function fetchData() {
     const responce = await getCards({skip: 0});
     if (responce && responce.status === 200) {
       setCards(responce.data.cards);
       setTempCards(responce.data.cards);
+      setRefresh(false);
     }
   }
   async function fetchCategory() {
@@ -35,10 +37,11 @@ function Home({navigation}) {
       setSelected(responce.data.categories[0]._id);
     }
   }
+
   React.useEffect(() => {
     fetchCategory();
     fetchData();
-  }, []);
+  }, [refresh]);
 
   const onSelect = tag => {
     setSelected(tag);
@@ -77,6 +80,8 @@ function Home({navigation}) {
     return (
       <View style={{paddingVertical: 10, paddingHorizontal: 20}}>
         <FlatList
+          refreshing={refresh}
+          onRefresh={() => setRefresh(true)}
           showsVerticalScrollIndicator={false}
           horizontal={false}
           keyExtractor={item => item._id}

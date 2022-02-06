@@ -14,10 +14,20 @@ export const saveWishCard = async data => {
 
 export const getWishCards = async data => {
   try {
-    const res = await axios.get(base + Routes.wishYous, data);
+    const res = await axios.get(base + Routes.wishYous + data);
     return res;
   } catch (error) {
     console.log('Unable to get wishes', error);
+    return null;
+  }
+};
+
+export const getCard = async data => {
+  try {
+    const res = await axios.get(base + Routes.userCard + data);
+    return res;
+  } catch (error) {
+    console.log('Unable to get card', error);
     return null;
   }
 };

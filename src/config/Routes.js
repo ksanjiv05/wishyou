@@ -16,7 +16,7 @@ const Routes = {
   card: '/card',
   categories: '/categories',
   wishYou: '/wishyou',
-  wishYous: '/wishyous',
+  wishYous: '/user/cards',
   notifications: '/notifications',
   feedback: '/feedback',
 };
