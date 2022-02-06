@@ -214,6 +214,7 @@ function Register({navigation}) {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
+              display: 'none',
             }}>
             <FontAwesome name="facebook" size={30} color={Colors.primary} />
             <FontAwesome

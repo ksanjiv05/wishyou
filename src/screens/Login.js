@@ -43,30 +43,13 @@ const loginCall = async ({email = '', password = ''}, navigation) => {
     });
 };
 
-const handleForget = email => {
-  // setLoginState(false);
-  if (email.length < 5) {
-    showToast('Please enter registred email');
-    return false;
-  }
-  auth()
-    .sendPasswordResetEmail(email)
-    .then(() => {
-      showToast('Reset link successfully send to your email');
-      console.log('link send');
-    })
-    .catch(error => {
-      showToast('Unable to send reset link');
-      console.log(error.code);
-    });
-};
-
 function Login({navigation}) {
   const [data, setData] = React.useState({
     email: '',
     password: '',
   });
   const [loader, setLoader] = React.useState(false);
+  const [isLogin, setIsLogin] = React.useState(true);
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleChange = (key, text) => {
@@ -78,8 +61,32 @@ function Login({navigation}) {
     const res = await loginCall(data, navigation);
     if (res) {
       setLoader(false);
+    } else {
+      setLoader(false);
     }
   };
+
+  const handleForget = email => {
+    setLoader(true);
+    if (email.length < 5) {
+      showToast('Please enter registred email');
+      return false;
+    }
+    auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        showToast('Reset link successfully send to your email');
+        console.log('link send');
+        setLoader(false);
+        setIsLogin(true);
+      })
+      .catch(error => {
+        showToast('Unable to send reset link');
+        console.log(error.code);
+        setLoader(false);
+      });
+  };
+
   return (
     <KeyboardAwareScrollView>
       <View style={{flex: 1, backgroundColor: Colors.white}}>
@@ -90,14 +97,18 @@ function Login({navigation}) {
           </Text>
         </View>
         {/**login title */}
-        <View style={{marginTop: 80, paddingHorizontal: 30}}>
-          <Text style={{color: Colors.black, fontSize: 20}}>
-            Welcome Back🥰
-          </Text>
-          <Text style={{color: Colors.black, marginTop: 5}}>
-            You are one step away to whish your loved ones.
-          </Text>
-        </View>
+        {isLogin ? (
+          <View style={{marginTop: 80, paddingHorizontal: 30}}>
+            <Text style={{color: Colors.black, fontSize: 20}}>
+              Welcome Back🥰
+            </Text>
+            <Text style={{color: Colors.black, marginTop: 5}}>
+              You are one step away to whish your loved ones.
+            </Text>
+          </View>
+        ) : (
+          <></>
+        )}
 
         {/**Login form content */}
         <View style={{marginTop: 30, paddingHorizontal: 30}}>
@@ -114,36 +125,40 @@ function Login({navigation}) {
           </View>
 
           {/**password */}
-          <View style={{marginTop: 10}}>
-            <Text style={{color: Colors.black}}>Password</Text>
-            <TextInput
-              secureTextEntry={!showPassword}
-              style={styles.input}
-              placeholderTextColor={Colors.lightBlack}
-              placeholder="Your Password"
-              value={data.password}
-              onChangeText={text => handleChange('password', text)}
-            />
-            {/**show or hide password */}
-            <TouchableOpacity
-              onPress={() => setShowPassword(!showPassword)}
-              style={{position: 'absolute', top: 35, right: 10}}>
-              {showPassword ? (
-                <FontAwesome name="eye" size={30} color={Colors.lightBlack} />
-              ) : (
-                <FontAwesome
-                  name="eye-slash"
-                  size={30}
-                  color={Colors.lightBlack}
-                />
-              )}
-            </TouchableOpacity>
-          </View>
+          {isLogin ? (
+            <View style={{marginTop: 10}}>
+              <Text style={{color: Colors.black}}>Password</Text>
+              <TextInput
+                secureTextEntry={!showPassword}
+                style={styles.input}
+                placeholderTextColor={Colors.lightBlack}
+                placeholder="Your Password"
+                value={data.password}
+                onChangeText={text => handleChange('password', text)}
+              />
+              {/**show or hide password */}
+              <TouchableOpacity
+                onPress={() => setShowPassword(!showPassword)}
+                style={{position: 'absolute', top: 35, right: 10}}>
+                {showPassword ? (
+                  <FontAwesome name="eye" size={30} color={Colors.lightBlack} />
+                ) : (
+                  <FontAwesome
+                    name="eye-slash"
+                    size={30}
+                    color={Colors.lightBlack}
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <></>
+          )}
           <TouchableOpacity
-            onPress={() => navigation.push('Register')}
+            onPress={() => setIsLogin(!isLogin)}
             style={{marginTop: 5}}>
             <Text style={{color: Colors?.primary, textAlign: 'right'}}>
-              Forgot Password?
+              {isLogin ? 'Forgot Password?' : 'Login'}
             </Text>
           </TouchableOpacity>
           {/**button */}
@@ -155,13 +170,15 @@ function Login({navigation}) {
               borderRadius: 10,
               alignItems: 'center',
             }}
-            onPress={handleLogin}>
+            onPress={() =>
+              isLogin ? handleLogin() : handleForget(data.email)
+            }>
             {loader ? (
               <ActivityIndicator color={Colors.white} />
             ) : (
               <Text
                 style={{color: Colors.white, fontWeight: '900', fontSize: 15}}>
-                Login
+                {isLogin ? 'Login' : 'Reset Password'}
               </Text>
             )}
           </TouchableOpacity>
@@ -198,6 +215,7 @@ function Login({navigation}) {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
+              display: 'none',
             }}>
             <FontAwesome name="facebook" size={25} color={Colors.primary} />
             <FontAwesome

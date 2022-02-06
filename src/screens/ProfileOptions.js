@@ -91,6 +91,11 @@ const ProfileOptions = ({navigation}) => {
             style={styles.btn}
             onPress={() => navigation.navigate('Contacts')}
           />
+          <RoundedButton
+            label="Singout"
+            style={styles.btn}
+            onPress={() => auth().signOut()}
+          />
         </View>
         <View style={{alignItems: 'center'}}>
           <Text style={{color: Colors.white}}>Wish You</Text>
