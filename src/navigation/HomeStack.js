@@ -13,10 +13,24 @@ import Contacts from '../screens/Contacts';
 import Profile from '../screens/Profile';
 import Settings from '../screens/Settings';
 import Feedback from '../screens/Feedback';
+import auth from '@react-native-firebase/auth';
 
 const Stack = createNativeStackNavigator();
 
 function HomeStack({user}) {
+  // const [user, setUser] = React.useState(null);
+  // async function onAuthStateChanged(user) {
+  //   console.log('++++++++++++++++auth state changed+++++++++++++');
+  //   if (user) {
+  //     setUser(user);
+  //   }
+  // }
+
+  // React.useEffect(() => {
+  //   const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+  //   return subscriber; // unsubscribe on unmount
+  // }, []);
+
   return (
     <Stack.Navigator
       screenOptions={{headerShown: false, animation: 'slide_from_right'}}>

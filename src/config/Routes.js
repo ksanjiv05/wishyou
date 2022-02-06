@@ -18,6 +18,7 @@ const Routes = {
   wishYou: '/wishyou',
   wishYous: '/wishyous',
   notifications: '/notifications',
+  feedback: '/feedback',
 };
 
 export default Routes;
