@@ -28,6 +28,11 @@ const ProfileOptions = ({navigation}) => {
     };
   }, [auth().currentUser, isFocused]);
 
+  const singOut = async () => {
+    const res = await auth().signOut();
+    console.log('__________________singout______________', res);
+  };
+
   return (
     <View style={{flex: 1}}>
       <View style={{alignItems: 'center', marginTop: 10}}>
@@ -72,6 +77,11 @@ const ProfileOptions = ({navigation}) => {
             label="Feedback"
             style={styles.btn}
             onPress={() => navigation.navigate('Feedback')}
+          />
+          <RoundedButton
+            label="Sign Out"
+            style={styles.btn}
+            onPress={singOut}
           />
         </View>
         <View style={{alignItems: 'center'}}>

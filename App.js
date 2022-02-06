@@ -33,8 +33,9 @@ const App = () => {
     if (user) {
       setUser(user);
       const tok = await auth().currentUser.getIdToken();
-
       console.log(user, '---');
+    } else {
+      setUser(null);
     }
 
     if (initializing) setInitializing(false);

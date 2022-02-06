@@ -11,10 +11,32 @@ import Colors from '../config/Colors';
 import feedbackImage from '../../assets/images/feedback.png';
 import {TextInput} from 'react-native-gesture-handler';
 import Entypo from 'react-native-vector-icons/Entypo';
+import auth from '@react-native-firebase/auth';
+import {addFeedback} from '../apis/feedback/feedback';
+import {showToast} from '../utils/toast';
 
 function Feedback() {
   const [text, setText] = React.useState('');
+  const [rated, setRated] = React.useState(0);
   const {width, height} = Dimensions.get('window');
+
+  const handleFeedBack = async () => {
+    const {email, displayName} = auth().currentUser;
+    const responce = await addFeedback({
+      feedback: text,
+      rated,
+      email,
+      name: displayName,
+    });
+
+    if (responce) {
+      showToast('Unable to add feedback!');
+    }
+    if (responce && responce.status === 200) {
+      showToast('Thanks For Feedbback');
+    }
+  };
+
   return (
     <View
       style={{
@@ -38,16 +60,36 @@ function Feedback() {
             justifyContent: 'space-between',
           }}>
           <TouchableOpacity>
-            <Entypo name="emoji-sad" color={Colors.lightBlack} size={30} />
+            <Entypo
+              name="emoji-sad"
+              color={rated === 1 ? Colors.primary : Colors.lightBlack}
+              size={30}
+              onPress={() => setRated(1)}
+            />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Entypo name="emoji-neutral" color={Colors.lightBlack} size={30} />
+            <Entypo
+              name="emoji-neutral"
+              color={rated === 2 ? Colors.primary : Colors.lightBlack}
+              size={30}
+              onPress={() => setRated(2)}
+            />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Entypo name="emoji-flirt" color={Colors.lightBlack} size={30} />
+            <Entypo
+              name="emoji-flirt"
+              color={rated === 3 ? Colors.primary : Colors.lightBlack}
+              size={30}
+              onPress={() => setRated(3)}
+            />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Entypo name="emoji-happy" color={Colors.primary} size={30} />
+            <Entypo
+              name="emoji-happy"
+              color={rated === 4 ? Colors.primary : Colors.lightBlack}
+              size={30}
+              onPress={() => setRated(4)}
+            />
           </TouchableOpacity>
         </View>
         <TextInput
@@ -56,6 +98,8 @@ function Feedback() {
           style={styles.input}
           placeholder="How's we? Write your feedback..."
           placeholderTextColor={Colors.lightBlack}
+          value={text}
+          onChangeText={text => setText(text)}
         />
         <TouchableOpacity
           style={{
@@ -64,7 +108,8 @@ function Feedback() {
             alignItems: 'center',
             marginTop: 10,
             borderRadius: 30,
-          }}>
+          }}
+          onPress={handleFeedBack}>
           <Text style={{fontWeight: 'bold', color: Colors.white}}>
             Submit Feedback
           </Text>
