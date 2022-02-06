@@ -5,15 +5,17 @@ import default_male from '../../assets/images/default-male.jpg';
 import Colors from '../config/Colors';
 import VerificationBadge from '../components/VerificationBadge';
 import RoundedButton from '../components/RoundedButton';
+import {useIsFocused} from '@react-navigation/native';
 
 const ProfileOptions = ({navigation}) => {
   const {width, height} = Dimensions.get('window');
-  let pic = auth().currentUser.photoURL
-    ? {uri: auth().currentUser.photoURL}
-    : default_male;
+  // let pic = auth().currentUser.photoURL
+  //   ? {uri: auth().currentUser.photoURL}
+  //   : default_male;
   const [user, setUser] = React.useState({});
-  const [profile_pic, setProfilePic] = React.useState(pic);
+  // const [profile_pic, setProfilePic] = React.useState(pic);
 
+  const isFocused = useIsFocused();
   React.useEffect(() => {
     setUser({
       displayName: auth().currentUser.displayName,
@@ -21,7 +23,10 @@ const ProfileOptions = ({navigation}) => {
       phoneNumber: auth().currentUser.phoneNumber,
       photoURL: auth().currentUser.photoURL,
     });
-  }, [auth().currentUser]);
+    return () => {
+      setUser({});
+    };
+  }, [auth().currentUser, isFocused]);
 
   return (
     <View style={{flex: 1}}>
@@ -32,7 +37,14 @@ const ProfileOptions = ({navigation}) => {
             width: width / 2,
             height: height / 4,
           }}>
-          <Image source={profile_pic} style={styles.image} />
+          <Image
+            source={
+              auth().currentUser.photoURL
+                ? {uri: auth().currentUser.photoURL}
+                : default_male
+            }
+            style={styles.image}
+          />
         </View>
         <View style={{marginLeft: 10}}>
           <Text style={styles.name}>{auth().currentUser.displayName}</Text>

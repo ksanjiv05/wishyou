@@ -18,6 +18,56 @@ import default_male from '../../assets/images/default-male.jpg';
 import default_female from '../../assets/images/default-female.jpg';
 import VerificationBadge from '../components/VerificationBadge';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {picUpdate, updateUser} from '../apis/auth/auth';
+import {showToast} from '../utils/toast';
+
+const updatePic = async uri => {
+  const formData = new FormData();
+  formData.append('pic', {
+    name: 'profile.jpg',
+    type: 'image/jpg',
+    uri,
+  });
+
+  formData.append('uid', auth().currentUser.uid);
+  formData.append('email', auth().currentUser.email);
+
+  const res = await picUpdate(formData);
+  if (!res) {
+    showToast('Unable to update pic');
+    //  setIsLoading(false);
+    return;
+  }
+  if (res && res.status === 200) {
+    console.log('pic updated -', res.data);
+    auth().currentUser.updateProfile({
+      photoURL: res.data.url,
+    });
+
+    showToast('Profile pic is updated.');
+    return;
+  }
+};
+
+//  displayName  email emailVerified phoneNumber
+const updateProfile = async data => {
+  const res = await updateUser(data);
+  if (!res) {
+    showToast('Unable to update profile');
+    //  setIsLoading(false);
+    return;
+  }
+  if (res && res.status === 200) {
+    console.log('profile updated -', res.data);
+    auth().currentUser.updateProfile({
+      displayName: data.displayName,
+      phoneNumber: data.phoneNumber,
+    });
+
+    showToast('Profile is updated.');
+    return;
+  }
+};
 
 function Profile({navigation}) {
   const {width, height} = Dimensions.get('window');
@@ -41,6 +91,10 @@ function Profile({navigation}) {
     setUser(prev => ({...prev, [key]: value}));
   };
 
+  const handleProfileUpdate = () => {
+    updateProfile(user);
+  };
+
   const picImage = () => {
     try {
       ImagePicker.openPicker({
@@ -49,6 +103,7 @@ function Profile({navigation}) {
         cropping: true,
       }).then(image => {
         setProfilePic({uri: image.path});
+        updatePic(image.path);
       });
     } catch (err) {
       console.log(err);
@@ -130,7 +185,9 @@ function Profile({navigation}) {
                 />
               </View>
 
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={handleProfileUpdate}>
                 <Text style={styles.btnText}>Update</Text>
               </TouchableOpacity>
             </View>

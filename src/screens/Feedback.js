@@ -52,6 +52,7 @@ function Feedback() {
         </View>
         <TextInput
           multiline
+          numberOfLines={6}
           style={styles.input}
           placeholder="How's we? Write your feedback..."
           placeholderTextColor={Colors.lightBlack}
@@ -107,6 +108,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 15,
     padding: 10,
+    justifyContent: 'flex-start',
+    textAlignVertical: 'top',
   },
 });
 

@@ -47,3 +47,15 @@ export const updateUser = async data => {
     return null;
   }
 };
+
+export const picUpdate = async data => {
+  try {
+    console.log('req', base + Routes.picUpdate);
+    const res = await axios.post(base + Routes.picUpdate, data);
+    console.log('responce ', res.data);
+    return res;
+  } catch (error) {
+    console.log('Unable to update pic');
+    return null;
+  }
+};

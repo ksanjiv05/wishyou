@@ -2,6 +2,7 @@ const Routes = {
   url: 'http://134.255.216.211:4000', //'https://prerposedigital.herokuapp.com',
   ver: '/api/v0.0.1',
   user: '/user',
+  picUpdate: '/picUpdate',
   fcm: '/fcm',
   //contacts
   contact: '/contact',
