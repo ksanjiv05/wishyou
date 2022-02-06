@@ -15,8 +15,6 @@ import Colors from '../config/Colors';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import default_male from '../../assets/images/default-male.jpg';
-import default_female from '../../assets/images/default-female.jpg';
-import VerificationBadge from '../components/VerificationBadge';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {picUpdate, updateUser} from '../apis/auth/auth';
 import {showToast} from '../utils/toast';
@@ -123,10 +121,10 @@ function Profile({navigation}) {
               flex: 1,
               paddingVertical: 10,
               paddingHorizontal: 20,
+              marginTop: 20,
             }}>
             <View
               style={{
-                flexDirection: 'row',
                 alignItems: 'center',
               }}>
               {/**user image */}
@@ -145,24 +143,9 @@ function Profile({navigation}) {
                   />
                 </TouchableOpacity>
               </View>
-              {/**details */}
-              <View
-                style={{
-                  marginLeft: 10,
-                  width: '50%',
-                }}>
-                <Text style={styles.name}>
-                  {auth().currentUser.displayName}
-                </Text>
-                <Text style={styles.normal}>{auth().currentUser.email}</Text>
-                <Text style={styles.normal}>
-                  {auth().currentUser.phoneNumber}
-                </Text>
-                <VerificationBadge status={auth().currentUser.emailVerified} />
-              </View>
             </View>
             {/**profiles to update */}
-            <View style={{marginTop: 10}}>
+            <View style={{marginTop: 30}}>
               <View style={{marginBottom: 10}}>
                 <Text style={{color: Colors.black}}>Full Name</Text>
                 <TextInput

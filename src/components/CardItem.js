@@ -9,7 +9,7 @@ import Colors from '../config/Colors';
 import Routes from '../config/Routes';
 const cardURL = Routes.url + Routes.ver + Routes.card + '?cardId=';
 
-const CardItem = ({onPress, card, active}) => {
+const CardItem = ({onPress, card, active, reverse}) => {
   const height = Dimensions.get('screen').height;
   const width = Dimensions.get('screen').width;
   // console.log('_________', cardURL + card?._id);
@@ -31,7 +31,7 @@ const CardItem = ({onPress, card, active}) => {
       }}>
       {card?.background !== '' && (
         <ImageBackground
-          source={{uri: cardURL + card?._id}}
+          source={{uri: reverse ? card?.background : cardURL + card?._id}}
           style={{
             position: 'absolute',
             top: 0,
@@ -41,8 +41,12 @@ const CardItem = ({onPress, card, active}) => {
           }}
         />
       )}
-      <Text style={{color: Colors.black, fontWeight: '700'}}>{card?.name}</Text>
-      <Text style={{color: Colors.lightBlack}}>{card?.info}</Text>
+      <Text style={{color: Colors.black, fontWeight: '700'}}>
+        {reverse ? card?.title : card?.name}
+      </Text>
+      <Text style={{color: Colors.lightBlack}}>
+        {reverse ? card?.text : card?.info}
+      </Text>
     </TouchableOpacity>
   );
 };
