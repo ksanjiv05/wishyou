@@ -59,6 +59,7 @@ const Preview = ({navigation, route}) => {
   };
 
   const share = async () => {
+    //open
     setIsLoading(true);
     try {
       const uri = await captureRef(viewRef, {
