@@ -6,31 +6,35 @@ import Colors from '../config/Colors';
 import VerificationBadge from '../components/VerificationBadge';
 import RoundedButton from '../components/RoundedButton';
 import {useIsFocused} from '@react-navigation/native';
+import {showToast} from '../utils/toast';
 
 const ProfileOptions = ({navigation}) => {
   const {width, height} = Dimensions.get('window');
-  // let pic = auth().currentUser.photoURL
-  //   ? {uri: auth().currentUser.photoURL}
-  //   : default_male;
   const [user, setUser] = React.useState({});
-  // const [profile_pic, setProfilePic] = React.useState(pic);
-
   const isFocused = useIsFocused();
   React.useEffect(() => {
     setUser({
       displayName: auth().currentUser.displayName,
-      email: auth().currentUser.email,
-      phoneNumber: auth().currentUser.phoneNumber,
       photoURL: auth().currentUser.photoURL,
+      verified: auth().currentUser.emailVerified,
     });
     return () => {
       setUser({});
     };
-  }, [auth().currentUser, isFocused]);
+  }, [isFocused]);
 
-  const singOut = async () => {
-    const res = await auth().signOut();
-    console.log('__________________singout______________', res);
+  const verifyEmail = () => {
+    auth()
+      .currentUser.sendEmailVerification()
+      .then(res => {
+        showToast(
+          'We have sent you a verification link on your email. Please verity it.',
+        );
+      })
+      .catch(err => {
+        showToast('Something went wrong! Try after some time.');
+        console.log(err);
+      });
   };
 
   return (
@@ -43,19 +47,16 @@ const ProfileOptions = ({navigation}) => {
             height: height / 4,
           }}>
           <Image
-            source={
-              auth().currentUser.photoURL
-                ? {uri: auth().currentUser.photoURL}
-                : default_male
-            }
+            source={user?.photoURL ? {uri: user?.photoURL} : default_male}
             style={styles.image}
           />
         </View>
         <View style={{marginLeft: 10}}>
-          <Text style={styles.name}>{auth().currentUser.displayName}</Text>
+          <Text style={styles.name}>{user?.displayName}</Text>
           <VerificationBadge
-            status={auth().currentUser.emailVerified}
+            status={user?.verified}
             icon={true}
+            style={{justifyContent: 'center'}}
           />
         </View>
       </View>
@@ -78,6 +79,13 @@ const ProfileOptions = ({navigation}) => {
             style={styles.btn}
             onPress={() => navigation.navigate('Feedback')}
           />
+          {!user?.verified && (
+            <RoundedButton
+              label="Verify"
+              style={styles.btn}
+              onPress={verifyEmail}
+            />
+          )}
           <RoundedButton
             label="Contacts"
             style={styles.btn}
@@ -85,8 +93,8 @@ const ProfileOptions = ({navigation}) => {
           />
         </View>
         <View style={{alignItems: 'center'}}>
-          <Text>Wish You</Text>
-          <Text>v0.0.1</Text>
+          <Text style={{color: Colors.white}}>Wish You</Text>
+          <Text style={{color: Colors.white}}>v0.0.1</Text>
         </View>
       </View>
     </View>

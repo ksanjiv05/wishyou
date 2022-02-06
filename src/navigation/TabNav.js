@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Text, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -59,6 +59,16 @@ export default function TabNav() {
           headerShown: true,
           headerStyle: {backgroundColor: Colors.primary},
           headerTintColor: Colors.white,
+          headerRight: () => (
+            <TouchableOpacity style={{paddingRight: 10}}>
+              <MaterialIcons
+                name="stacked-bar-chart"
+                style={{transform: [{rotate: '-4.72rad'}]}}
+                size={25}
+                color={Colors.white}
+              />
+            </TouchableOpacity>
+          ),
           title: 'Notifications',
           tabBarIcon: ({size, color, focused}) => (
             <MaterialIcons

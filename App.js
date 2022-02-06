@@ -7,6 +7,7 @@ import messaging from '@react-native-firebase/messaging';
 import HomeStack from './src/navigation/HomeStack';
 import auth from '@react-native-firebase/auth';
 import {updateFcmToken} from './src/apis/auth/auth';
+import NotificationAlert from './src/components/NotificationAlert';
 // const socket = io(
 //   'http://67c1-2409-4050-e81-87f1-7838-315b-b676-2ecd.ngrok.io',
 //   {
@@ -27,6 +28,7 @@ const App = () => {
   // const isDarkMode = useColorScheme() === 'dark';
   const [initializing, setInitializing] = React.useState(true);
   const [user, setUser] = React.useState(null);
+  const [notifyAlert, setNotifyAlert] = React.useState({});
 
   // Handle user state changes
   async function onAuthStateChanged(user) {
@@ -46,7 +48,14 @@ const App = () => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);
+  React.useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      // console.log('__________________', remoteMessage);
+      setNotifyAlert(remoteMessage);
+    });
 
+    return unsubscribe;
+  }, []);
   //socket imp
   // React.useEffect(() => {
   //   socket.on('connect', () => {
@@ -65,14 +74,14 @@ const App = () => {
         .getToken()
         .then(token => {
           console.log('your token ', token);
-          updateFcmToken({fcmToken: token, email: user.email});
+          updateFcmToken({fcmToken: token, email: auth().currentUser?.email});
         })
         .catch(err => {
           console.log('unable to get token', err);
         });
     return messaging().onTokenRefresh(token => {
       console.log('token ref', token);
-      updateFcmToken({fcmToken: token, email: user.email});
+      updateFcmToken({fcmToken: token, email: auth().currentUser.email});
     });
   }, [user]);
 
@@ -103,7 +112,7 @@ const App = () => {
   return (
     <View style={{flex: 1}}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
-
+      <NotificationAlert notification={notifyAlert} />
       <NavigationContainer>
         <View style={{flex: 1}}>
           <GlobalContext.Provider value={{socket: null}}>
