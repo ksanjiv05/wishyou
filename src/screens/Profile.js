@@ -20,6 +20,7 @@ import VerificationBadge from '../components/VerificationBadge';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {picUpdate, updateUser} from '../apis/auth/auth';
 import {showToast} from '../utils/toast';
+import Loader from '../components/Loader';
 
 const updatePic = async uri => {
   const formData = new FormData();
@@ -44,7 +45,7 @@ const updatePic = async uri => {
       photoURL: res.data.url,
     });
 
-    showToast('Profile pic is updated.');
+    showToast('Profile updated successfully.');
     return;
   }
 };
@@ -54,8 +55,7 @@ const updateProfile = async data => {
   const res = await updateUser(data);
   if (!res) {
     showToast('Unable to update profile');
-    //  setIsLoading(false);
-    return;
+    return true;
   }
   if (res && res.status === 200) {
     console.log('profile updated -', res.data);
@@ -63,14 +63,14 @@ const updateProfile = async data => {
       displayName: data.displayName,
       phoneNumber: data.phoneNumber,
     });
-
-    showToast('Profile is updated.');
-    return;
+    showToast('Profile updated successfully.');
+    return true;
   }
 };
 
 function Profile({navigation}) {
   const {width, height} = Dimensions.get('window');
+  const [isLoading, setIsLoading] = React.useState(false);
   let pic = auth().currentUser.photoURL
     ? {uri: auth().currentUser.photoURL}
     : default_male;
@@ -91,8 +91,12 @@ function Profile({navigation}) {
     setUser(prev => ({...prev, [key]: value}));
   };
 
-  const handleProfileUpdate = () => {
-    updateProfile(user);
+  const handleProfileUpdate = async () => {
+    setIsLoading(true);
+    const status = await updateProfile(user);
+    if (status) {
+      setIsLoading(false);
+    }
   };
 
   const picImage = () => {
@@ -111,6 +115,7 @@ function Profile({navigation}) {
   };
   return (
     <>
+      {isLoading && <Loader text="Processing..." />}
       {auth().currentUser ? (
         <ScrollView keyboardDismissMode="interactive" style={{flex: 1}}>
           <View
@@ -141,7 +146,11 @@ function Profile({navigation}) {
                 </TouchableOpacity>
               </View>
               {/**details */}
-              <View style={{marginLeft: 10}}>
+              <View
+                style={{
+                  marginLeft: 10,
+                  width: '50%',
+                }}>
                 <Text style={styles.name}>
                   {auth().currentUser.displayName}
                 </Text>
@@ -223,6 +232,7 @@ const styles = StyleSheet.create({
   normal: {
     color: Colors.black,
     marginVertical: 2,
+    paddingRight: 5,
   },
   input: {
     backgroundColor: Colors.lightGray,

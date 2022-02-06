@@ -19,24 +19,24 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const loginCall = async ({email = '', password = ''}, navigation) => {
   if (email.length < 5) {
     showToast('Please enter registred email');
-    return false;
+    return true;
   }
   if (password.length < 5) {
     showToast('Please enter your password');
-    return false;
+    return true;
   }
   auth()
     .signInWithEmailAndPassword(email, password)
     .then(() => {
       // console.log('User account created & signed in!');
-      showToast('You are successfully logedin');
+      showToast('You are logged in successfully.');
       // navigation.navigate('Tab');
     })
     .catch(error => {
       if (error.code === 'auth/user-not-found') {
         console.log('user not found');
         showToast('User not found! Please register');
-        return;
+        return true;
       }
       showToast('Invalid creadantial');
       console.log(error.code);
@@ -67,18 +67,18 @@ function Login({navigation}) {
     password: '',
   });
   const [loader, setLoader] = React.useState(false);
-  const [loginState, setLoginState] = React.useState(true);
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleChange = (key, text) => {
     setData({...data, [key]: text});
   };
 
-  const handleLogin = () => {
-    console.log('login call');
+  const handleLogin = async () => {
     setLoader(true);
-    loginCall(data, navigation);
-    setLoader(false);
+    const res = await loginCall(data, navigation);
+    if (res) {
+      setLoader(false);
+    }
   };
   return (
     <KeyboardAwareScrollView>
