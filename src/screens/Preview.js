@@ -22,12 +22,14 @@ import {saveCard} from '../apis/card';
 import {showToast} from '../utils/toast';
 import {saveWishCard} from '../apis/wish-card';
 import Loader from '../components/Loader';
+import ShareView from '../components/ShareView';
 
 const Preview = ({navigation, route}) => {
   const card = route?.params?.card;
   const {titleFormat, textFormat, taglineFormat} = card?.format;
   const position = card?.position;
   const [isLoading, setIsLoading] = React.useState(false);
+  const [shareView, setShareView] = React.useState(false);
 
   const viewRef = React.useRef();
 
@@ -196,6 +198,7 @@ const Preview = ({navigation, route}) => {
   return (
     <>
       {isLoading && <Loader text="Processing..." />}
+      {shareView && <ShareView />}
       {card ? (
         <View style={{flex: 1}}>
           <View
@@ -280,7 +283,7 @@ const Preview = ({navigation, route}) => {
             }}>
             <IconButton icon="download" onPress={downloadImage} />
             <RoundedButton label="Save" onPress={saveData} />
-            <RoundedButton label="Send" onPress={share} />
+            <RoundedButton label="Send" onPress={() => setShareView(true)} />
           </View>
         </View>
       ) : (
