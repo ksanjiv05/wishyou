@@ -70,9 +70,9 @@ const ProfileOptions = ({navigation}) => {
             onPress={() => navigation.navigate('Profile')}
           />
           <RoundedButton
-            label="Settings"
+            label="Contacts"
             style={styles.btn}
-            onPress={() => navigation.navigate('Settings')}
+            onPress={() => navigation.navigate('Contacts')}
           />
           <RoundedButton
             label="Feedback"
