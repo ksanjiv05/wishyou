@@ -3,10 +3,13 @@ import {View, FlatList, TextInput} from 'react-native';
 import {getWishCards} from '../apis/wish-card';
 import CardItem from '../components/CardItem';
 import Colors from '../config/Colors';
+const height = Dimensions.get('screen').height;
+const width = Dimensions.get('screen').width;
 
 function WishYou({navigation}) {
   const [refresh, setRefresh] = React.useState(false);
   const [wishes, setWishes] = React.useState([]);
+  const [loader, setLoader] = React.useState(false);
 
   async function fetchWishes() {
     const response = await getWishCards('?uid=sanjiv@gmail.com&skip=0');
@@ -43,6 +46,7 @@ function WishYou({navigation}) {
             paddingHorizontal: 10,
             paddingVertical: 15,
           }}
+          onChangeText={searchCard}
         />
       </View>
 

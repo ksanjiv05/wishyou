@@ -87,9 +87,9 @@ const ProfileOptions = ({navigation}) => {
             />
           )}
           <RoundedButton
-            label="Logout"
+            label="Contacts"
             style={styles.btn}
-            onPress={() => auth().signOut()}
+            onPress={() => navigation.navigate('Contacts')}
           />
         </View>
         <View style={{alignItems: 'center'}}>
