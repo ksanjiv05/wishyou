@@ -2,20 +2,23 @@ import React from 'react';
 import {View, FlatList, TextInput} from 'react-native';
 import {getWishCards} from '../apis/wish-card';
 import CardItem from '../components/CardItem';
+import Loader from '../components/Loader';
 import Colors from '../config/Colors';
-const height = Dimensions.get('screen').height;
-const width = Dimensions.get('screen').width;
 
 function WishYou({navigation}) {
   const [refresh, setRefresh] = React.useState(false);
   const [wishes, setWishes] = React.useState([]);
-  const [loader, setLoader] = React.useState(false);
+  const [filteredWish, setFilteredWish] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
   async function fetchWishes() {
+    wishes?.length === 0 && setLoading(true);
     const response = await getWishCards('?uid=sanjiv@gmail.com&skip=0');
     if (response && response.status === 200) {
       setWishes(response.data.userCards);
+      setFilteredWish(response.data.userCards);
       setRefresh(false);
+      setLoading(false);
     }
   }
 
@@ -25,8 +28,17 @@ function WishYou({navigation}) {
     );
     if (response && response.status === 200) {
       setWishes(prev => [...prev, ...response.data.userCards]);
+      setFilteredWish(prev => [...prev, ...response.data.userCards]);
       setRefresh(false);
     }
+  };
+
+  const searchCard = text => {
+    const new_data = wishes.filter(
+      item => item.text.includes(text) || item.title.includes(text),
+    );
+
+    setFilteredWish(new_data);
   };
 
   React.useEffect(() => {
@@ -35,6 +47,7 @@ function WishYou({navigation}) {
 
   return (
     <View style={{flex: 1}}>
+      {loading && <Loader />}
       <View>
         <TextInput
           placeholder="Search Your contact"
@@ -46,7 +59,7 @@ function WishYou({navigation}) {
             paddingHorizontal: 10,
             paddingVertical: 15,
           }}
-          onChangeText={searchCard}
+          onChangeText={text => searchCard(text)}
         />
       </View>
 
@@ -58,7 +71,7 @@ function WishYou({navigation}) {
           showsVerticalScrollIndicator={false}
           horizontal={false}
           keyExtractor={item => item._id}
-          data={wishes}
+          data={filteredWish}
           renderItem={({item}) => (
             <CardItem
               onPress={() =>

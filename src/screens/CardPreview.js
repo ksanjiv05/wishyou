@@ -1,4 +1,4 @@
-import {View, Text, Animated, ImageBackground} from 'react-native';
+import {View, Text, ImageBackground} from 'react-native';
 import React from 'react';
 import Colors from '../config/Colors';
 import {getCard} from '../apis/wish-card';
@@ -28,7 +28,7 @@ const CardPreview = ({route}) => {
   return (
     <View style={{flex: 1, backgroundColor: Colors.primary}}>
       {isLoading && <Loader />}
-      {card ? (
+      {false && card ? (
         <ImageBackground
           source={{uri: card?.background}}
           style={{flex: 1, width: '100%'}}
@@ -38,8 +38,8 @@ const CardPreview = ({route}) => {
             style={{
               paddingVertical: 12,
               transform: [
-                {translateX: parseInt(card?.position?.title?.x)},
-                {translateY: parseInt(card?.position?.title?.y)},
+                {translateX: parseInt(card?.position?.titleline?.x)},
+                {translateY: parseInt(card?.position?.titleline?.y)},
               ],
             }}>
             <Text
@@ -50,7 +50,7 @@ const CardPreview = ({route}) => {
                 textAlign: card?.format?.titleFormat?.textAlign,
                 fontWeight: card?.format?.titleFormat?.bold ? 'bold' : 'normal',
               }}>
-              {card?.text?.title}
+              {card?.title}
             </Text>
           </View>
           {/**text render */}
@@ -58,8 +58,8 @@ const CardPreview = ({route}) => {
             style={{
               paddingVertical: 12,
               transform: [
-                {translateX: parseInt(card?.position?.text?.x)},
-                {translateY: parseInt(card?.position?.text?.y)},
+                {translateX: parseInt(card?.position?.textline?.x)},
+                {translateY: parseInt(card?.position?.textline?.y)},
               ],
             }}>
             <Text
@@ -70,7 +70,7 @@ const CardPreview = ({route}) => {
                 textAlign: card?.format?.textFormat?.textAlign,
                 fontWeight: card?.format?.textFormat?.bold ? 'bold' : 'normal',
               }}>
-              {card?.text?.text}
+              {card?.text}
             </Text>
           </View>
           {/**tagline render */}
@@ -92,12 +92,12 @@ const CardPreview = ({route}) => {
                   ? 'bold'
                   : 'normal',
               }}>
-              {card?.text?.tagline}
+              {card?.tagline}
             </Text>
           </View>
         </ImageBackground>
       ) : (
-        <Text>No Card Found!</Text>
+        <Image source={{uri: ''}} style={{flex: 1}} />
       )}
     </View>
   );

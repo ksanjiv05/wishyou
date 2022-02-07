@@ -89,7 +89,7 @@ const saveData = async (card, selected) => {
     background: card.background,
     format: card.format,
     position: {
-      title: {
+      titleline: {
         x:
           typeof card.position.title.x === 'object'
             ? card.position.title.x?.__getValue()
@@ -99,7 +99,7 @@ const saveData = async (card, selected) => {
             ? card.position.title.y?.__getValue()
             : card.position.title.y,
       },
-      text: {
+      textline: {
         x:
           typeof card.position.text.x === 'object'
             ? card.position.text.x?.__getValue()
