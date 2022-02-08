@@ -3,12 +3,9 @@ import {
   TextInput,
   Text,
   View,
-  Pressable,
-  ToastAndroid,
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
-  Dimensions,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import Colors from '../config/Colors';
