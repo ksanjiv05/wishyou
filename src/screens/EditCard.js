@@ -357,7 +357,7 @@ const EditCard = ({navigation, route}) => {
           onPress={() => setShowToolBox(true)}
           icon="format-textbox"
         />
-        <IconButton onPress={() => {}} icon="upload" />
+        {false && <IconButton onPress={() => {}} icon="upload" />}
         <RoundedButton onPress={handlePreview} label="Preview" />
       </View>
 

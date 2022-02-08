@@ -44,7 +44,7 @@ const CardItem = ({onPress, card, active, reverse}) => {
       <Text style={{color: Colors.black, fontWeight: '700'}}>
         {reverse ? card?.title : card?.name}
       </Text>
-      <Text style={{color: Colors.lightBlack}}>
+      <Text style={{color: Colors.lightBlack, textAlign: 'center'}}>
         {reverse ? card?.text : card?.info}
       </Text>
     </TouchableOpacity>
