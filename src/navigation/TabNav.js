@@ -8,7 +8,6 @@ const Tab = createBottomTabNavigator();
 import Home from '../screens/Home';
 import ProfileOptions from '../screens/ProfileOptions';
 import Colors from '../config/Colors';
-import RecentChatedContacts from '../screens/RecentChatedContacts';
 import WishYou from '../screens/WishYou';
 import Notifications from '../screens/Notifications';
 
@@ -44,8 +43,8 @@ export default function TabNav() {
           headerTintColor: Colors.white,
           title: 'Wish You',
           tabBarIcon: ({size, color, focused}) => (
-            <MaterialIcons
-              name="contacts"
+            <Entypo
+              name="slideshare"
               size={size}
               color={focused ? Colors.primary : color}
             />

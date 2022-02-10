@@ -7,10 +7,10 @@ import {
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {register} from '../apis/auth/auth';
 import Colors from '../config/Colors';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const showToast = msg => {
@@ -84,7 +84,9 @@ function Register({navigation}) {
   };
 
   return (
-    <KeyboardAwareScrollView>
+    <ScrollView
+      style={{flex: 1, backgroundColor: Colors.white}}
+      keyboardShouldPersistTaps="handled">
       <View style={{flex: 1, backgroundColor: Colors.white}}>
         <View style={styles.brand}>
           <Text
@@ -246,7 +248,7 @@ function Register({navigation}) {
           </Text>
         </View>
       </View>
-    </KeyboardAwareScrollView>
+    </ScrollView>
   );
 }
 
