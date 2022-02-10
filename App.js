@@ -1,5 +1,5 @@
 import React from 'react';
-import {StatusBar, View, ActivityIndicator} from 'react-native';
+import {StatusBar, View, ActivityIndicator, Alert, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 import Colors from './src/config/Colors';
@@ -28,7 +28,7 @@ const App = () => {
   // const isDarkMode = useColorScheme() === 'dark';
   const [initializing, setInitializing] = React.useState(true);
   const [user, setUser] = React.useState(null);
-  const [notifyAlert, setNotifyAlert] = React.useState({});
+  const [notification, setNotifcation] = React.useState({});
 
   // Handle user state changes
   async function onAuthStateChanged(user) {
@@ -50,8 +50,7 @@ const App = () => {
   }, []);
   React.useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      // console.log('__________________', remoteMessage);
-      setNotifyAlert(remoteMessage);
+      setNotifcation(remoteMessage.notification);
     });
 
     return unsubscribe;
@@ -112,7 +111,7 @@ const App = () => {
   return (
     <View style={{flex: 1}}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
-      <NotificationAlert notification={notifyAlert} />
+      <NotificationAlert notification={notification} />
       <NavigationContainer>
         <View style={{flex: 1}}>
           <GlobalContext.Provider value={{socket: null}}>

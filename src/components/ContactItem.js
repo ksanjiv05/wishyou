@@ -1,6 +1,7 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import Colors from '../config/Colors';
+import default_male from '../../assets/images/default-male.jpg';
 
 const ContactItem = ({item, invite}) => {
   return (
@@ -19,13 +20,15 @@ const ContactItem = ({item, invite}) => {
             alignContent: 'center',
             justifyContent: 'center',
           }}>
-          <View
+          <Image
+            source={item.image ? {uri: item.image} : default_male}
             style={{
               backgroundColor: Colors.black,
               borderRadius: 100,
               width: 50,
               height: 50,
-            }}></View>
+            }}
+          />
         </View>
         <View style={{flex: 1, width: 50}}>
           <Text style={{textTransform: 'capitalize', color: Colors.black}}>
