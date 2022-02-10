@@ -34,9 +34,9 @@ const ContactItem = ({item}) => {
         </View>
         <View style={{flex: 1, width: 50}}>
           <Text style={{textTransform: 'capitalize', color: Colors.black}}>
-            sanjiv kumar
+            {item?.name}
           </Text>
-          <Text style={{color: Colors.black}}>12/03/2020</Text>
+          <Text style={{color: Colors.black}}>{item.phone}</Text>
         </View>
         <View
           style={{

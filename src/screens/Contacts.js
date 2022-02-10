@@ -115,6 +115,7 @@ const ModalContant = ({uid}) => {
 function Contacts({navigation}) {
   const uid = auth().currentUser.email;
   const [contacts, setContacts] = React.useState([]);
+  const [contactsToInvite, setContactsToInvite] = React.useState([]);
   const [contactIds, setContactIds] = React.useState([1, 2, 3]);
   const [modalVisible, setModalVisible] = React.useState(true);
   const [loader, setLoader] = React.useState(false);
@@ -147,7 +148,7 @@ function Contacts({navigation}) {
           PhoneContacts.getAll()
             .then(async respon => {
               let contactsIdsLocal = [];
-              console.log('Length ', respon.length);
+              console.log('Length ', respon[0]);
               respon &&
                 respon.map(contact => {
                   const whitSpaceErs = contact.phoneNumbers[0]?.number.replace(
@@ -160,7 +161,7 @@ function Contacts({navigation}) {
                       )
                     : '';
                 });
-
+              console.log('contact ids ', contactsIdsLocal);
               // setContactIds(contactsIdsLocal);
               const responce = await searchAndAddContact({
                 uid,
@@ -169,6 +170,19 @@ function Contacts({navigation}) {
 
               if (responce && responce.status === 200) {
                 setContacts(responce.data.contacts);
+                const contactsx = responce.data.contacts;
+                console.log('__________');
+                contactsx.filter(id => {
+                  console.log(
+                    contactsIdsLocal.includes(id.phone),
+                    '+++',
+                    id.phone,
+                  );
+                });
+                // !contactsIdsLocal.includes(id.phone)
+                // setContactsToInvite(
+
+                // );
                 showToast('Contact Updated');
               } else {
                 showToast('unable to Updated');
@@ -190,6 +204,7 @@ function Contacts({navigation}) {
   }, []);
 
   const renderItem = ({item, index}) => {
+    console.log('_______', item);
     return <ContactItem item={item} key={index} />;
   };
 
@@ -220,7 +235,8 @@ function Contacts({navigation}) {
               }}
             />
           </View>
-          <FlatList data={contactIds} renderItem={renderItem} />
+          <FlatList data={contacts} renderItem={renderItem} />
+          <FlatList data={contactsToInvite} renderItem={renderItem} />
         </>
       )}
 

@@ -80,6 +80,7 @@ function Register({navigation}) {
     console.log('register', data);
     await registerCall(data);
     setLoader(false);
+    navigation.push('Login');
   };
 
   return (

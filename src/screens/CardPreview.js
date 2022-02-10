@@ -1,4 +1,4 @@
-import {View, Text, ImageBackground} from 'react-native';
+import {View, Text, ImageBackground, Image} from 'react-native';
 import React from 'react';
 import Colors from '../config/Colors';
 import {getCard} from '../apis/wish-card';
