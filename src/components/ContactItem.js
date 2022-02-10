@@ -2,14 +2,9 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Colors from '../config/Colors';
 
-const ContactItem = ({item}) => {
+const ContactItem = ({item, invite}) => {
   return (
-    <TouchableOpacity
-      style={{}}
-      onPress={() =>
-        //navigation.navigate('Message')
-        console.log('presseds', item)
-      }>
+    <TouchableOpacity>
       <View
         style={{
           flex: 1,
@@ -38,25 +33,27 @@ const ContactItem = ({item}) => {
           </Text>
           <Text style={{color: Colors.black}}>{item.phone}</Text>
         </View>
-        <View
-          style={{
-            flex: 1,
-            maxWidth: 60,
-            alignContent: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text
+        {invite && (
+          <View
             style={{
-              paddingHorizontal: 8,
-              paddingVertical: 4,
-              color: Colors.primary,
-              backgroundColor: Colors.white,
-              borderRadius: 8,
-              textAlign: 'center',
+              flex: 1,
+              maxWidth: 60,
+              alignContent: 'center',
+              justifyContent: 'center',
             }}>
-            Invite
-          </Text>
-        </View>
+            <Text
+              style={{
+                paddingHorizontal: 8,
+                paddingVertical: 4,
+                color: Colors.primary,
+                backgroundColor: Colors.white,
+                borderRadius: 8,
+                textAlign: 'center',
+              }}>
+              Invite
+            </Text>
+          </View>
+        )}
       </View>
     </TouchableOpacity>
   );

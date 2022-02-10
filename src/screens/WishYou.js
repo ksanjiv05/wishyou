@@ -7,6 +7,7 @@ import Colors from '../config/Colors';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import noWishCards from '../../assets/images/no-wish-cards.png';
 import RoundedButton from '../components/RoundedButton';
+import auth from '@react-native-firebase/auth';
 
 function WishYou({navigation}) {
   const [refresh, setRefresh] = React.useState(false);
@@ -16,7 +17,9 @@ function WishYou({navigation}) {
 
   async function fetchWishes() {
     wishes?.length === 0 && setLoading(true);
-    const response = await getWishCards('?uid=sanjiv@gmail.com&skip=0');
+    const response = await getWishCards(
+      '?uid=' + auth().currentUser.email + '&skip=0',
+    );
     if (response && response.status === 200) {
       setWishes(response.data.userCards);
       setFilteredWish(response.data.userCards);
@@ -30,7 +33,7 @@ function WishYou({navigation}) {
 
   const fetchMore = async () => {
     const response = await getWishCards(
-      '?uid=sanjiv@gmail.com&skip=' + wishes.length,
+      '?uid=' + auth().currentUser.email + '&skip=' + wishes.length,
     );
     if (response && response.status === 200) {
       setWishes(prev => [...prev, ...response.data.userCards]);

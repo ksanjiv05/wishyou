@@ -7,6 +7,7 @@ import {
   FlatList,
   Image,
   TouchableHighlight,
+  PermissionsAndroid,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Colors from '../config/Colors';
@@ -16,21 +17,8 @@ import Loader from './Loader';
 import {saveCard} from '../apis/card';
 import auth from '@react-native-firebase/auth';
 import {showToast} from '../utils/toast';
-
-const _DATA = [
-  {
-    id: '9e892h3',
-    email: 'tridev@gmail.com',
-    displayName: 'Tridev Sharma',
-    photoUrl: '',
-  },
-  {
-    id: '9e892h31',
-    email: 'sanjiv@gmail.com',
-    displayName: 'Sajiv Sharma',
-    photoUrl: '',
-  },
-];
+import PhoneContacts from 'react-native-contacts';
+import {searchAndAddContact} from '../apis/contact/contact';
 
 const RenderMe = ({item, setSelected, selected, remove}) => {
   const url = item?.photoUrl ? {uri: item.photoUrl} : default_male;
@@ -38,45 +26,48 @@ const RenderMe = ({item, setSelected, selected, remove}) => {
   React.useEffect(() => {
     setIsSelected(selected.indexOf(item.email) !== -1 ? true : false);
   }, [selected]);
-
-  return (
-    <TouchableHighlight
-      onPress={() => remove(item.email)}
-      onLongPress={() =>
-        selected.indexOf(item.email) === -1 &&
-        setSelected(prev => [...prev, item.email])
-      }>
-      <View
-        style={{
-          ...styles.container,
-          backgroundColor: isSelected ? Colors.primary : Colors.lightGray,
-        }}>
-        <Image
-          source={url}
-          resizeMode="center"
-          style={{width: 50, height: 50, borderRadius: 50}}
-        />
-        <View style={{marginLeft: 20}}>
-          <Text
-            style={{
-              color: isSelected ? Colors.white : Colors.black,
-              fontWeight: '600',
-              fontSize: 18,
-            }}>
-            {item.displayName}
-          </Text>
-          <Text
-            style={{
-              color: isSelected ? Colors.white : Colors.lightBlack,
-              fontWeight: '400',
-              fontSize: 14,
-            }}>
-            {item.email}
-          </Text>
+  if (item.email !== auth().currentUser.email) {
+    return (
+      <TouchableHighlight
+        onPress={() => remove(item.email)}
+        onLongPress={() =>
+          selected.indexOf(item.email) === -1 &&
+          setSelected(prev => [...prev, item.email])
+        }>
+        <View
+          style={{
+            ...styles.container,
+            backgroundColor: isSelected ? Colors.primary : Colors.lightGray,
+          }}>
+          <Image
+            source={url}
+            resizeMode="center"
+            style={{width: 50, height: 50, borderRadius: 50}}
+          />
+          <View style={{marginLeft: 20}}>
+            <Text
+              style={{
+                color: isSelected ? Colors.white : Colors.black,
+                fontWeight: '600',
+                fontSize: 18,
+              }}>
+              {item.name}
+            </Text>
+            <Text
+              style={{
+                color: isSelected ? Colors.white : Colors.lightBlack,
+                fontWeight: '400',
+                fontSize: 14,
+              }}>
+              {item.email}
+            </Text>
+          </View>
         </View>
-      </View>
-    </TouchableHighlight>
-  );
+      </TouchableHighlight>
+    );
+  } else {
+    return null;
+  }
 };
 
 const saveData = async (card, selected) => {
@@ -137,9 +128,67 @@ const saveData = async (card, selected) => {
 const ShareView = ({close, card}) => {
   const [selected, setSelected] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [contacts, setContacts] = React.useState([]);
   const deSelect = email => {
     const newlist = selected.filter(user => user !== email);
     setSelected(newlist);
+  };
+
+  React.useEffect(() => {
+    getAllContacts();
+  }, []);
+
+  const getAllContacts = () => {
+    setIsLoading(true);
+    const uid = auth().currentUser.email;
+    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+      title: 'Contacts',
+      message: 'This app would like to view your contacts.',
+      buttonPositive: 'Please accept bare mortal',
+    }).then(
+      PhoneContacts.checkPermission().then(res => {
+        if (res === 'authorized') {
+          PhoneContacts.getAll()
+            .then(async respon => {
+              let contactsIdsLocal = [];
+              let localNumbers = [];
+              respon &&
+                respon.map(contact => {
+                  const whitSpaceErs = contact.phoneNumbers[0]?.number.replace(
+                    /[^\d]/g,
+                    '',
+                  );
+                  whitSpaceErs !== undefined
+                    ? contactsIdsLocal.push(
+                        whitSpaceErs.substr(whitSpaceErs.length - 10),
+                      )
+                    : '';
+                  localNumbers.push({
+                    phone: contact.phoneNumbers[0]?.number,
+                    name: contact.displayName,
+                  });
+                });
+
+              const responce = await searchAndAddContact({
+                uid,
+                contacts: contactsIdsLocal,
+              });
+
+              if (responce && responce.status === 200) {
+                setContacts(responce.data.contacts);
+                showToast('Contact Updated');
+                setIsLoading(false);
+              } else {
+                setIsLoading(false);
+                showToast('unable to Updated');
+              }
+            })
+            .catch(err => {
+              console.log('err', err);
+            });
+        }
+      }),
+    );
   };
 
   const sendMe = async () => {
@@ -171,8 +220,8 @@ const ShareView = ({close, card}) => {
           <Text style={{color: Colors.white}}>Long press to select</Text>
         </View>
         <FlatList
-          keyExtractor={item => item.id}
-          data={_DATA}
+          keyExtractor={item => item._id}
+          data={contacts}
           renderItem={({item}) => (
             <RenderMe
               item={item}

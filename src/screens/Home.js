@@ -34,7 +34,7 @@ function Home({navigation}) {
     const responce = await getCategories({skip: 0});
     if (responce && responce.status === 200) {
       setCategories(responce.data.categories);
-      setSelected(responce.data.categories[0]._id);
+      setSelected(responce.data.categories[0].tag);
     }
   }
 
