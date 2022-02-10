@@ -6,11 +6,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import Colors from '../config/Colors';
 import {showToast} from '../utils/toast';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const loginCall = async ({email = '', password = ''}, navigation) => {
@@ -85,7 +85,9 @@ function Login({navigation}) {
   };
 
   return (
-    <KeyboardAwareScrollView>
+    <ScrollView
+      style={{flex: 1, backgroundColor: Colors.white}}
+      keyboardShouldPersistTaps="handled">
       <View style={{flex: 1, backgroundColor: Colors.white}}>
         <View style={styles.brand}>
           <Text
@@ -244,7 +246,7 @@ function Login({navigation}) {
           </Text>
         </View>
       </View>
-    </KeyboardAwareScrollView>
+    </ScrollView>
   );
 }
 
