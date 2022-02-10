@@ -10,12 +10,7 @@ import {
   PermissionsAndroid,
   FlatList,
 } from 'react-native';
-import {
-  createContact,
-  getContacts,
-  searchAndAddContact,
-  searchContact,
-} from '../apis/contact/contact';
+import {createContact, searchAndAddContact} from '../apis/contact/contact';
 import auth from '@react-native-firebase/auth';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -136,9 +131,9 @@ function Contacts({navigation}) {
                   localNumbers.push({
                     phone: contact.phoneNumbers[0]?.number,
                     name: contact.displayName,
+                    image: contact?.thumbnailPath,
                   });
                 });
-
               setContactsToInvite(localNumbers);
               setFilteredContacts(localNumbers);
               setLoader(false);

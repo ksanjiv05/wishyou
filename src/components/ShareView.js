@@ -166,6 +166,7 @@ const ShareView = ({close, card}) => {
                   localNumbers.push({
                     phone: contact.phoneNumbers[0]?.number,
                     name: contact.displayName,
+                    image: contact.thumbnailPath,
                   });
                 });
 
