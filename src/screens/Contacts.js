@@ -21,6 +21,7 @@ import {
 } from '../apis/contact/contact';
 import auth from '@react-native-firebase/auth';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Colors from '../config/Colors';
 import {showToast} from '../utils/toast';
 import PhoneContacts from 'react-native-contacts';
@@ -206,18 +207,24 @@ function Contacts({navigation}) {
             style={{
               maxHeight: 70,
               flex: 1,
-              paddingVertical: 10,
-              paddingHorizontal: 20,
             }}>
             <TextInput
               placeholder="Search Your contact"
               placeholderTextColor={Colors.lightBlack}
               style={{
                 borderRadius: 5,
-                color: Colors.primary,
+                color: Colors.black,
                 backgroundColor: Colors.white,
-                paddingLeft: 10,
+                paddingRight: 10,
+                paddingVertical: 15,
+                paddingLeft: 50,
               }}
+            />
+            <MaterialIcons
+              name="search"
+              size={25}
+              color={Colors.gray}
+              style={{position: 'absolute', top: 18, left: 10}}
             />
           </View>
           <FlatList data={contactIds} renderItem={renderItem} />

@@ -1,5 +1,5 @@
 const Routes = {
-  url: 'http://134.255.216.211:4000', //'https://prerposedigital.herokuapp.com',
+  url: 'http://ec2-3-110-210-235.ap-south-1.compute.amazonaws.com:4000', //'https://prerposedigital.herokuapp.com',
   ver: '/api/v0.0.1',
   user: '/user',
   picUpdate: '/picUpdate',
