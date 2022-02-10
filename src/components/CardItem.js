@@ -47,6 +47,16 @@ const CardItem = ({onPress, card, active, reverse}) => {
       <Text style={{color: Colors.lightBlack, textAlign: 'center'}}>
         {reverse ? card?.text : card?.info}
       </Text>
+      <Text
+        style={{
+          color: Colors.primary,
+          position: 'absolute',
+          fontSize: 10,
+          bottom: 5,
+          right: 5,
+        }}>
+        {reverse ? 'from : ' + card?.uid : ''}
+      </Text>
     </TouchableOpacity>
   );
 };

@@ -16,7 +16,7 @@ export const getCards = async data => {
   try {
     console.log('reqcards ');
     const res = await axios.get(base + Routes.cardS, data);
-    console.log('cards ', res.data);
+    // console.log('cards ', res.data);
     return res;
   } catch (error) {
     console.log('Unable get cards', error);

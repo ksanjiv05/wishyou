@@ -41,7 +41,7 @@ export default function TabNav() {
           headerShown: true,
           headerStyle: {backgroundColor: Colors.primary},
           headerTintColor: Colors.white,
-          title: 'Wish You',
+          title: 'Wishes',
           tabBarIcon: ({size, color, focused}) => (
             <Entypo
               name="slideshare"

@@ -24,7 +24,7 @@ LogBox.ignoreAllLogs();
 
 const EditCard = ({navigation, route}) => {
   const card = route?.params?.card;
-  console.log('edit card ', card);
+  // console.log('edit card ', card);
   const [showToolBox, setShowToolBox] = React.useState(false);
   const [selectedLine, setSelectedLine] = React.useState('title');
   const [showColor, setShowColor] = React.useState(false);

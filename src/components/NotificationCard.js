@@ -37,7 +37,7 @@ function NotificationCard({item}) {
           <Text
             style={{
               fontWeight: '600',
-              fontSize: 20,
+              fontSize: 14,
               color: Colors.black,
             }}>
             {item?.title}

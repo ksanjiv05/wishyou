@@ -3,9 +3,9 @@ import Routes from '../../config/Routes';
 const base = Routes.url + Routes.ver;
 export const register = async data => {
   try {
-    console.log('req', base + Routes.user);
+    // console.log('req', base + Routes.user);
     const res = await axios.post(base + Routes.user, data);
-    console.log('responce ', res.data);
+    // console.log('responce ', res.data);
     return res;
   } catch (error) {
     console.log('Unable to register');
@@ -15,9 +15,9 @@ export const register = async data => {
 
 export const updateFcmToken = async data => {
   try {
-    console.log('fcm', base + Routes.user);
+    // console.log('fcm', base + Routes.user);
     const res = await axios.put(base + Routes.fcm, data);
-    console.log('responce ', res.data);
+    // console.log('responce ', res.data);
     return res;
   } catch (error) {
     console.log('Unable to register');
@@ -38,9 +38,9 @@ export const updateFcmToken = async data => {
 
 export const updateUser = async data => {
   try {
-    console.log('req', base + Routes.user);
+    // console.log('req', base + Routes.user);
     const res = await axios.put(base + Routes.user, data);
-    console.log('responce ', res.data);
+    // console.log('responce ', res.data);
     return res;
   } catch (error) {
     console.log('Unable to register');
@@ -50,9 +50,9 @@ export const updateUser = async data => {
 
 export const picUpdate = async data => {
   try {
-    console.log('req', base + Routes.picUpdate);
+    // console.log('req', base + Routes.picUpdate);
     const res = await axios.post(base + Routes.picUpdate, data);
-    console.log('responce ', res.data);
+    // console.log('responce ', res.data);
     return res;
   } catch (error) {
     console.log('Unable to update pic');

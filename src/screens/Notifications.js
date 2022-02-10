@@ -1,5 +1,7 @@
 import * as React from 'react';
 import {FlatList, ImageBackground, Text, View} from 'react-native';
+import auth from '@react-native-firebase/auth';
+
 import NotificationCard from '../components/NotificationCard';
 import messaging from '@react-native-firebase/messaging';
 import {getNotifications} from '../apis/notification/notification';
@@ -8,13 +10,14 @@ import noNotification from '../../assets/images/no-notification.png';
 import Loader from '../components/Loader';
 
 const Notifications = ({navigation}) => {
+  const uid = auth().currentUser.email;
   const [notifications, setNotifications] = React.useState([]);
   const [refresh, setRefresh] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
   async function fetchData() {
     notifications?.length === 0 && setIsLoading(true);
-    const responce = await getNotifications('?uid=test2@gmail.com');
+    const responce = await getNotifications('?uid=' + uid);
     if (responce && responce.status === 200) {
       setNotifications(responce.data.notifications);
       setRefresh(false);
@@ -28,7 +31,7 @@ const Notifications = ({navigation}) => {
   }, [refresh]);
   React.useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('_________new noti_________', remoteMessage);
+      // console.log('_________new noti_________', remoteMessage);
       // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
 

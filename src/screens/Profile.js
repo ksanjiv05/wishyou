@@ -38,7 +38,7 @@ const updatePic = async uri => {
     return;
   }
   if (res && res.status === 200) {
-    console.log('pic updated -', res.data);
+    // console.log('pic updated -', res.data);
     auth().currentUser.updateProfile({
       photoURL: res.data.url,
     });
@@ -56,7 +56,7 @@ const updateProfile = async data => {
     return true;
   }
   if (res && res.status === 200) {
-    console.log('profile updated -', res.data);
+    // console.log('profile updated -', res.data);
     auth().currentUser.updateProfile({
       displayName: data.displayName,
       phoneNumber: data.phoneNumber,

@@ -49,7 +49,7 @@ const registerCall = async ({
     showToast('Password should be 8 char');
     return false;
   }
-  console.log('register');
+  // console.log('register');
   const res = await register({name, email, phone, password});
   if (res && res.status === 200) {
     showToast('Registered sucessfully');
@@ -77,7 +77,7 @@ function Register({navigation}) {
 
   const handleRegister = async () => {
     setLoader(true);
-    console.log('register', data);
+    // console.log('register', data);
     await registerCall(data);
     setLoader(false);
     navigation.push('Login');

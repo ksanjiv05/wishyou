@@ -1,9 +1,10 @@
-import {View, Text, ImageBackground, Image} from 'react-native';
+import {View, Text, ImageBackground, Dimensions, Image} from 'react-native';
 import React from 'react';
 import {getCard} from '../apis/wish-card';
 import Loader from '../components/Loader';
 import {showToast} from '../utils/toast';
 import noPreview from '../../assets/images/no-preview.png';
+import Colors from '../config/Colors';
 
 const CardPreview = ({route}) => {
   const {_id} = route.params;
@@ -31,7 +32,11 @@ const CardPreview = ({route}) => {
       {card ? (
         <ImageBackground
           source={{uri: card?.background}}
-          style={{flex: 1, width: '100%'}}
+          style={{
+            flex: 1,
+            width: '100%',
+            // height: Dimensions.get('window').height,
+          }}
           resizeMode="cover">
           {/**title render */}
           <View
@@ -95,6 +100,16 @@ const CardPreview = ({route}) => {
               {card?.tagline}
             </Text>
           </View>
+          <Text
+            style={{
+              color: Colors.lightGray,
+              position: 'absolute',
+              fontSize: 12,
+              bottom: 10,
+              right: 15,
+            }}>
+            {'from : ' + card?.uid}
+          </Text>
         </ImageBackground>
       ) : (
         <ImageBackground

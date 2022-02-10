@@ -47,7 +47,10 @@ function WishYou({navigation}) {
 
   const searchCard = text => {
     const new_data = wishes.filter(
-      item => item.text.includes(text) || item.title.includes(text),
+      item =>
+        item.text.includes(text) ||
+        item.title.includes(text) ||
+        item.uid.includes(text),
     );
 
     setFilteredWish(new_data);
