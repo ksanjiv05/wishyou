@@ -8,6 +8,7 @@ import {getNotifications} from '../apis/notification/notification';
 import Colors from '../config/Colors';
 import noNotification from '../../assets/images/no-notification.png';
 import Loader from '../components/Loader';
+import RoundedButton from '../components/RoundedButton';
 
 const Notifications = ({navigation}) => {
   const uid = auth().currentUser.email;
@@ -57,17 +58,27 @@ const Notifications = ({navigation}) => {
         ) : (
           <ImageBackground
             source={noNotification}
-            style={{flex: 1, backgroundColor: Colors.white}}
+            style={{
+              flex: 1,
+              backgroundColor: Colors.white,
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              paddingBottom: 30,
+            }}
             resizeMode="center">
             <Text
               style={{
                 color: Colors.lightBlack,
-                position: 'absolute',
-                top: '65%',
-                left: '30%',
+                marginBottom: 20,
               }}>
               No notifications found!
             </Text>
+            <RoundedButton
+              label="Refresh"
+              style={{backgroundColor: Colors.primary}}
+              textStyle={{color: Colors.white}}
+              onPress={() => setRefresh(true)}
+            />
           </ImageBackground>
         )}
       </View>

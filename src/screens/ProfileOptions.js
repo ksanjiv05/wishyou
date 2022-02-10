@@ -1,4 +1,4 @@
-import {View, Text, Dimensions, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
 import React from 'react';
 import auth from '@react-native-firebase/auth';
 import default_male from '../../assets/images/default-male.jpg';
@@ -9,7 +9,6 @@ import {useIsFocused} from '@react-navigation/native';
 import {showToast} from '../utils/toast';
 
 const ProfileOptions = ({navigation}) => {
-  const {width, height} = Dimensions.get('window');
   const [user, setUser] = React.useState({});
   const isFocused = useIsFocused();
   React.useEffect(() => {
@@ -43,8 +42,8 @@ const ProfileOptions = ({navigation}) => {
         <View
           style={{
             ...styles.profile_pic,
-            width: width / 2,
-            height: height / 4,
+            width: 180,
+            height: 180,
           }}>
           <Image
             source={user?.photoURL ? {uri: user?.photoURL} : default_male}

@@ -2,7 +2,7 @@ import {Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Colors from '../config/Colors';
 
-const RoundedButton = ({onPress, label, style}) => {
+const RoundedButton = ({onPress, label, style, textStyle}) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -13,7 +13,9 @@ const RoundedButton = ({onPress, label, style}) => {
         backgroundColor: Colors.white,
         ...style,
       }}>
-      <Text style={{color: Colors.primary, fontWeight: '700'}}>{label}</Text>
+      <Text style={{color: Colors.primary, fontWeight: '700', ...textStyle}}>
+        {label}
+      </Text>
     </TouchableOpacity>
   );
 };

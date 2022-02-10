@@ -119,7 +119,12 @@ function WishYou({navigation}) {
             paddingBottom: 10,
           }}
           resizeMode="cover">
-          <RoundedButton label="Refresh" onPress={() => setRefresh(true)} />
+          <RoundedButton
+            label="Refresh"
+            style={{backgroundColor: Colors.primary}}
+            textStyle={{color: Colors.white}}
+            onPress={() => setRefresh(true)}
+          />
         </ImageBackground>
       )}
     </View>

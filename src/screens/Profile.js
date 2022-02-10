@@ -4,7 +4,6 @@ import {
   Text,
   ScrollView,
   StyleSheet,
-  Dimensions,
   Image,
   TextInput,
   TouchableOpacity,
@@ -67,7 +66,6 @@ const updateProfile = async data => {
 };
 
 function Profile({navigation}) {
-  const {width, height} = Dimensions.get('window');
   const [isLoading, setIsLoading] = React.useState(false);
   let pic = auth().currentUser.photoURL
     ? {uri: auth().currentUser.photoURL}
@@ -131,8 +129,8 @@ function Profile({navigation}) {
               <View
                 style={{
                   ...styles.profile_pic,
-                  width: width / 2,
-                  height: height / 4,
+                  width: 180,
+                  height: 180,
                 }}>
                 <Image source={profile_pic} style={styles.image} />
                 <TouchableOpacity style={styles.upload} onPress={picImage}>
