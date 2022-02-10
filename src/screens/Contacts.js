@@ -32,20 +32,6 @@ const ModalContant = ({uid}) => {
   const [email, setEmail] = React.useState('');
   const [loader, setLoader] = React.useState(true);
   const [searched, setSearched] = React.useState(null);
-  // const search = async () => {
-  //   setLoader(true);
-  //   const responce = await searchContact('?email=' + email);
-  //   if (responce && responce.status === 200) {
-  //     console.log('search youser data', responce.data);
-  //     setSearched(responce.data.user);
-  //   }
-  //   if (responce && responce.status === 201) {
-  //     showToast('Contact Already Added');
-  //   } else {
-  //     showToast('Unable to process your request');
-  //   }
-  //   setLoader(false);
-  // };
 
   const handleAddContact = async () => {
     setLoader(true);
@@ -117,23 +103,15 @@ function Contacts({navigation}) {
   const uid = auth().currentUser.email;
   const [contacts, setContacts] = React.useState([]);
   const [contactsToInvite, setContactsToInvite] = React.useState([]);
-  const [contactIds, setContactIds] = React.useState([1, 2, 3]);
-  const [modalVisible, setModalVisible] = React.useState(true);
+  const [filteredContacts, setFilteredContacts] = React.useState([]);
   const [loader, setLoader] = React.useState(false);
 
-  async function fetchContacts() {
-    const responce = await getContacts('?uid=' + uid);
-    if (responce && responce.status === 200) {
-      setContacts(responce.data);
-    }
-    setLoader(false);
-  }
-
-  const addContact = () => {};
-  // React.useEffect(() => {
-  //   setLoader(true);
-  //   fetchContacts();
-  // }, []);
+  const filterContact = text => {
+    const newContacts = contactsToInvite.filter(
+      c => c?.name === text || c?.phone === text,
+    );
+    console.log(newContacts);
+  };
 
   const getAllContacts = () => {
     setLoader(true);
@@ -143,13 +121,11 @@ function Contacts({navigation}) {
       buttonPositive: 'Please accept bare mortal',
     }).then(
       PhoneContacts.checkPermission().then(res => {
-        console.log('access', res);
         if (res === 'authorized') {
-          console.log('ath');
           PhoneContacts.getAll()
             .then(async respon => {
               let contactsIdsLocal = [];
-              console.log('Length ', respon[0]);
+              let localNumbers = [];
               respon &&
                 respon.map(contact => {
                   const whitSpaceErs = contact.phoneNumbers[0]?.number.replace(
@@ -161,9 +137,16 @@ function Contacts({navigation}) {
                         whitSpaceErs.substr(whitSpaceErs.length - 10),
                       )
                     : '';
+                  localNumbers.push({
+                    phone: contact.phoneNumbers[0]?.number,
+                    name: contact.displayName,
+                  });
                 });
-              console.log('contact ids ', contactsIdsLocal);
-              // setContactIds(contactsIdsLocal);
+
+              setContactsToInvite(localNumbers);
+              setFilteredContacts(localNumbers);
+              setLoader(false);
+
               const responce = await searchAndAddContact({
                 uid,
                 contacts: contactsIdsLocal,
@@ -171,26 +154,10 @@ function Contacts({navigation}) {
 
               if (responce && responce.status === 200) {
                 setContacts(responce.data.contacts);
-                const contactsx = responce.data.contacts;
-                console.log('__________');
-                contactsx.filter(id => {
-                  console.log(
-                    contactsIdsLocal.includes(id.phone),
-                    '+++',
-                    id.phone,
-                  );
-                });
-                // !contactsIdsLocal.includes(id.phone)
-                // setContactsToInvite(
-
-                // );
                 showToast('Contact Updated');
               } else {
                 showToast('unable to Updated');
               }
-
-              setLoader(false);
-              // console.log('get conmtact', JSON.parse(respon));
             })
             .catch(err => {
               console.log('err', err);
@@ -205,8 +172,11 @@ function Contacts({navigation}) {
   }, []);
 
   const renderItem = ({item, index}) => {
-    console.log('_______', item);
-    return <ContactItem item={item} key={index} />;
+    if (contacts.filter(c => c.phone === item.phone).length > 0) {
+      return <ContactItem item={item} key={index} />;
+    } else {
+      return <ContactItem item={item} key={index} invite={true} />;
+    }
   };
 
   return (
@@ -221,7 +191,7 @@ function Contacts({navigation}) {
           <View
             style={{
               maxHeight: 70,
-              flex: 1,
+              position: 'relative',
             }}>
             <TextInput
               placeholder="Search Your contact"
@@ -234,6 +204,7 @@ function Contacts({navigation}) {
                 paddingVertical: 15,
                 paddingLeft: 50,
               }}
+              onChangeText={text => filterContact(text)}
             />
             <MaterialIcons
               name="search"
@@ -242,24 +213,15 @@ function Contacts({navigation}) {
               style={{position: 'absolute', top: 18, left: 10}}
             />
           </View>
-          <FlatList data={contacts} renderItem={renderItem} />
-          <FlatList data={contactsToInvite} renderItem={renderItem} />
+          <View>
+            <FlatList
+              data={filteredContacts}
+              renderItem={renderItem}
+              extraData={contacts}
+            />
+          </View>
         </>
       )}
-
-      {/** modal to add new contact */}
-      {/* <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
-        {modalVisible ? <ModalContant uid={uid} /> : <></>}
-      </Modal> */}
-
-      {/**button to add contact */}
     </View>
   );
 }
