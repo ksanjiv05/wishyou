@@ -3,15 +3,12 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Modal,
   Dimensions,
   TextInput,
   Button,
-  Linking,
   ActivityIndicator,
   PermissionsAndroid,
   FlatList,
-  Alert,
 } from 'react-native';
 import {
   createContact,
@@ -108,9 +105,8 @@ function Contacts({navigation}) {
 
   const filterContact = text => {
     const newContacts = contactsToInvite.filter(
-      c => c?.name === text || c?.phone === text,
+      c => c?.name == text || c?.phone == text,
     );
-    console.log(newContacts);
   };
 
   const getAllContacts = () => {
