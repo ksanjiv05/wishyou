@@ -35,10 +35,12 @@ function NotificationCard({item}) {
             justifyContent: 'space-between',
           }}>
           <Text
+            numberOfLines={1}
             style={{
               fontWeight: '600',
               fontSize: 14,
               color: Colors.black,
+              width: '60%',
             }}>
             {item?.title}
           </Text>
