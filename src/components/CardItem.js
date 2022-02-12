@@ -8,11 +8,12 @@ import {
 import Colors from '../config/Colors';
 import Routes from '../config/Routes';
 const cardURL = Routes.url + Routes.ver + Routes.card + '?cardId=';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const CardItem = ({onPress, card, active, reverse}) => {
+const CardItem = ({onPress, card, active, reverse, removeCard}) => {
   const height = Dimensions.get('screen').height;
   const width = Dimensions.get('screen').width;
-  // console.log('_________', cardURL + card?._id);
+
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -47,16 +48,39 @@ const CardItem = ({onPress, card, active, reverse}) => {
       <Text style={{color: Colors.lightBlack, textAlign: 'center'}}>
         {reverse ? card?.text : card?.info}
       </Text>
-      <Text
-        style={{
-          color: Colors.primary,
-          position: 'absolute',
-          fontSize: 10,
-          bottom: 5,
-          right: 5,
-        }}>
-        {reverse ? 'from : ' + card?.uid : ''}
-      </Text>
+      {reverse && (
+        <>
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              right: 5,
+              top: 5,
+              width: 50,
+              height: 50,
+              borderRadius: 30,
+              backgroundColor: Colors.lightGray,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onPress={() => removeCard(card?._id)}>
+            <Icon name="trash-can" size={25} color={Colors.primary} />
+          </TouchableOpacity>
+          <Text
+            style={{
+              color: Colors.white,
+              position: 'absolute',
+              fontSize: 10,
+              bottom: 0,
+              right: 0,
+              backgroundColor: Colors.primary,
+              paddingHorizontal: 5,
+              paddingVertical: 2,
+              borderRadius: 5,
+            }}>
+            {reverse ? 'From : ' + card?.uid : ''}
+          </Text>
+        </>
+      )}
     </TouchableOpacity>
   );
 };

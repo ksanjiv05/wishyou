@@ -31,3 +31,13 @@ export const getCard = async data => {
     return null;
   }
 };
+
+export const deleteCard = async data => {
+  try {
+    const res = await axios.delete(base + Routes.userCard + data);
+    return res;
+  } catch (error) {
+    console.log('Unable to delete card', error);
+    return null;
+  }
+};

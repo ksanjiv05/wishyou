@@ -8,6 +8,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import noWishCards from '../../assets/images/no-wish-cards.png';
 import RoundedButton from '../components/RoundedButton';
 import auth from '@react-native-firebase/auth';
+import {showToast} from '../utils/toast';
+import {deleteCard} from '../apis/wish-card';
 
 function WishYou({navigation}) {
   const [refresh, setRefresh] = React.useState(false);
@@ -30,6 +32,17 @@ function WishYou({navigation}) {
       setRefresh(false);
     }
   }
+
+  const removeCard = async id => {
+    const res = await deleteCard('?userCardId=' + id);
+    if (res && res.status === 200) {
+      showToast('Card removed successfully.');
+      setWishes(prev => prev._id !== id);
+      setFilteredWish(prev => prev._id !== id);
+    } else {
+      showToast('Unable to remove card.');
+    }
+  };
 
   const fetchMore = async () => {
     const response = await getWishCards(
@@ -102,6 +115,7 @@ function WishYou({navigation}) {
                 }
                 card={item}
                 reverse={true}
+                removeCard={removeCard}
               />
             )}
             onEndReachedThreshold={0.1}

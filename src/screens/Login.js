@@ -25,18 +25,14 @@ const loginCall = async ({email = '', password = ''}, navigation) => {
   auth()
     .signInWithEmailAndPassword(email, password)
     .then(() => {
-      // console.log('User account created & signed in!');
       showToast('You are logged in successfully.');
-      // navigation.navigate('Tab');
     })
     .catch(error => {
       if (error.code === 'auth/user-not-found') {
-        // console.log('user not found');
         showToast('User not found! Please register');
         return true;
       }
       showToast('Invalid creadantial');
-      // console.log(error.code);
     });
 };
 
@@ -73,13 +69,11 @@ function Login({navigation}) {
       .sendPasswordResetEmail(email)
       .then(() => {
         showToast('Reset link successfully send to your email');
-        // console.log('link send');
         setLoader(false);
         setIsLogin(true);
       })
       .catch(error => {
         showToast('Unable to send reset link');
-        // console.log(error.code);
         setLoader(false);
       });
   };

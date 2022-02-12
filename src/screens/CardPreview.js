@@ -35,7 +35,6 @@ const CardPreview = ({route}) => {
           style={{
             flex: 1,
             width: '100%',
-            // height: Dimensions.get('window').height,
           }}
           resizeMode="cover">
           {/**title render */}
@@ -102,13 +101,18 @@ const CardPreview = ({route}) => {
           </View>
           <Text
             style={{
-              color: Colors.lightGray,
+              color: Colors.white,
               position: 'absolute',
-              fontSize: 12,
-              bottom: 10,
-              right: 15,
+              fontSize: 10,
+              bottom: 0,
+              right: '50%',
+              transform: [{translateX: 85}],
+              backgroundColor: Colors.primary,
+              paddingHorizontal: 5,
+              paddingVertical: 2,
+              borderRadius: 5,
             }}>
-            {'from : ' + card?.uid}
+            {'From : ' + card?.uid}
           </Text>
         </ImageBackground>
       ) : (
