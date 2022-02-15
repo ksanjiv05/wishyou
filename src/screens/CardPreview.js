@@ -1,9 +1,8 @@
-import {View, Text, ImageBackground, Dimensions, Image} from 'react-native';
+import {View, Text, ImageBackground} from 'react-native';
 import React from 'react';
 import {getCard} from '../apis/wish-card';
 import Loader from '../components/Loader';
 import {showToast} from '../utils/toast';
-import noPreview from '../../assets/images/no-preview.png';
 import Colors from '../config/Colors';
 
 const CardPreview = ({route}) => {
@@ -35,7 +34,6 @@ const CardPreview = ({route}) => {
           style={{
             flex: 1,
             width: '100%',
-            // height: Dimensions.get('window').height,
           }}
           resizeMode="cover">
           {/**title render */}
@@ -102,21 +100,24 @@ const CardPreview = ({route}) => {
           </View>
           <Text
             style={{
-              color: Colors.lightGray,
+              color: Colors.white,
               position: 'absolute',
-              fontSize: 12,
-              bottom: 10,
-              right: 15,
+              fontSize: 10,
+              bottom: 0,
+              right: '50%',
+              transform: [{translateX: 85}],
+              backgroundColor: Colors.primary,
+              paddingHorizontal: 5,
+              paddingVertical: 2,
+              borderRadius: 5,
             }}>
-            {'from : ' + card?.uid}
+            {'From : ' + card?.uid}
           </Text>
         </ImageBackground>
       ) : (
-        <ImageBackground
-          source={noPreview}
-          style={{flex: 1}}
-          resizeMode="cover"
-        />
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <Text style={{color: Colors.lightBlack}}>Card not found!</Text>
+        </View>
       )}
     </View>
   );

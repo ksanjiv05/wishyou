@@ -8,19 +8,6 @@ import HomeStack from './src/navigation/HomeStack';
 import auth from '@react-native-firebase/auth';
 import {updateFcmToken} from './src/apis/auth/auth';
 import NotificationAlert from './src/components/NotificationAlert';
-// const socket = io(
-//   'http://67c1-2409-4050-e81-87f1-7838-315b-b676-2ecd.ngrok.io',
-//   {
-//     query: {token: auth().currentUser.email},
-//     path: '/socket.io',
-//   },
-//   {
-//     forceNew: true,
-//   },
-//   {
-//     transports: ['websocket', 'polling', 'flashsocket'],
-//   },
-// );
 
 export const GlobalContext = React.createContext();
 
@@ -35,7 +22,6 @@ const App = () => {
     if (user) {
       setUser(user);
       const tok = await auth().currentUser.getIdToken();
-      console.log(user, '---');
     } else {
       setUser(null);
     }
@@ -55,50 +41,21 @@ const App = () => {
 
     return unsubscribe;
   }, []);
-  //socket imp
-  // React.useEffect(() => {
-  //   socket.on('connect', () => {
-  //     console.log('socket connected', socket.id); // "G5p5..."
-  //   });
-  //   socket.on('disconnect', () => {
-  //     console.log('socket disconnected');
-  //     socket.connect();
-  //   });
-  // }, [socket]);
-  //end socket
 
   React.useEffect(() => {
     user &&
       messaging()
         .getToken()
         .then(token => {
-          console.log('your token ', token);
           updateFcmToken({fcmToken: token, email: auth().currentUser?.email});
         })
         .catch(err => {
           console.log('unable to get token', err);
         });
-    return messaging().onTokenRefresh(token => {
-      console.log('token ref', token);
-      updateFcmToken({fcmToken: token, email: auth().currentUser.email});
-    });
+    // return messaging().onTokenRefresh(token => {
+    //   updateFcmToken({fcmToken: token, email: auth().currentUser.email});
+    // });
   }, [user]);
-
-  // const config = {
-  //   screens: {
-  //     AddContact: {
-  //       path: 'addcontact/:id',
-  //       parse: {
-  //         id: id => `${id}`,
-  //       },
-  //     },
-  //   },
-  // };
-
-  // const linking = {
-  //   prefixes: ['https://mydigitalidentity.com', 'mydigitalidentity://'],
-  //   config,
-  // };
 
   if (initializing)
     return (

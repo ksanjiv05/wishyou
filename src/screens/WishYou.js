@@ -1,13 +1,14 @@
 import React from 'react';
-import {View, FlatList, TextInput, ImageBackground} from 'react-native';
+import {View, FlatList, TextInput, Text} from 'react-native';
 import {getWishCards} from '../apis/wish-card';
 import CardItem from '../components/CardItem';
 import Loader from '../components/Loader';
 import Colors from '../config/Colors';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import noWishCards from '../../assets/images/no-wish-cards.png';
 import RoundedButton from '../components/RoundedButton';
 import auth from '@react-native-firebase/auth';
+import {showToast} from '../utils/toast';
+import {deleteCard} from '../apis/wish-card';
 
 function WishYou({navigation}) {
   const [refresh, setRefresh] = React.useState(false);
@@ -30,6 +31,18 @@ function WishYou({navigation}) {
       setRefresh(false);
     }
   }
+
+  const removeCard = async id => {
+    const res = await deleteCard('?userCardId=' + id);
+    if (res && res.status === 200) {
+      showToast('Card removed successfully.');
+      const newWishes = wishes.filter(item => item._id !== id);
+      setWishes(newWishes);
+      setFilteredWish(newWishes);
+    } else {
+      showToast('Unable to remove card.');
+    }
+  };
 
   const fetchMore = async () => {
     const response = await getWishCards(
@@ -102,6 +115,7 @@ function WishYou({navigation}) {
                 }
                 card={item}
                 reverse={true}
+                removeCard={removeCard}
               />
             )}
             onEndReachedThreshold={0.1}
@@ -110,22 +124,22 @@ function WishYou({navigation}) {
         </View>
       )}
       {filteredWish?.length === 0 && (
-        <ImageBackground
-          source={noWishCards}
+        <View
           style={{
             flex: 1,
             alignItems: 'center',
-            justifyContent: 'flex-end',
-            paddingBottom: 10,
-          }}
-          resizeMode="cover">
+            justifyContent: 'center',
+          }}>
+          <Text style={{color: Colors.lightBlack, marginBottom: 30}}>
+            No one shared you any card yet!
+          </Text>
           <RoundedButton
             label="Refresh"
             style={{backgroundColor: Colors.primary}}
             textStyle={{color: Colors.white}}
             onPress={() => setRefresh(true)}
           />
-        </ImageBackground>
+        </View>
       )}
     </View>
   );

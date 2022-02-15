@@ -1,12 +1,11 @@
 import * as React from 'react';
-import {FlatList, ImageBackground, Text, View} from 'react-native';
+import {FlatList, View, Text} from 'react-native';
 import auth from '@react-native-firebase/auth';
 
 import NotificationCard from '../components/NotificationCard';
 import messaging from '@react-native-firebase/messaging';
 import {getNotifications} from '../apis/notification/notification';
 import Colors from '../config/Colors';
-import noNotification from '../../assets/images/no-notification.png';
 import Loader from '../components/Loader';
 import RoundedButton from '../components/RoundedButton';
 
@@ -56,20 +55,17 @@ const Notifications = ({navigation}) => {
             }}
           />
         ) : (
-          <ImageBackground
-            source={noNotification}
+          <View
             style={{
               flex: 1,
               backgroundColor: Colors.white,
               alignItems: 'center',
-              justifyContent: 'flex-end',
-              paddingBottom: 30,
-            }}
-            resizeMode="center">
+              justifyContent: 'center',
+            }}>
             <Text
               style={{
                 color: Colors.lightBlack,
-                marginBottom: 20,
+                marginBottom: 30,
               }}>
               No notifications found!
             </Text>
@@ -79,7 +75,7 @@ const Notifications = ({navigation}) => {
               textStyle={{color: Colors.white}}
               onPress={() => setRefresh(true)}
             />
-          </ImageBackground>
+          </View>
         )}
       </View>
     </>

@@ -25,18 +25,14 @@ const loginCall = async ({email = '', password = ''}, navigation) => {
   auth()
     .signInWithEmailAndPassword(email, password)
     .then(() => {
-      // console.log('User account created & signed in!');
       showToast('You are logged in successfully.');
-      // navigation.navigate('Tab');
     })
     .catch(error => {
       if (error.code === 'auth/user-not-found') {
-        // console.log('user not found');
         showToast('User not found! Please register');
         return true;
       }
       showToast('Invalid creadantial');
-      // console.log(error.code);
     });
 };
 
@@ -58,8 +54,6 @@ function Login({navigation}) {
     const res = await loginCall(data, navigation);
     if (res) {
       setLoader(false);
-    } else {
-      setLoader(false);
     }
   };
 
@@ -73,13 +67,11 @@ function Login({navigation}) {
       .sendPasswordResetEmail(email)
       .then(() => {
         showToast('Reset link successfully send to your email');
-        // console.log('link send');
         setLoader(false);
         setIsLogin(true);
       })
       .catch(error => {
         showToast('Unable to send reset link');
-        // console.log(error.code);
         setLoader(false);
       });
   };
@@ -102,7 +94,7 @@ function Login({navigation}) {
               Welcome Back🥰
             </Text>
             <Text style={{color: Colors.black, marginTop: 5}}>
-              You are one step away to whish your loved ones.
+              You are one step away to wish your loved ones.
             </Text>
           </View>
         ) : (
@@ -192,7 +184,7 @@ function Login({navigation}) {
             <Text style={{color: Colors.lightBlack}}>
               Don't have an account?{' '}
             </Text>
-            <TouchableOpacity onPress={() => navigation.push('Register')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
               <Text style={{color: Colors?.primary}}>Register</Text>
             </TouchableOpacity>
           </View>

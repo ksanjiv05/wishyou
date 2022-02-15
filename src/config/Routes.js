@@ -21,4 +21,6 @@ const Routes = {
   feedback: '/feedback',
 };
 
+export const shareLink = 'https://bit.ly/3BoRzFL';
+
 export default Routes;
