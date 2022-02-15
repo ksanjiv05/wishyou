@@ -207,7 +207,7 @@ const ShareView = ({close, card}) => {
 
   return (
     <>
-      {isLoading && <Loader text="Sending..." />}
+      {isLoading && <Loader text="Processing..." />}
       <View style={{flex: 1}}>
         <TouchableOpacity style={styles.close} onPress={close}>
           <Entypo name="cross" size={50} color={Colors.white} />

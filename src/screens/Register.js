@@ -49,7 +49,6 @@ const registerCall = async ({
     showToast('Password should be 8 char');
     return false;
   }
-  // console.log('register');
   const res = await register({name, email, phone, password});
   if (res && res.status === 200) {
     showToast('Registered sucessfully');
@@ -68,7 +67,6 @@ function Register({navigation}) {
     phone: '',
   });
   const [loader, setLoader] = React.useState(false);
-  const [visible, setVisible] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleChange = (key, text) => {
@@ -77,10 +75,13 @@ function Register({navigation}) {
 
   const handleRegister = async () => {
     setLoader(true);
-    // console.log('register', data);
-    await registerCall(data);
-    setLoader(false);
-    navigation.push('Login');
+    const res = await registerCall(data);
+    if (res) {
+      setLoader(false);
+      navigation.navigate('Login');
+    } else {
+      setLoader(false);
+    }
   };
 
   return (
@@ -97,7 +98,7 @@ function Register({navigation}) {
 
         <View style={{marginTop: 20, paddingHorizontal: 30}}>
           <Text style={{color: Colors.black, marginTop: 5}}>
-            You are one step away to whish your loved ones.
+            You are one step away to wish your loved ones.
           </Text>
         </View>
 
@@ -195,7 +196,7 @@ function Register({navigation}) {
             <Text style={{color: Colors.lightBlack}}>
               Already have an account?{' '}
             </Text>
-            <TouchableOpacity onPress={() => navigation.push('Login')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
               <Text style={{color: Colors?.primary}}>Login</Text>
             </TouchableOpacity>
           </View>

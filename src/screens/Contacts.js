@@ -1,95 +1,19 @@
 import React from 'react';
 import {
   View,
-  Text,
-  TouchableOpacity,
   Dimensions,
   TextInput,
-  Button,
   ActivityIndicator,
   PermissionsAndroid,
   FlatList,
 } from 'react-native';
-import {createContact, searchAndAddContact} from '../apis/contact/contact';
+import {searchAndAddContact} from '../apis/contact/contact';
 import auth from '@react-native-firebase/auth';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Colors from '../config/Colors';
 import {showToast} from '../utils/toast';
 import PhoneContacts from 'react-native-contacts';
 import ContactItem from '../components/ContactItem';
-const screenHight = Dimensions.get('screen').height;
-
-const ModalContant = ({uid}) => {
-  const [email, setEmail] = React.useState('');
-  const [loader, setLoader] = React.useState(true);
-  const [searched, setSearched] = React.useState(null);
-
-  const handleAddContact = async () => {
-    setLoader(true);
-    await createContact({uid, cid: searched.email});
-    setLoader(false);
-  };
-  return (
-    <View
-      style={{
-        backgroundColor: Colors.lightBlack,
-        height: 250,
-        marginHorizontal: 20,
-        alignContent: 'center',
-        paddingHorizontal: 10,
-        borderRadius: 15,
-        paddingVertical: 15,
-        // justifyContent: 'center',
-        marginTop: screenHight / 4,
-      }}>
-      <View style={{marginBottom: 5}}>
-        <Text style={{color: Colors.black}}>Search By Email</Text>
-        <View style={{flexDirection: 'row', marginBottom: 10}}>
-          <TextInput
-            style={{
-              backgroundColor: Colors.lightGray,
-              paddingHorizontal: 10,
-              borderRadius: 10,
-              width: 200,
-              marginTop: 5,
-              display: 'flex',
-              borderWidth: 1,
-              borderColor: Colors.gray,
-              color: Colors.black,
-            }}
-            placeholderTextColor={Colors.lightBlack}
-            placeholder="user@gmail.com"
-            value={email}
-            onChangeText={text => setEmail(text)}
-          />
-          <TouchableOpacity
-            style={{
-              // position: 'absolute',
-              display: 'flex',
-              width: 60,
-              padding: 20,
-              backgroundColor: Colors.primary,
-              borderRadius: 50,
-            }}
-            onPress={getAllContacts}>
-            <FontAwesome name="search" size={20} color={Colors.white} />
-          </TouchableOpacity>
-        </View>
-        {/** tto add contact button*/}
-        {searched ? (
-          <Button
-            title={searched.email + ' +'}
-            style={{flex: 1, height: 50}}
-            color={Colors.primary}
-            onPress={handleAddContact}></Button>
-        ) : (
-          <></>
-        )}
-      </View>
-    </View>
-  );
-};
 
 function Contacts({navigation}) {
   const uid = auth().currentUser.email;
