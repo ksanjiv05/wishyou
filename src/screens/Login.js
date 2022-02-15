@@ -54,8 +54,6 @@ function Login({navigation}) {
     const res = await loginCall(data, navigation);
     if (res) {
       setLoader(false);
-    } else {
-      setLoader(false);
     }
   };
 
@@ -96,7 +94,7 @@ function Login({navigation}) {
               Welcome Back🥰
             </Text>
             <Text style={{color: Colors.black, marginTop: 5}}>
-              You are one step away to whish your loved ones.
+              You are one step away to wish your loved ones.
             </Text>
           </View>
         ) : (
@@ -186,7 +184,7 @@ function Login({navigation}) {
             <Text style={{color: Colors.lightBlack}}>
               Don't have an account?{' '}
             </Text>
-            <TouchableOpacity onPress={() => navigation.push('Register')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
               <Text style={{color: Colors?.primary}}>Register</Text>
             </TouchableOpacity>
           </View>

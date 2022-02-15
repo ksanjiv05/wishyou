@@ -19,7 +19,7 @@ import {showToast} from '../utils/toast';
 import Loader from '../components/Loader';
 import ShareView from '../components/ShareView';
 import Share from 'react-native-share';
-import Routes from '../config/Routes';
+import {shareLink} from '../config/Routes';
 
 const Preview = ({navigation, route}) => {
   const card = route?.params?.card;
@@ -68,7 +68,7 @@ const Preview = ({navigation, route}) => {
         Share.open({
           message:
             'WOW, I am sharing you this card using Wish You App. Download App 👉' +
-            Routes.url,
+            shareLink,
           url: uri,
         })
           .then(res => {

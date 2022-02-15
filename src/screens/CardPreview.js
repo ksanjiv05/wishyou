@@ -1,9 +1,8 @@
-import {View, Text, ImageBackground, Dimensions, Image} from 'react-native';
+import {View, Text, ImageBackground} from 'react-native';
 import React from 'react';
 import {getCard} from '../apis/wish-card';
 import Loader from '../components/Loader';
 import {showToast} from '../utils/toast';
-import noPreview from '../../assets/images/no-preview.png';
 import Colors from '../config/Colors';
 
 const CardPreview = ({route}) => {
@@ -116,11 +115,9 @@ const CardPreview = ({route}) => {
           </Text>
         </ImageBackground>
       ) : (
-        <ImageBackground
-          source={noPreview}
-          style={{flex: 1}}
-          resizeMode="cover"
-        />
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <Text style={{color: Colors.lightBlack}}>Card not found!</Text>
+        </View>
       )}
     </View>
   );

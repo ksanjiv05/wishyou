@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  TouchableOpacity,
-  Text,
-  Dimensions,
-  ImageBackground,
-} from 'react-native';
+import {TouchableOpacity, Text, Dimensions, Image} from 'react-native';
 import Colors from '../config/Colors';
 import Routes from '../config/Routes';
 const cardURL = Routes.url + Routes.ver + Routes.card + '?cardId=';
@@ -12,7 +7,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const CardItem = ({onPress, card, active, reverse, removeCard}) => {
   const height = Dimensions.get('screen').height;
-  const width = Dimensions.get('screen').width;
 
   return (
     <TouchableOpacity
@@ -24,28 +18,32 @@ const CardItem = ({onPress, card, active, reverse, removeCard}) => {
         padding: 10,
         borderWidth: 3,
         marginVertical: 5,
-        backgroundColor: Colors.lightGray,
+        backgroundColor: Colors.white,
         height: height / 4 - 40,
         overflow: 'hidden',
         alignItems: 'center',
         justifyContent: 'center',
       }}>
       {card?.background !== '' && (
-        <ImageBackground
+        <Image
           source={{uri: reverse ? card?.background : cardURL + card?._id}}
+          resizeMode="cover"
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
-            width: width - 20,
-            height: height / 4 - 40,
+            width: 50,
+            height: 50,
+            borderRadius: 5,
           }}
         />
       )}
-      <Text style={{color: Colors.black, fontWeight: '700'}}>
+      <Text numberOfLines={1} style={{color: Colors.black, fontWeight: '700'}}>
         {reverse ? card?.title : card?.name}
       </Text>
-      <Text style={{color: Colors.lightBlack, textAlign: 'center'}}>
+      <Text
+        numberOfLines={1}
+        style={{color: Colors.lightBlack, textAlign: 'center'}}>
         {reverse ? card?.text : card?.info}
       </Text>
       {reverse && (
