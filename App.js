@@ -1,5 +1,10 @@
 import React from 'react';
-import {StatusBar, View, ActivityIndicator, Alert, Text} from 'react-native';
+import {
+  StatusBar,
+  View,
+  ActivityIndicator,
+  PermissionsAndroid,
+} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 import Colors from './src/config/Colors';
@@ -31,6 +36,13 @@ const App = () => {
 
   React.useEffect(() => {
     SplashScreen.hide();
+    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+      title: 'Contacts',
+      message: 'This app would like to view your contacts.',
+      buttonPositive: 'Please accept bare mortal',
+    }).then(() => {
+      //
+    });
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);

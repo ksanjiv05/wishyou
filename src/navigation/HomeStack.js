@@ -12,6 +12,8 @@ import Contacts from '../screens/Contacts';
 import Profile from '../screens/Profile';
 import Feedback from '../screens/Feedback';
 import CardPreview from '../screens/CardPreview';
+import WishYouSpecial from '../screens/WishYouSpecial';
+import SearchCards from '../screens/SearchCards';
 
 const Stack = createNativeStackNavigator();
 
@@ -76,6 +78,24 @@ function HomeStack({user}) {
               headerTintColor: Colors.white,
             }}
             component={CardPreview}
+          />
+          <Stack.Screen
+            name="WishYouSpecial"
+            options={{
+              headerShown: true,
+              title: 'Wish You Special',
+              headerStyle: {backgroundColor: Colors.primary},
+              headerTintColor: Colors.white,
+              animation: 'none',
+            }}
+            component={WishYouSpecial}
+          />
+          <Stack.Screen
+            name="SearchCards"
+            options={{
+              animation: 'slide_from_right',
+            }}
+            component={SearchCards}
           />
         </>
       ) : (

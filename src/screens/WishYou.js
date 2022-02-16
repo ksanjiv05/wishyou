@@ -76,27 +76,29 @@ function WishYou({navigation}) {
   return (
     <View style={{flex: 1}}>
       {loading && <Loader />}
-      <View>
-        <TextInput
-          placeholder="Search Your contact"
-          placeholderTextColor={Colors.gray}
-          style={{
-            borderRadius: 5,
-            color: Colors.black,
-            backgroundColor: Colors.white,
-            paddingRight: 10,
-            paddingVertical: 15,
-            paddingLeft: 50,
-          }}
-          onChangeText={text => searchCard(text)}
-        />
-        <MaterialIcons
-          name="search"
-          size={25}
-          color={Colors.gray}
-          style={{position: 'absolute', top: 18, left: 10}}
-        />
-      </View>
+      {filteredWish?.length > 0 && (
+        <View>
+          <TextInput
+            placeholder="Search Your contact"
+            placeholderTextColor={Colors.gray}
+            style={{
+              borderRadius: 5,
+              color: Colors.black,
+              backgroundColor: Colors.white,
+              paddingRight: 10,
+              paddingVertical: 15,
+              paddingLeft: 50,
+            }}
+            onChangeText={text => searchCard(text)}
+          />
+          <MaterialIcons
+            name="search"
+            size={25}
+            color={Colors.gray}
+            style={{position: 'absolute', top: 18, left: 10}}
+          />
+        </View>
+      )}
 
       {/**render cards */}
       {filteredWish?.length > 0 && (
@@ -129,6 +131,7 @@ function WishYou({navigation}) {
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
+            backgroundColor: Colors.white,
           }}>
           <Text style={{color: Colors.lightBlack, marginBottom: 30}}>
             No one shared you any card yet!
