@@ -1,7 +1,20 @@
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Linking,
+  Pressable,
+} from 'react-native';
 import React from 'react';
 import Colors from '../config/Colors';
 import default_male from '../../assets/images/default-male.jpg';
+import {shareLink} from '../config/Routes';
+
+const openSms = async phoneNumber => {
+  const url = `sms:${phoneNumber}?body=${shareLink}`;
+  await Linking.openURL(url);
+};
 
 const ContactItem = ({item, invite}) => {
   return (
@@ -44,17 +57,19 @@ const ContactItem = ({item, invite}) => {
               alignContent: 'center',
               justifyContent: 'center',
             }}>
-            <Text
-              style={{
-                paddingHorizontal: 8,
-                paddingVertical: 4,
-                color: Colors.primary,
-                backgroundColor: Colors.white,
-                borderRadius: 8,
-                textAlign: 'center',
-              }}>
-              Invite
-            </Text>
+            <Pressable onPress={() => openSms(item.phone)}>
+              <Text
+                style={{
+                  paddingHorizontal: 8,
+                  paddingVertical: 4,
+                  color: Colors.primary,
+                  backgroundColor: Colors.white,
+                  borderRadius: 8,
+                  textAlign: 'center',
+                }}>
+                Invite
+              </Text>
+            </Pressable>
           </View>
         )}
       </View>
