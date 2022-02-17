@@ -12,7 +12,7 @@ import default_male from '../../assets/images/default-male.jpg';
 import {shareLink} from '../config/Routes';
 
 const openSms = async phoneNumber => {
-  const url = `sms:${phoneNumber}?body=${shareLink}`;
+  const url = `sms:${phoneNumber}?body=I use Wish You App to share wishing cards to my loved ones like you. Download Now 👉 ${shareLink}`;
   await Linking.openURL(url);
 };
 

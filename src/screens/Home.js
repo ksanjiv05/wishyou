@@ -13,6 +13,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Colors from '../config/Colors';
 import {getCards} from '../apis/card';
 import {getCategories} from '../apis/category/category';
+import RoundedButton from '../components/RoundedButton';
 
 function Home({navigation}) {
   const [selected, setSelected] = React.useState('');
@@ -33,8 +34,16 @@ function Home({navigation}) {
   async function fetchCategory() {
     const responce = await getCategories({skip: 0});
     if (responce && responce.status === 200) {
-      setCategories(responce.data.categories);
-      setSelected(responce.data.categories[0].tag);
+      setCategories([
+        {_id: 'all', tag: 'all', tagDisplayName: 'All'},
+        {
+          _id: 'wish-you-special',
+          tag: 'wish-you-special',
+          tagDisplayName: 'Wish You Special',
+        },
+        ...responce.data.categories,
+      ]);
+      setSelected('all');
     }
   }
 
@@ -45,8 +54,12 @@ function Home({navigation}) {
 
   const onSelect = tag => {
     setSelected(tag);
-    if (tag === 'ALL') {
+    if (tag === 'all') {
       setTempCards(cards);
+      return;
+    }
+    if (tag === 'wish-you-special') {
+      navigation.navigate('WishYouSpecial');
       return;
     }
     const filterCard = cards.filter(card => card.tag === tag);
@@ -56,7 +69,7 @@ function Home({navigation}) {
   const renderCategories = () => {
     return (
       <>
-        <View style={{paddingVertical: 10}}>
+        <View style={{paddingVertical: 10, backgroundColor: Colors.white}}>
           <FlatList
             showsVerticalScrollIndicator={false}
             horizontal
@@ -78,22 +91,47 @@ function Home({navigation}) {
 
   const renderCards = () => {
     return (
-      <View style={{paddingVertical: 10, paddingHorizontal: 20}}>
-        <FlatList
-          refreshing={refresh}
-          onRefresh={() => setRefresh(true)}
-          showsVerticalScrollIndicator={false}
-          horizontal={false}
-          keyExtractor={item => item._id}
-          data={tempCards}
-          renderItem={({item}) => (
-            <CardItem
-              onPress={() => setSelectedCard(item?._id)}
-              active={selectedCard === item._id}
-              card={item}
+      <View
+        style={{
+          paddingVertical: 10,
+          flex: 1,
+          paddingHorizontal: 20,
+          backgroundColor: Colors.white,
+        }}>
+        {tempCards?.length > 0 ? (
+          <FlatList
+            refreshing={refresh}
+            onRefresh={() => setRefresh(true)}
+            showsVerticalScrollIndicator={false}
+            horizontal={false}
+            keyExtractor={item => item._id}
+            data={tempCards}
+            renderItem={({item}) => (
+              <CardItem
+                onPress={() => setSelectedCard(item?._id)}
+                active={selectedCard === item._id}
+                card={item}
+              />
+            )}
+          />
+        ) : (
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text style={{color: Colors.lightBlack, marginBottom: 30}}>
+              Cards are coming soon...
+            </Text>
+            <RoundedButton
+              label="Refresh"
+              style={{backgroundColor: Colors.primary}}
+              textStyle={{color: Colors.white}}
+              onPress={() => setRefresh(true)}
             />
-          )}
-        />
+          </View>
+        )}
       </View>
     );
   };
@@ -115,11 +153,15 @@ function Home({navigation}) {
           paddingHorizontal: 20,
           backgroundColor: Colors.primary,
           flexDirection: 'row',
+          alignItems: 'center',
           justifyContent: 'space-between',
         }}>
         <Text style={{color: Colors.white, fontWeight: 'bold', fontSize: 22}}>
           Wish You
         </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('SearchCards')}>
+          <FontAwesome name="search" size={20} color={Colors.white} />
+        </TouchableOpacity>
       </View>
       {/**render categories */}
       {renderCategories()}
@@ -128,21 +170,23 @@ function Home({navigation}) {
       <View style={{flex: 1}}>{renderCards()}</View>
 
       {/**edit button */}
-      <TouchableOpacity
-        onPress={editCard}
-        style={{
-          position: 'absolute',
-          bottom: 30,
-          right: 20,
-          height: 60,
-          width: 60,
-          backgroundColor: Colors.primary,
-          borderRadius: 50,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <FontAwesome name="edit" size={20} color={Colors.white} />
-      </TouchableOpacity>
+      {tempCards?.length > 0 && (
+        <TouchableOpacity
+          onPress={editCard}
+          style={{
+            position: 'absolute',
+            bottom: 30,
+            right: 20,
+            height: 60,
+            width: 60,
+            backgroundColor: Colors.primary,
+            borderRadius: 50,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <FontAwesome name="edit" size={20} color={Colors.white} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }

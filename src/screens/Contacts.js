@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   View,
-  Dimensions,
   TextInput,
   ActivityIndicator,
   PermissionsAndroid,
