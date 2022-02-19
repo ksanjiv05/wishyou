@@ -228,6 +228,8 @@ const CardPreview = ({route}) => {
               borderRadius: 50,
               alignItems: 'center',
               justifyContent: 'center',
+              borderWidth: 1,
+              borderColor: isLiked ? Colors.lightGray : Colors.primary,
             }}>
             <FontAwesome
               name="heart"
