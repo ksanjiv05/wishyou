@@ -76,29 +76,28 @@ function WishYou({navigation}) {
   return (
     <View style={{flex: 1}}>
       {loading && <Loader />}
-      {filteredWish?.length > 0 && (
-        <View>
-          <TextInput
-            placeholder="Search Your contact"
-            placeholderTextColor={Colors.gray}
-            style={{
-              borderRadius: 5,
-              color: Colors.black,
-              backgroundColor: Colors.white,
-              paddingRight: 10,
-              paddingVertical: 15,
-              paddingLeft: 50,
-            }}
-            onChangeText={text => searchCard(text)}
-          />
-          <MaterialIcons
-            name="search"
-            size={25}
-            color={Colors.gray}
-            style={{position: 'absolute', top: 18, left: 10}}
-          />
-        </View>
-      )}
+
+      <View>
+        <TextInput
+          placeholder="Search Your contact"
+          placeholderTextColor={Colors.gray}
+          style={{
+            borderRadius: 5,
+            color: Colors.black,
+            backgroundColor: Colors.white,
+            paddingRight: 10,
+            paddingVertical: 15,
+            paddingLeft: 50,
+          }}
+          onChangeText={text => searchCard(text)}
+        />
+        <MaterialIcons
+          name="search"
+          size={25}
+          color={Colors.gray}
+          style={{position: 'absolute', top: 18, left: 10}}
+        />
+      </View>
 
       {/**render cards */}
       {filteredWish?.length > 0 && (

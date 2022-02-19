@@ -7,36 +7,45 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ScrollView,
+  Image,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import Colors from '../config/Colors';
 import {showToast} from '../utils/toast';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import logo from '../../assets/images/logo.png';
 
-const loginCall = async ({email = '', password = ''}, navigation) => {
+const loginCall = async ({email = '', password = ''}, callback) => {
   if (email.length < 5) {
     showToast('Please enter registred email');
-    return true;
+    callback(false);
+    return;
   }
   if (password.length < 5) {
     showToast('Please enter your password');
-    return true;
+    callback(false);
+    return;
   }
   auth()
     .signInWithEmailAndPassword(email, password)
     .then(() => {
       showToast('You are logged in successfully.');
+      callback(false);
     })
     .catch(error => {
       if (error.code === 'auth/user-not-found') {
         showToast('User not found! Please register');
-        return true;
+        callback(false);
+        return;
+      } else {
+        showToast('Invalid creadantial');
+        callback(false);
+        return;
       }
-      showToast('Invalid creadantial');
     });
 };
 
-function Login({navigation}) {
+function Login({navigation, route}) {
   const [data, setData] = React.useState({
     email: '',
     password: '',
@@ -45,16 +54,19 @@ function Login({navigation}) {
   const [isLogin, setIsLogin] = React.useState(true);
   const [showPassword, setShowPassword] = React.useState(false);
 
+  React.useEffect(() => {
+    if (route?.params?.email) {
+      setData(prev => ({...prev, email: route?.params?.email}));
+    }
+  }, []);
+
   const handleChange = (key, text) => {
     setData({...data, [key]: text});
   };
 
   const handleLogin = async () => {
     setLoader(true);
-    const res = await loginCall(data, navigation);
-    if (res) {
-      setLoader(false);
-    }
+    loginCall(data, setLoader);
   };
 
   const handleForget = email => {
@@ -82,16 +94,16 @@ function Login({navigation}) {
       keyboardShouldPersistTaps="handled">
       <View style={{flex: 1, backgroundColor: Colors.white}}>
         <View style={styles.brand}>
-          <Text
-            style={{color: Colors.primary, fontWeight: 'bold', fontSize: 30}}>
-            Wish You
-          </Text>
+          <Image
+            source={logo}
+            style={{width: 80, height: 80, borderRadius: 50}}
+          />
         </View>
         {/**login title */}
         {isLogin ? (
-          <View style={{marginTop: 80, paddingHorizontal: 30}}>
+          <View style={{marginTop: 50, paddingHorizontal: 30}}>
             <Text style={{color: Colors.black, fontSize: 20}}>
-              Welcome Back🥰
+              Welcome Back
             </Text>
             <Text style={{color: Colors.black, marginTop: 5}}>
               You are one step away to wish your loved ones.
