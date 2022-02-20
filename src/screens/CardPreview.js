@@ -14,6 +14,8 @@ import Colors from '../config/Colors';
 import {captureRef} from 'react-native-view-shot';
 import CameraRoll from '@react-native-community/cameraroll';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {likeCard} from '../apis/card';
+import auth from '@react-native-firebase/auth';
 
 const CardPreview = ({route}) => {
   const {_id} = route.params;
@@ -27,6 +29,7 @@ const CardPreview = ({route}) => {
     const res = await getCard('?userCardId=' + _id);
     if (res && res.status === 200) {
       setCard(res?.data?.userCard);
+      setIsLiked(res?.data?.userCard?.like);
       setIsLoading(false);
     } else {
       setIsLoading(false);
@@ -88,13 +91,27 @@ const CardPreview = ({route}) => {
     }
   };
 
+  let timer;
   const likeOrDislike = () => {
-    setIsLiked(!isLiked);
-    if (!isLiked) {
-      showToast('You liked this card.');
-    } else {
-      showToast('You disliked this card.');
-    }
+    clearTimeout(timer);
+    timer = setTimeout(async () => {
+      setIsLiked(!isLiked);
+      if (!isLiked) {
+        showToast('You liked this card.');
+      } else {
+        showToast('You disliked this card.');
+      }
+      const res = await likeCard(
+        `?userCardId=${card?._id}&like=${
+          auth().currentUser.displayName
+        }&title=${card?.title}`,
+      );
+      if (res?.status === 200) {
+        //
+      } else {
+        showToast('Something went wrong.');
+      }
+    }, 300);
   };
 
   React.useEffect(() => {

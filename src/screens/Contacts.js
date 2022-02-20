@@ -23,10 +23,12 @@ function Contacts() {
 
   const filterContact = text => {
     const newContacts = contactsToInvite.filter(
-      c => c?.name == text || c?.phone == text,
+      c =>
+        c?.name.toLowerCase().includes(text.toLowerCase()) ||
+        c?.phone?.includes(text),
     );
+
     setFilteredContacts(newContacts);
-    setContactsToInvite(newContacts);
   };
 
   const getAllContacts = () => {

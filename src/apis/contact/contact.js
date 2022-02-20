@@ -1,10 +1,15 @@
 import axios from 'axios';
 import Routes from '../../config/Routes';
+import {getToken} from '../../utils/token';
 const base = Routes.url + Routes.ver;
 export const createContact = async data => {
   try {
-    // console.log('req', base + Routes.contact);
-    const res = await axios.post(base + Routes.contact, data);
+    const token = await getToken();
+    const res = await axios.post(base + Routes.contact, data, {
+      headers: {
+        'x-access-token': token,
+      },
+    });
     // console.log('responce ', res.data);
     return res;
   } catch (error) {
@@ -15,8 +20,12 @@ export const createContact = async data => {
 
 export const getContacts = async query => {
   try {
-    // console.log('req----', base + Routes.contacts);
-    const res = await axios.get(base + Routes.contacts + query);
+    const token = await getToken();
+    const res = await axios.get(base + Routes.contacts + query, {
+      headers: {
+        'x-access-token': token,
+      },
+    });
     // console.log('responce ', res.data);
     return res;
   } catch (error) {
@@ -27,8 +36,12 @@ export const getContacts = async query => {
 
 export const searchContact = async query => {
   try {
-    // console.log('req', base + Routes.contactSearch + query);
-    const res = await axios.get(base + Routes.contactSearch + query);
+    const token = await getToken();
+    const res = await axios.get(base + Routes.contactSearch + query, {
+      headers: {
+        'x-access-token': token,
+      },
+    });
     // console.log('responce ', res.data);
     return res;
   } catch (error) {
@@ -39,8 +52,12 @@ export const searchContact = async query => {
 
 export const searchAndAddContact = async data => {
   try {
-    // console.log('req', base + Routes.contactSearch);
-    const res = await axios.post(base + Routes.contactSearch, data);
+    const token = await getToken();
+    const res = await axios.post(base + Routes.contactSearch, data, {
+      headers: {
+        'x-access-token': token,
+      },
+    });
     // console.log('responce ', res.data.msg);
     return res;
   } catch (error) {

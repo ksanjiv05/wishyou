@@ -1,10 +1,16 @@
 import axios from 'axios';
 import Routes from '../../config/Routes';
+import {getToken} from '../../utils/token';
 const base = Routes.url + Routes.ver;
 
 export const saveWishCard = async data => {
   try {
-    const res = await axios.post(base + Routes.wishYou, data);
+    const token = await getToken();
+    const res = await axios.post(base + Routes.wishYou, data, {
+      headers: {
+        'x-access-token': token,
+      },
+    });
     return res;
   } catch (error) {
     console.log('Unable to Save', error);
@@ -14,7 +20,12 @@ export const saveWishCard = async data => {
 
 export const getWishCards = async data => {
   try {
-    const res = await axios.get(base + Routes.wishYous + data);
+    const token = await getToken();
+    const res = await axios.get(base + Routes.wishYous + data, {
+      headers: {
+        'x-access-token': token,
+      },
+    });
     return res;
   } catch (error) {
     console.log('Unable to get wishes', error);
@@ -24,7 +35,12 @@ export const getWishCards = async data => {
 
 export const getCard = async data => {
   try {
-    const res = await axios.get(base + Routes.userCard + data);
+    const token = await getToken();
+    const res = await axios.get(base + Routes.userCard + data, {
+      headers: {
+        'x-access-token': token,
+      },
+    });
     return res;
   } catch (error) {
     console.log('Unable to get card', error);
@@ -34,7 +50,12 @@ export const getCard = async data => {
 
 export const deleteCard = async data => {
   try {
-    const res = await axios.delete(base + Routes.userCard + data);
+    const token = await getToken();
+    const res = await axios.delete(base + Routes.userCard + data, {
+      headers: {
+        'x-access-token': token,
+      },
+    });
     return res;
   } catch (error) {
     console.log('Unable to delete card', error);

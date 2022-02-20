@@ -119,9 +119,7 @@ const Preview = ({navigation, route}) => {
       {shareView && <ShareView close={() => setShareView(false)} card={card} />}
       {card && !shareView && (
         <View style={{flex: 1}}>
-          <View
-            style={{flex: 1, backgroundColor: Colors.primary}}
-            ref={viewRef}>
+          <View style={{flex: 1, backgroundColor: Colors.white}} ref={viewRef}>
             <ImageBackground
               source={{uri: card?.background}}
               style={{flex: 1, width: '100%'}}

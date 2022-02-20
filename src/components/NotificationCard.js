@@ -14,9 +14,8 @@ function NotificationCard({item}) {
         borderBottomWidth: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-around',
       }}>
-      <View style={{marginLeft: 10}}>
+      <View style={{marginLeft: 5}}>
         {item.icon && item.icon !== 'none' ? (
           <Image
             source={{uri: item.icon}}
@@ -27,9 +26,10 @@ function NotificationCard({item}) {
           <Entypo name="bell" size={30} color={Colors.primary} />
         )}
       </View>
-      <View style={{marginRight: 20, marginLeft: 30}}>
+      <View style={{paddingRight: 20, marginLeft: 10}}>
         <View
           style={{
+            flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -44,7 +44,7 @@ function NotificationCard({item}) {
             }}>
             {item?.title}
           </Text>
-          <Text style={{color: Colors.black, fontSize: 12}}>
+          <Text style={{color: Colors.black, fontSize: 12, textAlign: 'right'}}>
             {timeAgo(item.createdAt)}
           </Text>
         </View>

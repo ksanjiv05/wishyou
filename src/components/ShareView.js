@@ -112,6 +112,7 @@ const saveData = async (card, selected) => {
       },
     },
     wishYous: selected,
+    name: auth().currentUser.displayName,
   };
 
   const res = await saveCard(data);
