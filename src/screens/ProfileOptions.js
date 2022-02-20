@@ -93,7 +93,7 @@ const ProfileOptions = ({navigation}) => {
         </View>
         <View style={{alignItems: 'center'}}>
           <Text style={{color: Colors.white}}>Wish You</Text>
-          <Text style={{color: Colors.white}}>v1.0.3</Text>
+          <Text style={{color: Colors.white}}>v1.1.0</Text>
         </View>
       </View>
     </View>

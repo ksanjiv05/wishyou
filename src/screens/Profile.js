@@ -50,16 +50,18 @@ const updatePic = async uri => {
 //  displayName  email emailVerified phoneNumber
 const updateProfile = async data => {
   const res = await updateUser(data);
+  // console.log('---', res.status, res.data, data.phoneNumber);
   if (!res) {
     showToast('Unable to update profile');
     return true;
   }
   if (res && res.status === 200) {
     // console.log('profile updated -', res.data);
-    auth().currentUser.updateProfile({
+    const up = await auth().currentUser.updateProfile({
       displayName: data.displayName,
       phoneNumber: data.phoneNumber,
     });
+    // console.log('up ', up);
     showToast('Profile updated successfully.');
     return true;
   }
@@ -161,7 +163,8 @@ function Profile({navigation}) {
                   placeholderTextColor={Colors.lightBlack}
                   placeholder="dev@gmail.com"
                   value={user.email}
-                  onChangeText={text => handleChange('email', text)}
+                  editable={false}
+                  // onChangeText={text => handleChange('email', text)}
                 />
               </View>
               <View style={{marginBottom: 10}}>
@@ -171,7 +174,8 @@ function Profile({navigation}) {
                   placeholderTextColor={Colors.lightBlack}
                   placeholder="+919281928192"
                   value={user.phoneNumber}
-                  onChangeText={text => handleChange('phoneNumber', text)}
+                  editable={false}
+                  // onChangeText={text => handleChange('phoneNumber', text)}
                 />
               </View>
 
