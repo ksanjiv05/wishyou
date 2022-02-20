@@ -1,20 +1,45 @@
-import {View, Text, TextInput, TouchableOpacity, Keyboard} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Keyboard,
+  FlatList,
+} from 'react-native';
 import React from 'react';
 import Colors from '../config/Colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import CardItem from '../components/CardItem';
 import Loader from '../components/Loader';
+import {searchCards} from '../apis/card';
+import {showToast} from '../utils/toast';
 
 const SearchCards = ({navigation}) => {
   const [cards, setCards] = React.useState([]);
-  const [selectedCard, setSelectedCard] = React.useState(null);
   const [searchText, setSearchText] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const searchCards = async search => {
+  const findCards = async search => {
     Keyboard.dismiss();
-    console.log(search);
+    setIsLoading(true);
+    const res = await searchCards(`?search=${searchText}`);
+    if (res?.status === 200) {
+      setCards(res?.data?.cards);
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+      setCards([]);
+    }
+  };
+
+  const editCard = selected => {
+    if (!selected) {
+      showToast('Please select a card to edit.');
+    } else {
+      const card = cards.filter(c => c._id === selected);
+      navigation.push('EditCard', {card: card[0]});
+    }
   };
 
   return (
@@ -23,7 +48,7 @@ const SearchCards = ({navigation}) => {
         style={{
           backgroundColor: Colors.primary,
           paddingVertical: 4,
-          paddingHorizontal: 20,
+          paddingHorizontal: 15,
           flexDirection: 'row',
           alignItems: 'center',
         }}>
@@ -39,30 +64,29 @@ const SearchCards = ({navigation}) => {
           autoFocus={true}
           returnKeyType="search"
           onChangeText={text => setSearchText(text)}
-          onSubmitEditing={event => searchCards(event.nativeEvent.text)}
+          onSubmitEditing={event => findCards(event.nativeEvent.text)}
         />
         <TouchableOpacity
-          onPress={() => searchCards(searchText)}
+          onPress={() => findCards(searchText)}
           style={{marginLeft: 10}}>
           <FontAwesome name="search" size={20} color={Colors.white} />
         </TouchableOpacity>
       </View>
-      <View style={{flex: 1, backgroundColor: Colors.white}}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: Colors.white,
+          padding: isLoading ? 0 : 20,
+        }}>
         {isLoading && <Loader text="Searching..." />}
         {cards?.length > 0 ? (
           <FlatList
-            refreshing={refresh}
-            onRefresh={() => setRefresh(true)}
             showsVerticalScrollIndicator={false}
             horizontal={false}
             keyExtractor={item => item._id}
             data={cards}
             renderItem={({item}) => (
-              <CardItem
-                onPress={() => setSelectedCard(item?._id)}
-                active={selectedCard === item._id}
-                card={item}
-              />
+              <CardItem onPress={() => editCard(item?._id)} card={item} />
             )}
           />
         ) : (

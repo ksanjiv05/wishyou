@@ -150,13 +150,13 @@ function Home({navigation}) {
       <View
         style={{
           paddingVertical: 13,
-          paddingHorizontal: 20,
+          paddingHorizontal: 15,
           backgroundColor: Colors.primary,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <Text style={{color: Colors.white, fontWeight: 'bold', fontSize: 22}}>
+        <Text style={{color: Colors.white, fontWeight: '500', fontSize: 22}}>
           Wish You
         </Text>
         <TouchableOpacity onPress={() => navigation.navigate('SearchCards')}>

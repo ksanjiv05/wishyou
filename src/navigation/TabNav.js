@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const Tab = createBottomTabNavigator();
 import Home from '../screens/Home';
@@ -16,10 +17,13 @@ export default function TabNav() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarInactiveTintColor: 'gray',
-        tabBarActiveTintColor: '#37474f',
+        tabBarInactiveTintColor: Colors.lightBlack,
+        tabBarActiveTintColor: Colors.primary,
         tabBarStyle: {height: 55},
-        tabBarShowLabel: false,
+        tabBarLabelStyle: {
+          marginTop: -5,
+          marginBottom: 5,
+        },
       }}>
       <Tab.Screen
         name="Home"
@@ -27,7 +31,7 @@ export default function TabNav() {
         options={{
           tabBarIcon: ({size, color, focused}) => (
             <Entypo
-              name="flower"
+              name="home"
               size={size}
               color={focused ? Colors.primary : color}
             />
@@ -43,8 +47,8 @@ export default function TabNav() {
           headerTintColor: Colors.white,
           title: 'Wishes',
           tabBarIcon: ({size, color, focused}) => (
-            <Entypo
-              name="slideshare"
+            <FontAwesome5
+              name="praying-hands"
               size={size}
               color={focused ? Colors.primary : color}
             />
@@ -89,6 +93,7 @@ export default function TabNav() {
               color={focused ? Colors.primary : color}
             />
           ),
+          tabBarLabel: 'Profile',
         }}
       />
     </Tab.Navigator>
