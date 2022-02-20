@@ -14,7 +14,7 @@ import {showToast} from '../utils/toast';
 import PhoneContacts from 'react-native-contacts';
 import ContactItem from '../components/ContactItem';
 
-function Contacts({navigation}) {
+function Contacts() {
   const uid = auth().currentUser.email;
   const [contacts, setContacts] = React.useState([]);
   const [contactsToInvite, setContactsToInvite] = React.useState([]);
@@ -25,6 +25,8 @@ function Contacts({navigation}) {
     const newContacts = contactsToInvite.filter(
       c => c?.name == text || c?.phone == text,
     );
+    setFilteredContacts(newContacts);
+    setContactsToInvite(newContacts);
   };
 
   const getAllContacts = () => {

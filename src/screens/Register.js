@@ -8,10 +8,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from 'react-native';
 import {register} from '../apis/auth/auth';
 import Colors from '../config/Colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import logo from '../../assets/images/logo.png';
 
 const showToast = msg => {
   ToastAndroid.show(msg, ToastAndroid.SHORT);
@@ -19,43 +21,50 @@ const showToast = msg => {
 const psregx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
 const emailRgx = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
 
-const registerCall = async ({
-  name = '',
-  email = '',
-  phone = '',
-  password = '',
-}) => {
+const registerCall = async (
+  {name = '', email = '', phone = '', password = ''},
+  callback,
+  navigation,
+) => {
   if (name.length < 3) {
     showToast('Please enter your name');
-    return false;
+    callback(false);
+    return;
   }
 
   if (phone.length !== 10) {
     showToast('Please enter valid phone number');
-    return false;
+    callback(false);
+    return;
   }
   if (!emailRgx.test(email)) {
     showToast('Please enter valid email');
-    return false;
+    callback(false);
+    return;
   }
 
   if (!psregx.test(password)) {
     showToast(
       'Password should contains at least one capital, special char and number',
     );
-    return false;
+    callback(false);
+    return;
   }
   if (password.length < 8) {
     showToast('Password should be 8 char');
-    return false;
+    callback(false);
+    return;
   }
   const res = await register({name, email, phone, password});
   if (res && res.status === 200) {
     showToast('Registered sucessfully');
-    return true;
+    callback(false);
+    navigation.navigate('Login', {email});
+    return;
   } else {
     showToast('Unable to register');
-    return false;
+    callback(false);
+    return;
   }
 };
 
@@ -75,13 +84,7 @@ function Register({navigation}) {
 
   const handleRegister = async () => {
     setLoader(true);
-    const res = await registerCall(data);
-    if (res) {
-      setLoader(false);
-      navigation.navigate('Login');
-    } else {
-      setLoader(false);
-    }
+    registerCall(data, setLoader, navigation);
   };
 
   return (
@@ -90,10 +93,10 @@ function Register({navigation}) {
       keyboardShouldPersistTaps="handled">
       <View style={{flex: 1, backgroundColor: Colors.white}}>
         <View style={styles.brand}>
-          <Text
-            style={{color: Colors.primary, fontWeight: 'bold', fontSize: 30}}>
-            Wish You
-          </Text>
+          <Image
+            source={logo}
+            style={{width: 80, height: 80, borderRadius: 50}}
+          />
         </View>
 
         <View style={{marginTop: 20, paddingHorizontal: 30}}>
